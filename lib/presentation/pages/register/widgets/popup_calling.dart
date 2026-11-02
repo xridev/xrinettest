@@ -19,30 +19,37 @@ class _PopupCallingState extends State<PopupCalling> {
   bool isHeMoved = false;
 
   @override
+  void initState() {
+    super.initState();
+    // Screen init hoar shomoy data load event trigger hobe
+    UsersInfoReelTimeBloc.get(context).add(LoadMyPersonalInfo());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UsersInfoReelTimeBloc, UsersInfoReelTimeState>(
-      bloc: UsersInfoReelTimeBloc.get(context)..add(LoadMyPersonalInfo()),
-      builder: (context, state) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (state is MyPersonalInfoLoaded &&
-              !amICalling &&
-              state.myPersonalInfoInReelTime.channelId.isNotEmpty) {
-            if (!isHeMoved) {
-              isHeMoved = true;
-              Go(context).push(
-                  page: CallingRingingPage(
-                      channelId: state.myPersonalInfoInReelTime.channelId,
-                      clearMoving: clearMoving),
-                  withoutRoot: false);
-            }
+    return BlocListener<UsersInfoReelTimeBloc, UsersInfoReelTimeState>(
+      listenWhen: (previous, current) => previous != current,
+      listener: (context, state) {
+        if (state is MyPersonalInfoLoaded &&
+            !amICalling &&
+            state.myPersonalInfoInReelTime.channelId.isNotEmpty) {
+          if (!isHeMoved) {
+            setState(() => isHeMoved = true);
+            Go(context).push(
+              page: CallingRingingPage(
+                channelId: state.myPersonalInfoInReelTime.channelId,
+                clearMoving: clearMoving,
+              ),
+              withoutRoot: false,
+            );
           }
-        });
-        return MobileScreenLayout(widget.userId);
+        }
       },
+      child: MobileScreenLayout(widget.userId),
     );
   }
 
   void clearMoving() {
-    isHeMoved = false;
+    setState(() => isHeMoved = false);
   }
 }
