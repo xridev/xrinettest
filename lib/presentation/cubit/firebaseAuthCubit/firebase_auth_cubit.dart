@@ -24,42 +24,50 @@ class FirebaseAuthCubit extends Cubit<FirebaseAuthCubitState> {
 
   Future<User?> signUp(RegisteredUser newUserInfo) async {
     emit(CubitAuthConfirming());
-    await signUpAuthUseCase(params: newUserInfo).then((newUser) {
+    try {
+      var newUser = await signUpAuthUseCase(params: newUserInfo);
       emit(CubitAuthConfirmed(newUser));
       user = newUser;
-    }).catchError((e) {
+    } catch (e) {
+      print("SIGNUP ERROR EXCEPTION: $e"); // Codemagic log-e asol error dekhar jonno
       emit(CubitAuthFailed(e.toString()));
-    });
+    }
     return user;
   }
 
   Future<void> logIn(RegisteredUser userInfo) async {
     emit(CubitAuthConfirming());
-    await logInAuthUseCase(params: userInfo).then((user) {
+    try {
+      var user = await logInAuthUseCase(params: userInfo);
       emit(CubitAuthConfirmed(user));
       this.user = user;
-    }).catchError((e) {
+    } catch (e) {
+      print("LOGIN ERROR EXCEPTION: $e");
       emit(CubitAuthFailed(e.toString()));
-    });
+    }
   }
 
   Future<void> signOut({required String userId}) async {
     emit(CubitAuthConfirming());
-    await signOutAuthUseCase.call(params: userId).then((value) async {
+    try {
+      await signOutAuthUseCase.call(params: userId);
       emit(CubitAuthSignOut());
-    }).catchError((e) {
+    } catch (e) {
       emit(CubitAuthFailed(e.toString()));
-    });
+    }
   }
 
   Future<void> isThisEmailToken({required String email}) async {
     if (email.isEmpty) return;
 
     emit(CubitEmailVerificationLoading());
-    await emailVerificationUseCase.call(params: email).then((value) async {
+    try {
+      var value = await emailVerificationUseCase.call(params: email);
       emit(CubitEmailVerificationLoaded(value));
-    }).catchError((e) {
-      emit(CubitAuthFailed(e.toString()));
-    });
+    } catch (e) {
+      // ekhane unnecessary error emission avoid korar jonno print rakha holo
+      print("EMAIL CHECK ERROR: $e");
+      // Jode email verification fail korle sign up block na korte chan, eta handle korte paren
+    }
   }
 }
