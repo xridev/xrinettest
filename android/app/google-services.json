@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "460846519709",
+    "project_id": "xriwebnetwork",
+    "storage_bucket": "xriwebnetwork.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460846519709:android:e6a7f24d05a4da5cec4b74",
+        "android_client_info": {
+          "package_name": "com.example.instagram"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCANyt7RNA1L2fdNGDXeX4sogn38U3xItY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
