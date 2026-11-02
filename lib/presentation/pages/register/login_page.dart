@@ -11,6 +11,7 @@ import 'package:xrinet/presentation/pages/register/widgets/get_my_user_info.dart
 import 'package:xrinet/presentation/pages/register/widgets/register_widgets.dart';
 import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_elevated_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
