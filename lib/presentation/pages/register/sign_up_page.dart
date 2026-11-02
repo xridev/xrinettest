@@ -292,8 +292,8 @@ class _UserNamePageState extends State<UserNamePage> {
                 setState(() => isToastShowed = false);
 
                 await authCubit.signUp(RegisteredUser(
-                  email: widget.emailController.text,
-                  password: widget.passwordController.text,
+                  email: widget.emailController.text.trim(), // .trim() added here
+                  password: widget.passwordController.text.trim(), // .trim() added here
                 ));
               }
             },
