@@ -12,7 +12,7 @@ import 'package:xrinet/presentation/pages/register/widgets/get_my_user_info.dart
 import 'package:xrinet/presentation/pages/register/widgets/register_widgets.dart';
 import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_elevated_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../../../core/functions/toast_show.dart';
 import '../../../data/models/parent_classes/without_sub_classes/user_personal_info.dart';
 import '../../cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
@@ -351,3 +351,10 @@ class _UserNamePageState extends State<UserNamePage> {
     userCubit.addNewUser(newUserInfo);
   }
 }
+Text(
+  'Xrinet',
+  style: GoogleFonts.grandHotel(
+    fontSize: 48,
+    color: Color(0xFF343433),
+  ),
+)
