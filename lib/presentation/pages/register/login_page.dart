@@ -108,8 +108,8 @@ class _LoginPageState extends State<LoginPage> {
                   isUserIdReady.value = false;
                   isToastShowed.value = false;
                   await authCubit.logIn(RegisteredUser(
-                      email: emailController.text,
-                      password: passwordController.text));
+                      email: emailController.text.trim(), // .trim() added here
+                      password: passwordController.text.trim())); // .trim() added here
                 }
               },
             );
