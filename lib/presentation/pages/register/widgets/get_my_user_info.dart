@@ -20,29 +20,39 @@ class _GetMyPersonalInfoState extends State<GetMyPersonalInfo> {
   bool isHeMovedToHome = false;
 
   @override
+  void initState() {
+    super.initState();
+    // Screen init hoar shomoy userInfo query trigger hobe
+    UserInfoCubit.get(context).getUserInfo(widget.myPersonalId, getDeviceToken: true);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<UserInfoCubit, UserInfoState>(
-      bloc: UserInfoCubit.get(context)
-        ..getUserInfo(widget.myPersonalId, getDeviceToken: true),
       listenWhen: (previous, current) => previous != current,
       listener: (context, userState) {
-        if (!isHeMovedToHome) {
+        if (userState is CubitMyPersonalInfoLoaded && !isHeMovedToHome) {
+          // Sudhu user info strictly LOAD holei isHeMovedToHome true hobe
           setState(() => isHeMovedToHome = true);
+          myPersonalId = widget.myPersonalId;
 
-          if (userState is CubitMyPersonalInfoLoaded) {
-            myPersonalId = widget.myPersonalId;
-            Get.offAll(
-              ResponsiveLayout(
-                mobileScreenLayout: PopupCalling(myPersonalId),
-                webScreenLayout: const WebScreenLayout(),
-              ),
-            );
-          } else if (userState is CubitGetUserInfoFailed) {
-            ToastShow.toastStateError(userState);
-          }
+          Get.offAll(
+            ResponsiveLayout(
+              mobileScreenLayout: PopupCalling(myPersonalId),
+              webScreenLayout: const WebScreenLayout(),
+            ),
+          );
+        } else if (userState is CubitGetUserInfoFailed) {
+          // Error ashle toast dekhabe, kintu isHeMovedToHome true hobe na jate retry kora jay
+          ToastShow.toastStateError(userState);
         }
       },
-      child: Container(color: Theme.of(context).primaryColor),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }
