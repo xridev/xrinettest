@@ -30,7 +30,7 @@ import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_app_bar
 import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
 import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_gallery_display.dart';
 import 'package:xrinet/presentation/widgets/global/popup_widgets/common/jump_arrow.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 class HomePage extends StatefulWidget {
   final String userId;
   final bool playVideo;
@@ -566,5 +566,11 @@ class _MyOwnStoryChild extends StatelessWidget {
         ),
       ],
     );
-  }
+  }Text(
+  'Xrinet',
+  style: GoogleFonts.grandHotel(
+    fontSize: 48,
+    color: Color(0xFF343433),
+  ),
+)
 }
