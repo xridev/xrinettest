@@ -21,8 +21,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final SharedPreferences sharePrefs = injector<SharedPreferences>();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  
   RxBool isHeMovedToHome = false.obs;
   ValueNotifier<bool> isToastShowed = ValueNotifier(false);
   ValueNotifier<bool> isUserIdReady = ValueNotifier(true);
@@ -30,12 +31,15 @@ class _LoginPageState extends State<LoginPage> {
   ValueNotifier<bool> validatePassword = ValueNotifier(false);
 
   @override
-  dispose() {
-    super.dispose();
+  void dispose() {
+    // Memory leak prevent korar jonno controller & notifiers shob dispose kora holo
+    emailController.dispose();
+    passwordController.dispose();
     isToastShowed.dispose();
     isUserIdReady.dispose();
     validateEmail.dispose();
     validatePassword.dispose();
+    super.dispose();
   }
 
   @override
@@ -108,8 +112,9 @@ class _LoginPageState extends State<LoginPage> {
                   isUserIdReady.value = false;
                   isToastShowed.value = false;
                   await authCubit.logIn(RegisteredUser(
-                      email: emailController.text.trim(), // .trim() added here
-                      password: passwordController.text.trim())); // .trim() added here
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                  ));
                 }
               },
             );
