@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "com.example.instagram"
-    compileSdk = 37
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
