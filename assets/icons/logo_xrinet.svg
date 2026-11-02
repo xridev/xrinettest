@@ -1,13 +1,11 @@
-<svg width="220" height="70" viewBox="0 0 220 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Xrinet Custom Cursive Vector Path -->
-  <path d="M 12 18 C 12 14, 18 10, 24 16 L 36 34 C 40 40, 48 50, 52 44 C 54 40, 50 32, 42 22 L 32 10 C 28 6, 22 8, 20 12 C 18 16, 22 22, 28 30 L 46 54 C 50 60, 58 58, 60 52 C 60 46, 54 38, 48 28 L 44 22 C 48 18, 54 16, 60 22 L 64 28 C 66 32, 70 34, 72 30 C 74 26, 70 20, 64 18 C 56 16, 48 22, 44 28 L 42 32 C 40 26, 42 20, 46 16 C 50 12, 56 12, 60 16" stroke="#343433" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
-  
-  <!-- i Dot -->
-  <circle cx="73" cy="14" r="3" fill="#343433" />
-  
-  <!-- rinet Letters Connection -->
-  <path d="M 72 30 C 74 36, 76 44, 80 44 C 84 44, 86 36, 88 28 C 90 22, 94 20, 98 24 L 104 32 C 108 38, 114 44, 118 44 C 122 44, 124 38, 124 30 C 124 22, 120 18, 114 20 C 108 22, 106 30, 108 38 C 110 44, 116 46, 122 44 C 128 42, 134 36, 138 28 C 140 24, 144 24, 146 28 L 144 36 C 144 42, 148 45, 154 44 C 160 43, 166 36, 170 28 C 172 24, 176 24, 178 28 L 176 36 C 176 42, 180 45, 186 44" stroke="#343433" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
-  
-  <!-- Crossbar for 't' -->
-  <path d="M 170 22 L 184 21" stroke="#343433" stroke-width="4.2" stroke-linecap="round" />
+<svg width="168" height="48" viewBox="0 0 168 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&amp;display=swap');
+    .xrinet-text {
+      font-family: 'Grand Hotel', 'Billabong', cursive, sans-serif;
+      font-size: 42px;
+      fill: #343433;
+    }
+  </style>
+  <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" class="xrinet-text">Xrinet</text>
 </svg>
