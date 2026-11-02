@@ -22,7 +22,8 @@ class FirebaseStoragePost {
 
   static Future<String> uploadData(
       {required String folderName, required Uint8List data}) async {
-    final fileName = DateTime.now().toString();
+    // DateTime.now().toString() er bodole milliseconds use kora valo (space ba colon thake na)
+    final fileName = DateTime.now().millisecondsSinceEpoch.toString();
     final destination = 'data/$folderName/$fileName';
     final ref = firebase_storage.FirebaseStorage.instance.ref(destination);
     UploadTask uploadTask = ref.putData(data);
@@ -32,10 +33,14 @@ class FirebaseStoragePost {
   }
 
   static Future<void> deleteImageFromStorage(String previousImageUrl) async {
-    String previousFileUrl = Uri.decodeFull(basename(previousImageUrl))
-        .replaceAll(RegExp(r'(\?alt).*'), '');
-    final Reference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(previousFileUrl);
-    await firebaseStorageRef.delete().then((value) {});
+    if (previousImageUrl.isEmpty) return;
+    try {
+      // refFromURL use korle direct download URL theke reference peye jabe
+      final Reference firebaseStorageRef =
+          FirebaseStorage.instance.refFromURL(previousImageUrl);
+      await firebaseStorageRef.delete();
+    } catch (e) {
+      print("Error deleting image: $e");
+    }
   }
 }
