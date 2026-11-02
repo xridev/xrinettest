@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/screens/web_screen_layout.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/screens/web_screen_layout.dart';
 
 /// currently, I don't use routes methods because there is a lot of run time errors.
 /// I use normal Navigator because i don't know how to make Get.to without root.

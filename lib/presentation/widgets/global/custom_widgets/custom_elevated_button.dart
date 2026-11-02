@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
 
 class CustomElevatedButton extends StatefulWidget {
   final String nameOfButton;

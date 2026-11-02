@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/config/routes/customRoutes/hero_dialog_route.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/presentation/widgets/global/others/play_this_video.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
-import 'package:instagram/presentation/widgets/global/others/image_of_post.dart';
-import 'package:instagram/presentation/widgets/global/popup_widgets/mobile/popup_post.dart';
+import 'package:xrinet/config/routes/customRoutes/hero_dialog_route.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/presentation/widgets/global/others/play_this_video.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
+import 'package:xrinet/presentation/widgets/global/others/image_of_post.dart';
+import 'package:xrinet/presentation/widgets/global/popup_widgets/mobile/popup_post.dart';
 
 class CustomGridViewDisplay extends StatefulWidget {
   final Post postClickedInfo;

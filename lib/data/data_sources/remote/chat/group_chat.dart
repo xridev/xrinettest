@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/message.dart';
-import 'package:instagram/domain/entities/sender_info.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/message.dart';
+import 'package:xrinet/domain/entities/sender_info.dart';
 
 class FireStoreGroupChat {
   static final _fireStoreChatCollection =

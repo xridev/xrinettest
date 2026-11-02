@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/selected_byte.dart';
-import 'package:instagram/presentation/pages/time_line/widgets/image_slider.dart';
-import 'package:instagram/presentation/pages/time_line/widgets/points_scroll_bar.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_memory_image_display.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/selected_byte.dart';
+import 'package:xrinet/presentation/pages/time_line/widgets/image_slider.dart';
+import 'package:xrinet/presentation/pages/time_line/widgets/points_scroll_bar.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_memory_image_display.dart';
 
 class CustomMultiImagesDisplay extends StatelessWidget {
   final initPosition = ValueNotifier(0);

@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/config/routes/customRoutes/hero_dialog_route.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/presentation/pages/profile/users_who_likes_for_mobile.dart';
-import 'package:instagram/presentation/pages/profile/users_who_likes_for_web.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/config/routes/customRoutes/hero_dialog_route.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/presentation/pages/profile/users_who_likes_for_mobile.dart';
+import 'package:xrinet/presentation/pages/profile/users_who_likes_for_web.dart';
 
 class CountOfLikes extends StatelessWidget {
   final Post postInfo;

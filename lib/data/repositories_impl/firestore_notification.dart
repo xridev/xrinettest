@@ -1,7 +1,7 @@
-import 'package:instagram/data/data_sources/remote/notification/firebase_notification.dart';
-import 'package:instagram/data/models/child_classes/notification.dart';
-import 'package:instagram/domain/entities/notification_check.dart';
-import 'package:instagram/domain/repositories/firestore_notification.dart';
+import 'package:xrinet/data/data_sources/remote/notification/firebase_notification.dart';
+import 'package:xrinet/data/models/child_classes/notification.dart';
+import 'package:xrinet/domain/entities/notification_check.dart';
+import 'package:xrinet/domain/repositories/firestore_notification.dart';
 
 class FireStoreNotificationRepoImpl implements FireStoreNotificationRepository {
   @override

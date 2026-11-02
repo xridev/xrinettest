@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;

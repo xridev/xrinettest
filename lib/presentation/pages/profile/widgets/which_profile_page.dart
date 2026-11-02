@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
-import 'package:instagram/presentation/pages/profile/personal_profile_page.dart';
-import 'package:instagram/presentation/pages/profile/user_profile_page.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
+import 'package:xrinet/presentation/pages/profile/personal_profile_page.dart';
+import 'package:xrinet/presentation/pages/profile/user_profile_page.dart';
 
 class WhichProfilePage extends StatelessWidget {
   final String userId;

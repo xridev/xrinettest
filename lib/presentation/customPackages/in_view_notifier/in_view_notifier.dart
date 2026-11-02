@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:instagram/presentation/pages/time_line/widgets/smart_refresher.dart';
+import 'package:xrinet/presentation/pages/time_line/widgets/smart_refresher.dart';
 // ignore: depend_on_referenced_packages
 import 'package:stream_transform/stream_transform.dart';
 

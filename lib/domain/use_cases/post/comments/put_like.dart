@@ -1,5 +1,5 @@
-import 'package:instagram/core/use_case/use_case.dart';
-import 'package:instagram/domain/repositories/post/comment/comment_repository.dart';
+import 'package:xrinet/core/use_case/use_case.dart';
+import 'package:xrinet/domain/repositories/post/comment/comment_repository.dart';
 
 class PutLikeOnThisCommentUseCase
     implements UseCaseTwoParams<void, String, String> {

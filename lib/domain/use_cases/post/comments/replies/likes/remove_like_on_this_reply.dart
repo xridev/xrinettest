@@ -1,5 +1,5 @@
-import 'package:instagram/core/use_case/use_case.dart';
-import 'package:instagram/domain/repositories/post/comment/reply_repository.dart';
+import 'package:xrinet/core/use_case/use_case.dart';
+import 'package:xrinet/domain/repositories/post/comment/reply_repository.dart';
 
 class RemoveLikeOnThisReplyUseCase
     implements UseCaseTwoParams<void, String, String> {

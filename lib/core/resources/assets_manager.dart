@@ -9,7 +9,7 @@ class IconsAssets {
   static const String menuHorizontal2Icon = "$iconPath/menu_h.svg";
   static const String commentIcon = "$iconPath/comment.svg";
   static const String profileIcon = "$iconPath/profile.svg";
-  static const String instagramLogo = "$iconPath/logo_instagram.svg";
+  static const String xrinetLogo = "$iconPath/logo_xrinet.svg";
   static const String addIcon = "$iconPath/add.svg";
   static const String add2Icon = "$iconPath/add-2.svg";
   static const String minusIcon = "$iconPath/minus.svg";
@@ -30,14 +30,14 @@ class IconsAssets {
   static const String video = "$iconPath/video.svg";
   static const String shop = "$iconPath/shop_white.svg";
   static const String compass = "$iconPath/compass.svg";
-  static const String splashIcon = "assets/splash/instagram-image-splash.png";
+  static const String splashIcon = "assets/splash/xrinet-image-splash.png";
   static const String phone = "$iconPath/phone.svg";
   static const String videoPoint = "$iconPath/video_point.svg";
   static const String gallery = "$iconPath/gallery.svg";
   static const String galleryBold = "$iconPath/gallery_blod.svg";
 
-  static const String addInstagramStoryIcon =
-      "$iconPath/add-instagram-story.svg";
-  static const String instagramHighlightStoryIcon =
-      "$iconPath/instagram-highlight-story.svg";
+  static const String addXrinetStoryIcon =
+      "$iconPath/add-xrinet-story.svg";
+  static const String xrinetHighlightStoryIcon =
+      "$iconPath/xrinet-highlight-story.svg";
 }

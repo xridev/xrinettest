@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instagram/core/functions/date_of_now.dart';
-import 'package:instagram/core/resources/assets_manager.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/core/utility/injector.dart';
-import 'package:instagram/data/models/child_classes/post/story.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/presentation/customPackages/story_view/story_controller.dart';
-import 'package:instagram/presentation/customPackages/story_view/story_view.dart';
-import 'package:instagram/presentation/customPackages/story_view/utils.dart';
-import 'package:instagram/presentation/pages/story/widgets/story_swipe.dart';
-import 'package:instagram/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
+import 'package:xrinet/core/functions/date_of_now.dart';
+import 'package:xrinet/core/resources/assets_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/core/utility/injector.dart';
+import 'package:xrinet/data/models/child_classes/post/story.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/presentation/customPackages/story_view/story_controller.dart';
+import 'package:xrinet/presentation/customPackages/story_view/story_view.dart';
+import 'package:xrinet/presentation/customPackages/story_view/utils.dart';
+import 'package:xrinet/presentation/pages/story/widgets/story_swipe.dart';
+import 'package:xrinet/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StoryPageForMobile extends StatefulWidget {

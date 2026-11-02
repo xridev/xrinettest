@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/domain/entities/sender_info.dart';
-import 'package:instagram/domain/entities/specific_users_info.dart';
-import 'package:instagram/domain/use_cases/message/single_message/get_chat_users_info.dart';
-import 'package:instagram/domain/use_cases/user/getUserInfo/get_followers_and_followings_usecase.dart';
-import 'package:instagram/domain/use_cases/user/getUserInfo/get_specific_users_usecase.dart';
+import 'package:xrinet/domain/entities/sender_info.dart';
+import 'package:xrinet/domain/entities/specific_users_info.dart';
+import 'package:xrinet/domain/use_cases/message/single_message/get_chat_users_info.dart';
+import 'package:xrinet/domain/use_cases/user/getUserInfo/get_followers_and_followings_usecase.dart';
+import 'package:xrinet/domain/use_cases/user/getUserInfo/get_specific_users_usecase.dart';
 import '../../../data/models/parent_classes/without_sub_classes/user_personal_info.dart';
 
 part 'users_info_state.dart';

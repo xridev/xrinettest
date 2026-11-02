@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:instagram/core/functions/toast_show.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/core/utility/injector.dart';
-import 'package:instagram/domain/entities/registered_user.dart';
-import 'package:instagram/presentation/cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
-import 'package:instagram/presentation/pages/register/widgets/get_my_user_info.dart';
-import 'package:instagram/presentation/pages/register/widgets/register_widgets.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_elevated_button.dart';
+import 'package:xrinet/core/functions/toast_show.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/core/utility/injector.dart';
+import 'package:xrinet/domain/entities/registered_user.dart';
+import 'package:xrinet/presentation/cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
+import 'package:xrinet/presentation/pages/register/widgets/get_my_user_info.dart';
+import 'package:xrinet/presentation/pages/register/widgets/register_widgets.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_elevated_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {

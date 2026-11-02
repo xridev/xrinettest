@@ -1,5 +1,5 @@
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/domain/entities/calling_status.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/domain/entities/calling_status.dart';
 
 abstract class CallingRoomsRepository {
   Future<String> createCallingRoom(

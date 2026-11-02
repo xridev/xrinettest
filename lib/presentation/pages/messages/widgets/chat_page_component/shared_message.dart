@@ -1,16 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/core/translations/app_lang.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/message.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
-import 'package:instagram/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/get_post_info.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/translations/app_lang.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/message.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
+import 'package:xrinet/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/get_post_info.dart';
 
 class SharedMessage extends StatelessWidget {
   final Message messageInfo;

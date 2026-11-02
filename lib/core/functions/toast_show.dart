@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:instagram/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
 
 class ToastShow {
   static Future<bool?> toast(String toast) {

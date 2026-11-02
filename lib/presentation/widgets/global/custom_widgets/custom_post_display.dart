@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/core/translations/app_lang.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/comment.dart';
-import 'package:instagram/presentation/pages/time_line/widgets/read_more_text.dart';
-import 'package:instagram/presentation/widgets/global/others/count_of_likes.dart';
-import 'package:instagram/presentation/widgets/global/others/image_of_post.dart';
+import 'package:xrinet/core/translations/app_lang.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/comment.dart';
+import 'package:xrinet/presentation/pages/time_line/widgets/read_more_text.dart';
+import 'package:xrinet/presentation/widgets/global/others/count_of_likes.dart';
+import 'package:xrinet/presentation/widgets/global/others/image_of_post.dart';
 
 class CustomPostDisplay extends StatefulWidget {
   final ValueNotifier<Post> postInfo;

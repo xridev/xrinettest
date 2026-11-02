@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
 
 const _kCropGridColumnCount = 3;
 const _kCropGridRowCount = 3;

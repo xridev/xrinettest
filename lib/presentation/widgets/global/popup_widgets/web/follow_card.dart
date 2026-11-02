@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/presentation/widgets/global/popup_widgets/common/get_users_info.dart';
-import 'package:instagram/presentation/widgets/global/popup_widgets/common/head_of_popup_widget.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/presentation/widgets/global/popup_widgets/common/get_users_info.dart';
+import 'package:xrinet/presentation/widgets/global/popup_widgets/common/head_of_popup_widget.dart';
 
 class PopupFollowCard extends StatelessWidget {
   final bool isThatFollower;

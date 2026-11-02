@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/cubit/postInfoCubit/post_cubit.dart';
-import 'package:instagram/presentation/pages/comments/widgets/comment_of_post.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_app_bar.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_posts_display.dart';
-import 'package:instagram/presentation/widgets/global/others/image_of_post.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/cubit/postInfoCubit/post_cubit.dart';
+import 'package:xrinet/presentation/pages/comments/widgets/comment_of_post.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_app_bar.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_posts_display.dart';
+import 'package:xrinet/presentation/widgets/global/others/image_of_post.dart';
 
 class GetsPostInfoAndDisplay extends StatelessWidget {
   final String postId;
@@ -24,7 +24,7 @@ class GetsPostInfoAndDisplay extends StatelessWidget {
     return Scaffold(
       appBar: isThatMobile
           ? CustomAppBar.oneTitleAppBar(context, appBarText,
-              logoOfInstagram: true)
+              logoOfXrinet: true)
           : null,
       body: BlocBuilder<PostCubit, PostState>(
         bloc: PostCubit.get(context)

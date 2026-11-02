@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_grid_view_display.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_grid_view_display.dart';
 
 class ProfileGridView extends StatefulWidget {
   final List<Post> postsInfo;

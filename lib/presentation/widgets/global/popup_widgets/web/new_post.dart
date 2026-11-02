@@ -5,18 +5,18 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/selected_byte.dart';
-import 'package:instagram/core/functions/blur_hash.dart';
-import 'package:instagram/core/functions/date_of_now.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
-import 'package:instagram/presentation/cubit/postInfoCubit/post_cubit.dart';
-import 'package:instagram/presentation/customPackages/crop_image/crop_image.dart';
-import 'package:instagram/presentation/pages/time_line/widgets/points_scroll_bar.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/selected_byte.dart';
+import 'package:xrinet/core/functions/blur_hash.dart';
+import 'package:xrinet/core/functions/date_of_now.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
+import 'package:xrinet/presentation/cubit/postInfoCubit/post_cubit.dart';
+import 'package:xrinet/presentation/customPackages/crop_image/crop_image.dart';
+import 'package:xrinet/presentation/pages/time_line/widgets/points_scroll_bar.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
 
 /// [PopupNewPost] it's not clean yet.
 
@@ -139,7 +139,7 @@ class _PopupNewPostState extends State<PopupNewPost> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 12.0, bottom: 8),
                 child: Text(
-                  // there is no multi language in real instagram (web version)
+                  // there is no multi language in real xrinet (web version)
                   selectedImage.value == null ||
                           createPostButton == CreatePostButton.share
                       ? 'Create new post'

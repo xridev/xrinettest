@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
 
 class ArrowJump extends StatelessWidget {
   final bool isThatBack;

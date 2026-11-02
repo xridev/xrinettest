@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/core/functions/toast_show.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/presentation/pages/profile/widgets/show_me_the_users.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/core/functions/toast_show.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/presentation/pages/profile/widgets/show_me_the_users.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
 
 import '../../cubit/firestoreUserInfoCubit/users_info_cubit.dart';
 

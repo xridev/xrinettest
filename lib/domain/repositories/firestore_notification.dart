@@ -1,5 +1,5 @@
-import 'package:instagram/data/models/child_classes/notification.dart';
-import 'package:instagram/domain/entities/notification_check.dart';
+import 'package:xrinet/data/models/child_classes/notification.dart';
+import 'package:xrinet/domain/entities/notification_check.dart';
 
 abstract class FireStoreNotificationRepository {
   Future<String> createNotification(

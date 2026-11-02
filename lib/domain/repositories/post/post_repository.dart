@@ -1,6 +1,6 @@
 import 'dart:typed_data';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/selected_byte.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/selected_byte.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
 
 abstract class FireStorePostRepository {
   Future<Post> createPost({

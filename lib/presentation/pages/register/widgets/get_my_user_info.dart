@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:instagram/core/functions/toast_show.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
-import 'package:instagram/presentation/screens/responsive_layout.dart';
-import 'package:instagram/presentation/screens/web_screen_layout.dart';
-import 'package:instagram/presentation/pages/register/widgets/popup_calling.dart';
+import 'package:xrinet/core/functions/toast_show.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
+import 'package:xrinet/presentation/screens/responsive_layout.dart';
+import 'package:xrinet/presentation/screens/web_screen_layout.dart';
+import 'package:xrinet/presentation/pages/register/widgets/popup_calling.dart';
 
 class GetMyPersonalInfo extends StatefulWidget {
   final String myPersonalId;

@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'dart:typed_data';
 
-import 'package:instagram/data/data_sources/remote/chat/group_chat.dart';
-import 'package:instagram/data/data_sources/remote/firebase_storage.dart';
-import 'package:instagram/data/data_sources/remote/user/firestore_user_info.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/message.dart';
-import 'package:instagram/domain/repositories/group_message.dart';
+import 'package:xrinet/data/data_sources/remote/chat/group_chat.dart';
+import 'package:xrinet/data/data_sources/remote/firebase_storage.dart';
+import 'package:xrinet/data/data_sources/remote/user/firestore_user_info.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/message.dart';
+import 'package:xrinet/domain/repositories/group_message.dart';
 
 class FirebaseGroupMessageRepoImpl implements FireStoreGroupMessageRepository {
   @override

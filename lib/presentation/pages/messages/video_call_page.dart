@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/core/utility/private_keys.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/presentation/cubit/callingRooms/calling_rooms_cubit.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
-import 'package:instagram/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/core/utility/private_keys.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/presentation/cubit/callingRooms/calling_rooms_cubit.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
+import 'package:xrinet/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 enum UserCallingType { sender, receiver }

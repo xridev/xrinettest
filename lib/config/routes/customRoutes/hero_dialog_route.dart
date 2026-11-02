@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
 
 class HeroDialogRoute<T> extends PageRoute<T> {
   final Color? backgroundColor;

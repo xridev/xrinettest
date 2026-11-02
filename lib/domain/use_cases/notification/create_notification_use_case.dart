@@ -1,6 +1,6 @@
-import 'package:instagram/core/use_case/use_case.dart';
-import 'package:instagram/data/models/child_classes/notification.dart';
-import 'package:instagram/domain/repositories/firestore_notification.dart';
+import 'package:xrinet/core/use_case/use_case.dart';
+import 'package:xrinet/data/models/child_classes/notification.dart';
+import 'package:xrinet/domain/repositories/firestore_notification.dart';
 
 class CreateNotificationUseCase implements UseCase<String, CustomNotification> {
   final FireStoreNotificationRepository _notificationRepository;

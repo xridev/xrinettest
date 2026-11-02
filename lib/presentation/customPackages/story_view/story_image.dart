@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
 
 import 'story_controller.dart';
 import 'utils.dart';

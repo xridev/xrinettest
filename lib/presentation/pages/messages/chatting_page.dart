@@ -1,19 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/core/functions/toast_show.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/message.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/domain/entities/sender_info.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/message/cubit/message_cubit.dart';
-import 'package:instagram/presentation/pages/profile/user_profile_page.dart';
-import 'package:instagram/presentation/pages/messages/widgets/chat_messages.dart';
-import 'package:instagram/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_app_bar.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/core/functions/toast_show.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/message.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/domain/entities/sender_info.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/message/cubit/message_cubit.dart';
+import 'package:xrinet/presentation/pages/profile/user_profile_page.dart';
+import 'package:xrinet/presentation/pages/messages/widgets/chat_messages.dart';
+import 'package:xrinet/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_app_bar.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
 
 class ChattingPage extends StatefulWidget {
   final SenderInfo? messageDetails;
@@ -129,7 +129,7 @@ class _ChattingPageState extends State<ChattingPage>
           width: 10,
         ),
         Text(
-          "Instagram",
+          "Xrinet",
           style: TextStyle(
               color: Theme.of(context).focusColor,
               fontSize: 14,

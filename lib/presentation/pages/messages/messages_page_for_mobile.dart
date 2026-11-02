@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/pages/messages/select_for_group_chat.dart';
-import 'package:instagram/presentation/pages/messages/widgets/list_of_messages.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/pages/messages/select_for_group_chat.dart';
+import 'package:xrinet/presentation/pages/messages/widgets/list_of_messages.dart';
 
 class MessagesPageForMobile extends StatelessWidget {
   const MessagesPageForMobile({super.key});

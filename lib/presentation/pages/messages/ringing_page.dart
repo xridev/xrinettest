@@ -1,14 +1,14 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/domain/entities/calling_status.dart';
-import 'package:instagram/presentation/cubit/callingRooms/calling_rooms_cubit.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
-import 'package:instagram/presentation/pages/messages/video_call_page.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/domain/entities/calling_status.dart';
+import 'package:xrinet/presentation/cubit/callingRooms/calling_rooms_cubit.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
+import 'package:xrinet/presentation/pages/messages/video_call_page.dart';
 
 class CallingRingingPage extends StatefulWidget {
   final String channelId;

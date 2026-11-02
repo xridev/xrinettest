@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:instagram/data/models/parent_classes/post/parent_post.dart';
+import 'package:xrinet/data/models/parent_classes/post/parent_post.dart';
 
 class Story extends ParentPost {
   String storyUrl;

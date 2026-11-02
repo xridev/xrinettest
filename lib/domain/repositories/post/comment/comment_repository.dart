@@ -1,4 +1,4 @@
-import 'package:instagram/data/models/parent_classes/without_sub_classes/comment.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/comment.dart';
 
 abstract class FirestoreCommentRepository {
   Future<Comment> addComment({required Comment commentInfo});

@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/core/functions/toast_show.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/child_classes/notification.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
-import 'package:instagram/presentation/cubit/notification/notification_cubit.dart';
-import 'package:instagram/presentation/pages/profile/widgets/show_me_the_users.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
-import 'package:instagram/presentation/widgets/global/others/notification_card_info.dart';
+import 'package:xrinet/core/functions/toast_show.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/child_classes/notification.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
+import 'package:xrinet/presentation/cubit/notification/notification_cubit.dart';
+import 'package:xrinet/presentation/pages/profile/widgets/show_me_the_users.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/presentation/widgets/global/others/notification_card_info.dart';
 
 /// Not clean enough
 class ActivityPage extends StatefulWidget {

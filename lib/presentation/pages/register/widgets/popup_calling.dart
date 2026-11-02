@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/users_info_reel_time/users_info_reel_time_bloc.dart';
-import 'package:instagram/presentation/pages/messages/ringing_page.dart';
-import 'package:instagram/presentation/screens/mobile_screen_layout.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/users_info_reel_time/users_info_reel_time_bloc.dart';
+import 'package:xrinet/presentation/pages/messages/ringing_page.dart';
+import 'package:xrinet/presentation/screens/mobile_screen_layout.dart';
 
 class PopupCalling extends StatefulWidget {
   final String userId;

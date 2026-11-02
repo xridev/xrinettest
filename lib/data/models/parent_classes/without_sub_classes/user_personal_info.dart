@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:instagram/data/models/child_classes/post/story.dart';
+import 'package:xrinet/data/models/child_classes/post/story.dart';
 
 // ignore: must_be_immutable
 class UserPersonalInfo extends Equatable {

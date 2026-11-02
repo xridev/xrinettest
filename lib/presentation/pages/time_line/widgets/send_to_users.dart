@@ -2,16 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/core/functions/toast_show.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/users_info_cubit.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_linears_progress.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_share_button.dart';
+import 'package:xrinet/core/functions/toast_show.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/users_info_cubit.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_linears_progress.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_share_button.dart';
 
 class SendToUsers extends StatefulWidget {
   final TextEditingController messageTextController;

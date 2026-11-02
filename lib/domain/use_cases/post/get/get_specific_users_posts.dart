@@ -1,5 +1,5 @@
-import 'package:instagram/domain/repositories/post/post_repository.dart';
-import 'package:instagram/core/use_case/use_case.dart';
+import 'package:xrinet/domain/repositories/post/post_repository.dart';
+import 'package:xrinet/core/use_case/use_case.dart';
 
 class GetSpecificUsersPostsUseCase implements UseCase<List, List<dynamic>> {
   final FireStorePostRepository _getSpecificUsersPostsRepository;

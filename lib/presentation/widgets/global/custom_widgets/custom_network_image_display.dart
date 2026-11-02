@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
-import 'package:instagram/presentation/widgets/global/others/play_this_video.dart';
+import 'package:xrinet/presentation/widgets/global/others/play_this_video.dart';
 // ignore: depend_on_referenced_packages
 import 'package:octo_image/octo_image.dart';
 

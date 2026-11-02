@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:async';
-import 'package:instagram/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'show_counter.dart';

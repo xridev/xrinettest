@@ -1,11 +1,11 @@
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/data_sources/remote/calling_rooms/calling_rooms.dart';
-import 'package:instagram/data/data_sources/remote/notification/device_notification.dart';
-import 'package:instagram/data/data_sources/remote/user/firestore_user_info.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/push_notification.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/domain/entities/calling_status.dart';
-import 'package:instagram/domain/repositories/calling_rooms_repository.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/data_sources/remote/calling_rooms/calling_rooms.dart';
+import 'package:xrinet/data/data_sources/remote/notification/device_notification.dart';
+import 'package:xrinet/data/data_sources/remote/user/firestore_user_info.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/push_notification.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/domain/entities/calling_status.dart';
+import 'package:xrinet/domain/repositories/calling_rooms_repository.dart';
 
 class CallingRoomsRepoImpl implements CallingRoomsRepository {
   @override

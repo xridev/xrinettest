@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instagram/core/resources/assets_manager.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/utility/injector.dart';
-import 'package:instagram/presentation/cubit/postInfoCubit/post_cubit.dart';
-import 'package:instagram/presentation/pages/profile/personal_profile_page.dart';
-import 'package:instagram/presentation/pages/shop/shop_page.dart';
-import 'package:instagram/presentation/pages/time_line/all_user_time_line/all_users_time_line.dart';
-import 'package:instagram/presentation/pages/time_line/my_own_time_line/home_page.dart';
-import 'package:instagram/presentation/pages/video/videos_page.dart';
-import 'package:instagram/presentation/widgets/global/screens_w.dart';
+import 'package:xrinet/core/resources/assets_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/utility/injector.dart';
+import 'package:xrinet/presentation/cubit/postInfoCubit/post_cubit.dart';
+import 'package:xrinet/presentation/pages/profile/personal_profile_page.dart';
+import 'package:xrinet/presentation/pages/shop/shop_page.dart';
+import 'package:xrinet/presentation/pages/time_line/all_user_time_line/all_users_time_line.dart';
+import 'package:xrinet/presentation/pages/time_line/my_own_time_line/home_page.dart';
+import 'package:xrinet/presentation/pages/video/videos_page.dart';
+import 'package:xrinet/presentation/widgets/global/screens_w.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   final String userId;

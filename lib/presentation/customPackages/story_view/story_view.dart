@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/customPackages/story_view/story_image_for_web.dart';
-import 'package:instagram/presentation/widgets/global/others/play_this_video.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/customPackages/story_view/story_image_for_web.dart';
+import 'package:xrinet/presentation/widgets/global/others/play_this_video.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
 import 'story_video.dart';
 import 'story_controller.dart';
 import 'utils.dart';
@@ -399,7 +399,7 @@ class StoryItem {
   }
 }
 
-/// Widget to display stories just like Whatsapp and Instagram. Can also be used
+/// Widget to display stories just like Whatsapp and Xrinet. Can also be used
 /// inline/inside [ListView] or [Column] just like Google News app. Comes with
 /// gestures to pause, forward and go to previous page.
 class StoryView extends StatefulWidget {

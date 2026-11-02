@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:instagram/core/resources/assets_manager.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
-import 'package:instagram/presentation/pages/register/sign_up_page.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_text_field.dart';
+import 'package:xrinet/core/resources/assets_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
+import 'package:xrinet/presentation/pages/register/sign_up_page.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_text_field.dart';
 
 class RegisterWidgets extends StatefulWidget {
   final TextEditingController emailController;
@@ -100,7 +100,7 @@ class _SignUpPageState extends State<RegisterWidgets> {
         children: [
           if (!widget.isThatLogIn) const Spacer(),
           SvgPicture.asset(
-            IconsAssets.instagramLogo,
+            IconsAssets.xrinetLogo,
             colorFilter: ColorFilter.mode(
               Theme.of(context).focusColor,
               BlendMode.srcIn,

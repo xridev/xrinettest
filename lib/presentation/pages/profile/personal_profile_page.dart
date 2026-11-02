@@ -6,23 +6,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/selected_byte.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/config/themes/theme_service.dart';
-import 'package:instagram/core/resources/assets_manager.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/core/translations/app_lang.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/core/utility/injector.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/users_info_reel_time/users_info_reel_time_bloc.dart';
-import 'package:instagram/presentation/pages/profile/widgets/bottom_sheet.dart';
-import 'package:instagram/presentation/pages/profile/widgets/profile_page.dart';
-import 'package:instagram/presentation/pages/profile/widgets/recommendation_people.dart';
-import 'package:instagram/presentation/pages/story/create_story.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_gallery_display.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/selected_byte.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/config/themes/theme_service.dart';
+import 'package:xrinet/core/resources/assets_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/translations/app_lang.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/core/utility/injector.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/users_info_reel_time/users_info_reel_time_bloc.dart';
+import 'package:xrinet/presentation/pages/profile/widgets/bottom_sheet.dart';
+import 'package:xrinet/presentation/pages/profile/widgets/profile_page.dart';
+import 'package:xrinet/presentation/pages/profile/widgets/recommendation_people.dart';
+import 'package:xrinet/presentation/pages/story/create_story.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_gallery_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/functions/toast_show.dart';
@@ -369,7 +369,7 @@ class _ProfilePageState extends State<PersonalProfilePage> {
       onTap: () {},
       child: createSizedBox(
         StringsManager.live.tr,
-        nameOfPath: IconsAssets.instagramHighlightStoryIcon,
+        nameOfPath: IconsAssets.xrinetHighlightStoryIcon,
       ),
     );
   }
@@ -379,7 +379,7 @@ class _ProfilePageState extends State<PersonalProfilePage> {
       onTap: () async => createNewStory(true),
       child: createSizedBox(
         StringsManager.story.tr,
-        nameOfPath: IconsAssets.addInstagramStoryIcon,
+        nameOfPath: IconsAssets.addXrinetStoryIcon,
       ),
     );
   }

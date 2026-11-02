@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-import 'package:instagram/core/use_case/use_case.dart';
-import 'package:instagram/data/models/child_classes/post/story.dart';
-import 'package:instagram/domain/repositories/story_repository.dart';
+import 'package:xrinet/core/use_case/use_case.dart';
+import 'package:xrinet/data/models/child_classes/post/story.dart';
+import 'package:xrinet/domain/repositories/story_repository.dart';
 
 class CreateStoryUseCase implements UseCaseTwoParams<String, Story, Uint8List> {
   final FirestoreStoryRepository _createStoryRepository;

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instagram/data/data_sources/remote/notification/firebase_notification.dart';
-import 'package:instagram/domain/entities/registered_user.dart';
-import 'package:instagram/domain/repositories/auth_repository.dart';
+import 'package:xrinet/data/data_sources/remote/notification/firebase_notification.dart';
+import 'package:xrinet/domain/entities/registered_user.dart';
+import 'package:xrinet/domain/repositories/auth_repository.dart';
 import '../data_sources/remote/firebase_auth.dart';
 
 class FirebaseAuthRepositoryImpl implements FirebaseAuthRepository {

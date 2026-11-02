@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/domain/use_cases/calling_rooms/get_calling_status.dart';
+import 'package:xrinet/domain/use_cases/calling_rooms/get_calling_status.dart';
 
 part 'calling_status_event.dart';
 part 'calling_status_state.dart';

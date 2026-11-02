@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/pages/profile/users_who_likes.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/pages/profile/users_who_likes.dart';
 
 class UsersWhoLikesForMobile extends StatelessWidget {
   final List<dynamic> usersIds;

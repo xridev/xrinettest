@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/domain/entities/calling_status.dart';
-import 'package:instagram/domain/use_cases/calling_rooms/cancel_joining_to_room.dart';
-import 'package:instagram/domain/use_cases/calling_rooms/create_calling_room.dart';
-import 'package:instagram/domain/use_cases/calling_rooms/delete_the_room.dart';
-import 'package:instagram/domain/use_cases/calling_rooms/get_users_info_in_room.dart';
-import 'package:instagram/domain/use_cases/calling_rooms/join_to_calling_room.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/domain/entities/calling_status.dart';
+import 'package:xrinet/domain/use_cases/calling_rooms/cancel_joining_to_room.dart';
+import 'package:xrinet/domain/use_cases/calling_rooms/create_calling_room.dart';
+import 'package:xrinet/domain/use_cases/calling_rooms/delete_the_room.dart';
+import 'package:xrinet/domain/use_cases/calling_rooms/get_users_info_in_room.dart';
+import 'package:xrinet/domain/use_cases/calling_rooms/join_to_calling_room.dart';
 
 part 'calling_rooms_state.dart';
 

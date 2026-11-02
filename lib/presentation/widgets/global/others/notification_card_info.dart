@@ -2,17 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/config/routes/customRoutes/hero_dialog_route.dart';
-import 'package:instagram/core/functions/date_of_now.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/child_classes/notification.dart';
-import 'package:instagram/presentation/pages/profile/widgets/which_profile_page.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/get_post_info.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/config/routes/customRoutes/hero_dialog_route.dart';
+import 'package:xrinet/core/functions/date_of_now.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/child_classes/notification.dart';
+import 'package:xrinet/presentation/pages/profile/widgets/which_profile_page.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/get_post_info.dart';
 
 class NotificationCardInfo extends StatefulWidget {
   final CustomNotification notificationInfo;

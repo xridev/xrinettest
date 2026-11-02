@@ -2,12 +2,12 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker_plus/image_picker_plus.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/core/functions/compress_image.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/selected_byte.dart';
-import 'package:instagram/presentation/pages/profile/create_post_page.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/core/functions/compress_image.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/selected_byte.dart';
+import 'package:xrinet/presentation/pages/profile/create_post_page.dart';
 
 /// the callers pass these to [CustomImagePickerPlus], so they come with it
 export 'package:image_picker_plus/image_picker_plus.dart'

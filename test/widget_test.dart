@@ -7,7 +7,7 @@
 
 // import 'package:flutter/material.dart';
 // import 'package:flutter_test/flutter_test.dart';
-// import 'package:instagram/core/app.dart';
+// import 'package:xrinet/core/app.dart';
 
 // void main() {
 //   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

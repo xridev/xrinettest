@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:instagram/core/utility/injector.dart';
-import 'package:instagram/data/data_sources/remote/notification/device_notification.dart';
-import 'package:instagram/data/data_sources/remote/user/firestore_user_info.dart';
-import 'package:instagram/data/models/child_classes/notification.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/domain/entities/notification_check.dart';
+import 'package:xrinet/core/utility/injector.dart';
+import 'package:xrinet/data/data_sources/remote/notification/device_notification.dart';
+import 'package:xrinet/data/data_sources/remote/user/firestore_user_info.dart';
+import 'package:xrinet/data/models/child_classes/notification.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/domain/entities/notification_check.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FireStoreNotification {

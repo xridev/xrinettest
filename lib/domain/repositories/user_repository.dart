@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/message.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/domain/entities/sender_info.dart';
-import 'package:instagram/domain/entities/specific_users_info.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/message.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/domain/entities/sender_info.dart';
+import 'package:xrinet/domain/entities/specific_users_info.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
 
 abstract class FirestoreUserRepository {
   Future<void> addNewUser(UserPersonalInfo newUserInfo);

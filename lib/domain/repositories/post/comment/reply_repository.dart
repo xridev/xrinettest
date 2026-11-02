@@ -1,4 +1,4 @@
-import 'package:instagram/data/models/parent_classes/without_sub_classes/comment.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/comment.dart';
 
 abstract class FirestoreReplyRepository {
   Future<Comment> replyOnThisComment({required Comment replyInfo});

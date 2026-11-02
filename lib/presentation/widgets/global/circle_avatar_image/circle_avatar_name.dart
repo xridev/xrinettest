@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
 
 class NameOfCircleAvatar extends StatelessWidget {
   final String circleAvatarName;

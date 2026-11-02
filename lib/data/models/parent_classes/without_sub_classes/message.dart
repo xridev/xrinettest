@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
 
 // ignore: must_be_immutable
 class Message extends Equatable {

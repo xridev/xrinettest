@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/domain/use_cases/user/getUserInfo/get_all_users_info.dart';
-import 'package:instagram/domain/use_cases/user/my_personal_info.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/domain/use_cases/user/getUserInfo/get_all_users_info.dart';
+import 'package:xrinet/domain/use_cases/user/my_personal_info.dart';
 
 part 'users_info_reel_time_event.dart';
 part 'users_info_reel_time_state.dart';

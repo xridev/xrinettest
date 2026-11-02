@@ -7,35 +7,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/selected_byte.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/core/functions/blur_hash.dart';
-import 'package:instagram/core/functions/date_of_now.dart';
-import 'package:instagram/core/functions/toast_show.dart';
-import 'package:instagram/core/resources/assets_manager.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/core/translations/app_lang.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/message.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/domain/entities/sender_info.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/message/bloc/message_bloc.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/message/cubit/group_chat/message_for_group_chat_cubit.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/message/cubit/message_cubit.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
-import 'package:instagram/presentation/cubit/firestoreUserInfoCubit/users_info_reel_time/users_info_reel_time_bloc.dart';
-import 'package:instagram/presentation/customPackages/audio_recorder/social_media_recoder.dart';
-import 'package:instagram/presentation/pages/messages/widgets/chat_page_component/shared_message.dart';
-import 'package:instagram/presentation/pages/messages/widgets/record_view.dart';
-import 'package:instagram/presentation/pages/profile/user_profile_page.dart';
-import 'package:instagram/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_gallery_display.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_linears_progress.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_memory_image_display.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/selected_byte.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/core/functions/blur_hash.dart';
+import 'package:xrinet/core/functions/date_of_now.dart';
+import 'package:xrinet/core/functions/toast_show.dart';
+import 'package:xrinet/core/resources/assets_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/translations/app_lang.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/message.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/domain/entities/sender_info.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/message/bloc/message_bloc.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/message/cubit/group_chat/message_for_group_chat_cubit.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/message/cubit/message_cubit.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/user_info_cubit.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/users_info_reel_time/users_info_reel_time_bloc.dart';
+import 'package:xrinet/presentation/customPackages/audio_recorder/social_media_recoder.dart';
+import 'package:xrinet/presentation/pages/messages/widgets/chat_page_component/shared_message.dart';
+import 'package:xrinet/presentation/pages/messages/widgets/record_view.dart';
+import 'package:xrinet/presentation/pages/profile/user_profile_page.dart';
+import 'package:xrinet/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_gallery_display.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_linears_progress.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_memory_image_display.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
 
 /// It's not clean enough
 class ChatMessages extends StatefulWidget {
@@ -1246,7 +1246,7 @@ class _ChatMessagesState extends State<ChatMessages>
         ),
         const SizedBox(width: 10),
         Text(
-          "Instagram",
+          "Xrinet",
           style: TextStyle(
             color: Theme.of(context).focusColor,
             fontSize: 14,

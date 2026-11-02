@@ -1,10 +1,10 @@
 import 'dart:typed_data';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/selected_byte.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/data_sources/remote/firebase_storage.dart';
-import 'package:instagram/data/data_sources/remote/post/firestore_post.dart';
-import 'package:instagram/data/data_sources/remote/user/firestore_user_info.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/selected_byte.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/data_sources/remote/firebase_storage.dart';
+import 'package:xrinet/data/data_sources/remote/post/firestore_post.dart';
+import 'package:xrinet/data/data_sources/remote/user/firestore_user_info.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
 import '../../../domain/repositories/post/post_repository.dart';
 
 class FireStorePostRepositoryImpl implements FireStorePostRepository {

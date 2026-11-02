@@ -1,5 +1,5 @@
-import 'package:instagram/core/use_case/use_case.dart';
-import 'package:instagram/domain/repositories/story_repository.dart';
+import 'package:xrinet/core/use_case/use_case.dart';
+import 'package:xrinet/domain/repositories/story_repository.dart';
 
 class DeleteStoryUseCase implements UseCase<void, String> {
   final FirestoreStoryRepository _getStoryRepository;

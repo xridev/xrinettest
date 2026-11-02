@@ -1,7 +1,7 @@
-import 'package:instagram/data/data_sources/remote/post/comment/firestore_comment.dart';
-import 'package:instagram/data/data_sources/remote/post/comment/firestore_reply.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/comment.dart';
-import 'package:instagram/domain/repositories/post/comment/reply_repository.dart';
+import 'package:xrinet/data/data_sources/remote/post/comment/firestore_comment.dart';
+import 'package:xrinet/data/data_sources/remote/post/comment/firestore_reply.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/comment.dart';
+import 'package:xrinet/domain/repositories/post/comment/reply_repository.dart';
 
 class FireStoreRepliesRepositoryImpl implements FirestoreReplyRepository {
   @override

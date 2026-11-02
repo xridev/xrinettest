@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/message.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/message.dart';
 
 abstract class FireStoreGroupMessageRepository {
   Future<Message> createChatForGroups(Message messageInfo);

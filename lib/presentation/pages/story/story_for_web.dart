@@ -1,22 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instagram/core/functions/date_of_now.dart';
-import 'package:instagram/core/resources/assets_manager.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/core/utility/injector.dart';
-import 'package:instagram/core/widgets/svg_pictures.dart';
-import 'package:instagram/data/models/child_classes/post/story.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/presentation/customPackages/story_view/story_controller.dart';
-import 'package:instagram/presentation/customPackages/story_view/story_view.dart';
-import 'package:instagram/presentation/customPackages/story_view/utils.dart';
-import 'package:instagram/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
-import 'package:instagram/presentation/widgets/global/popup_widgets/common/jump_arrow.dart';
-import 'package:instagram/presentation/customPackages/snapping.dart';
+import 'package:xrinet/core/functions/date_of_now.dart';
+import 'package:xrinet/core/resources/assets_manager.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/core/utility/injector.dart';
+import 'package:xrinet/core/widgets/svg_pictures.dart';
+import 'package:xrinet/data/models/child_classes/post/story.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/presentation/customPackages/story_view/story_controller.dart';
+import 'package:xrinet/presentation/customPackages/story_view/story_view.dart';
+import 'package:xrinet/presentation/customPackages/story_view/utils.dart';
+import 'package:xrinet/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/presentation/widgets/global/popup_widgets/common/jump_arrow.dart';
+import 'package:xrinet/presentation/customPackages/snapping.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StoryPageForWeb extends StatefulWidget {
@@ -58,7 +58,7 @@ class StoryPageForWebState extends State<StoryPageForWeb> {
       backgroundColor: ColorManager.veryDarkGray,
       appBar: AppBar(
         backgroundColor: ColorManager.transparent,
-        title: const InstagramLogo(
+        title: const XrinetLogo(
             color: ColorManager.white, enableOnTapForWeb: true),
         automaticallyImplyLeading: false,
         actions: [

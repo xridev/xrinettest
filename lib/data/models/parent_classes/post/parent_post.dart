@@ -1,4 +1,4 @@
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
 
 abstract class ParentPost {
   String datePublished;

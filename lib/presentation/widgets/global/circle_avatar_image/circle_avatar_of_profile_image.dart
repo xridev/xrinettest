@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/core/utility/injector.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/presentation/cubit/StoryCubit/story_cubit.dart';
-import 'package:instagram/presentation/pages/profile/widgets/which_profile_page.dart';
-import 'package:instagram/presentation/pages/story/story_for_web.dart';
-import 'package:instagram/presentation/pages/story/story_page_for_mobile.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/core/utility/injector.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/presentation/cubit/StoryCubit/story_cubit.dart';
+import 'package:xrinet/presentation/pages/profile/widgets/which_profile_page.dart';
+import 'package:xrinet/presentation/pages/story/story_for_web.dart';
+import 'package:xrinet/presentation/pages/story/story_page_for_mobile.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'circle_avatar_name.dart';

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/message.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/message.dart';
 
 class FireStoreSingleChat {
   static final _fireStoreUserCollection =

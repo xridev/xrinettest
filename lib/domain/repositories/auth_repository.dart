@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instagram/domain/entities/registered_user.dart';
+import 'package:xrinet/domain/entities/registered_user.dart';
 
 abstract class FirebaseAuthRepository {
   Future<User> signUp(RegisteredUser newUserInfo);

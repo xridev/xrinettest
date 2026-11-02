@@ -1,6 +1,6 @@
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/domain/repositories/post/post_repository.dart';
-import 'package:instagram/core/use_case/use_case.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/domain/repositories/post/post_repository.dart';
+import 'package:xrinet/core/use_case/use_case.dart';
 
 class GetPostsInfoUseCase
     implements UseCaseTwoParams<List<Post>, List<dynamic>, int> {

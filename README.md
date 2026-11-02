@@ -1,6 +1,6 @@
-# flutter-clean-architecture-instagram
+# flutter-clean-architecture-xrinet
 
-Instagram clean architecture using Flutter and Firebase ( frontend & backend ) with almost all functionalities
+Xrinet clean architecture using Flutter and Firebase ( frontend & backend ) with almost all functionalities
 
 ## 🚀 My Next Big Project 
 [Algorithm Visualizer](https://github.com/AhmedAbdoElhawary/flutter-algorithm-visualizer)
@@ -18,7 +18,7 @@ Instagram clean architecture using Flutter and Firebase ( frontend & backend ) w
     * Arabic & English language
     * Dark & Light theme
 
-* Custom gallery & camera & video display like Instagram "my package" [image picker plus ](https://github.com/AhmedAbdoElhawary/image_picker_plus.git)
+* Custom gallery & camera & video display like Xrinet "my package" [image picker plus ](https://github.com/AhmedAbdoElhawary/image_picker_plus.git)
   <a href="https://pub.dev/packages/image_picker_plus"><img src="https://img.shields.io/pub/v/image_picker_plus.svg" width="80"></a>
 
 
@@ -166,8 +166,8 @@ Instagram clean architecture using Flutter and Firebase ( frontend & backend ) w
 #### 2. Clone the repo
 
 ```sh
-$ git clone https://github.com/AhmedAbdoElhawary/flutter-clean-architecture-instagram
-$ cd flutter-clean-architecture-instagram/
+$ git clone https://github.com/AhmedAbdoElhawary/flutter-clean-architecture-xrinet
+$ cd flutter-clean-architecture-xrinet/
 ```
 
 ## 3. Setup the app

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:instagram/config/routes/app_routes.dart';
-import 'package:instagram/core/functions/toast_show.dart';
-import 'package:instagram/core/resources/color_manager.dart';
-import 'package:instagram/core/resources/strings_manager.dart';
-import 'package:instagram/core/resources/styles_manager.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/presentation/cubit/postInfoCubit/post_cubit.dart';
-import 'package:instagram/presentation/pages/time_line/all_user_time_line/search_about_user.dart';
-import 'package:instagram/presentation/pages/time_line/widgets/all_time_line_grid_view.dart';
+import 'package:xrinet/config/routes/app_routes.dart';
+import 'package:xrinet/core/functions/toast_show.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/presentation/cubit/postInfoCubit/post_cubit.dart';
+import 'package:xrinet/presentation/pages/time_line/all_user_time_line/search_about_user.dart';
+import 'package:xrinet/presentation/pages/time_line/widgets/all_time_line_grid_view.dart';
 import 'package:shimmer/shimmer.dart';
 
 class AllUsersTimeLinePage extends StatelessWidget {

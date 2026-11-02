@@ -1,4 +1,4 @@
-name: instagram
+name: xrinet
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -101,7 +101,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/icons/instagram.png"
+  image_path: "assets/icons/xrinet.png"
   adaptive_icon_background: "#ffffff"
   adaptive_icon_foreground: "assets/icons/play_store_512.png"
 

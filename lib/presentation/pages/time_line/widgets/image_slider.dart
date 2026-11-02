@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide CarouselController;
-import 'package:instagram/data/models/parent_classes/without_sub_classes/selected_byte.dart';
-import 'package:instagram/core/utility/constant.dart';
-import 'package:instagram/presentation/pages/time_line/widgets/points_scroll_bar.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_memory_image_display.dart';
-import 'package:instagram/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
-import 'package:instagram/presentation/widgets/global/popup_widgets/common/jump_arrow.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/selected_byte.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/presentation/pages/time_line/widgets/points_scroll_bar.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_memory_image_display.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_network_image_display.dart';
+import 'package:xrinet/presentation/widgets/global/popup_widgets/common/jump_arrow.dart';
 
 class ImagesSlider extends StatefulWidget {
   final List<dynamic> imagesUrls;

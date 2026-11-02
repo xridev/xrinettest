@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/selected_byte.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/domain/use_cases/post/delete/delete_post.dart';
-import 'package:instagram/domain/use_cases/post/get/get_all_posts.dart';
-import 'package:instagram/domain/use_cases/post/get/get_post_info.dart';
-import 'package:instagram/domain/use_cases/post/update/update_post.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/selected_byte.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/domain/use_cases/post/delete/delete_post.dart';
+import 'package:xrinet/domain/use_cases/post/get/get_all_posts.dart';
+import 'package:xrinet/domain/use_cases/post/get/get_post_info.dart';
+import 'package:xrinet/domain/use_cases/post/update/update_post.dart';
 import '../../../domain/use_cases/post/create_post.dart';
 part 'post_state.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/core/utility/constant.dart';
+import 'package:xrinet/core/utility/constant.dart';
 
 class ResponsiveLayout extends StatelessWidget {
   final Widget mobileScreenLayout;

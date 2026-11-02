@@ -1,14 +1,14 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instagram/data/models/child_classes/post/post.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
-import 'package:instagram/domain/use_cases/user/add_post_to_user.dart';
-import 'package:instagram/domain/use_cases/user/getUserInfo/get_all_un_followers_info.dart';
-import 'package:instagram/domain/use_cases/user/getUserInfo/get_user_from_user_name.dart';
-import 'package:instagram/domain/use_cases/user/getUserInfo/get_user_info_usecase.dart';
-import 'package:instagram/domain/use_cases/user/update_user_info.dart';
-import 'package:instagram/domain/use_cases/user/upload_profile_image_usecase.dart';
+import 'package:xrinet/data/models/child_classes/post/post.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import 'package:xrinet/domain/use_cases/user/add_post_to_user.dart';
+import 'package:xrinet/domain/use_cases/user/getUserInfo/get_all_un_followers_info.dart';
+import 'package:xrinet/domain/use_cases/user/getUserInfo/get_user_from_user_name.dart';
+import 'package:xrinet/domain/use_cases/user/getUserInfo/get_user_info_usecase.dart';
+import 'package:xrinet/domain/use_cases/user/update_user_info.dart';
+import 'package:xrinet/domain/use_cases/user/upload_profile_image_usecase.dart';
 part 'user_info_state.dart';
 
 class UserInfoCubit extends Cubit<UserInfoState> {

@@ -1,6 +1,6 @@
-import 'package:instagram/core/use_case/use_case.dart';
-import 'package:instagram/data/models/parent_classes/without_sub_classes/message.dart';
-import 'package:instagram/domain/repositories/group_message.dart';
+import 'package:xrinet/core/use_case/use_case.dart';
+import 'package:xrinet/data/models/parent_classes/without_sub_classes/message.dart';
+import 'package:xrinet/domain/repositories/group_message.dart';
 
 class DeleteMessageForGroupChatUseCase
     implements UseCaseThreeParams<void, String, Message, Message?> {
