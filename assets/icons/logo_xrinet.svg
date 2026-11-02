@@ -1,11 +1,7 @@
-<svg width="168" height="48" viewBox="0 0 168 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&amp;display=swap');
-    .xrinet-text {
-      font-family: 'Grand Hotel', 'Billabong', cursive, sans-serif;
-      font-size: 42px;
-      fill: #343433;
-    }
-  </style>
-  <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" class="xrinet-text">Xrinet</text>
-</svg>
+Text(
+  'Xrinet',
+  style: GoogleFonts.grandHotel(
+    fontSize: 48,
+    color: Color(0xFF343433),
+  ),
+)
