@@ -1,4 +1,4 @@
-package com.example.instagram
+package com.example.xrinet
 
 import io.flutter.embedding.android.FlutterActivity
 
