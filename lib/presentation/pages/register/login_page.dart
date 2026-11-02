@@ -120,3 +120,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+Text(
+  'Xrinet',
+  style: GoogleFonts.grandHotel(
+    fontSize: 48,
+    color: Color(0xFF343433),
+  ),
+)
