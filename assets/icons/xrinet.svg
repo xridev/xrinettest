@@ -1,1 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><linearGradient id="a" x1="1.464" x2="14.536" y1="14.536" y2="1.464" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFC107"/><stop offset=".507" stop-color="#F44336"/><stop offset=".99" stop-color="#9C27B0"/></linearGradient><path fill="url(#a)" d="M11 0H5a5 5 0 0 0-5 5v6a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5V5a5 5 0 0 0-5-5zm3.5 11c0 1.93-1.57 3.5-3.5 3.5H5c-1.93 0-3.5-1.57-3.5-3.5V5c0-1.93 1.57-3.5 3.5-3.5h6c1.93 0 3.5 1.57 3.5 3.5v6z"/><linearGradient id="b" x1="5.172" x2="10.828" y1="10.828" y2="5.172" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFC107"/><stop offset=".507" stop-color="#F44336"/><stop offset=".99" stop-color="#9C27B0"/></linearGradient><path fill="url(#b)" d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 6.5A2.503 2.503 0 0 1 5.5 8c0-1.379 1.122-2.5 2.5-2.5s2.5 1.121 2.5 2.5c0 1.378-1.122 2.5-2.5 2.5z"/><linearGradient id="c" x1="11.923" x2="12.677" y1="4.077" y2="3.323" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFC107"/><stop offset=".507" stop-color="#F44336"/><stop offset=".99" stop-color="#9C27B0"/></linearGradient><circle cx="12.3" cy="3.7" r=".533" fill="url(#c)"/></svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00D9D8"/>
+      <stop offset="34%" stop-color="#168BFF"/>
+      <stop offset="57%" stop-color="#8D35F5"/>
+      <stop offset="100%" stop-color="#F000D8"/>
+    </linearGradient>
+  </defs>
+
+  <g fill="url(#logoGradient)" fill-rule="evenodd" transform="translate(0 3.02) scale(0.04507)">
+    <path d="M134 128L134 130L142 138L143 138L179 173L191 183L192 185L193 185L227 217L351 217L350 214L343 206L340 201L289 138L280 130L261 116L259 116L245 128L245 130L264 144L271 151L307 196L306 198L297 198L296 197L278 197L277 198L236 198L187 152L186 152L170 136L169 136L150 117L147 117Z"/>
+    <path d="M168 83L156 71L154 71L129 91L120 97L116 101L103 110L99 114L70 135L47 162L44 167L39 172L36 177L30 183L3 217L4 218L7 218L8 217L125 217L130 213L141 202L142 202L167 179L167 177L156 166L153 165L117 198L48 198L47 197L54 187L60 181L67 171L73 165L75 161L87 147L95 142L99 138L103 136L144 105L153 97L158 94L168 85Z"/>
+    <path d="M345 3L228 3L226 4L188 41L188 42L201 54L204 53L236 23L301 23L302 24L276 56L267 69L261 75L232 97L194 129L187 134L188 138L189 138L199 148L202 148L227 127L235 122L259 102L283 84L305 55L321 36L323 32L331 23L333 19L345 5Z"/>
+    <path d="M11 4L11 6L16 11L22 20L48 52L68 79L93 102L96 102L102 98L110 91L110 89L89 71L75 51L54 25L55 23L123 23L125 24L137 37L138 37L172 71L173 71L204 101L207 103L209 102L222 91L222 90L213 81L212 81L134 5L132 4L129 4L128 3L125 3L124 4L14 4L12 3Z"/>
+  </g>
+</svg>
