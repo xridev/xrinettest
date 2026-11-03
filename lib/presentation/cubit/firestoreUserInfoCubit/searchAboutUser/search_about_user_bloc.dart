@@ -30,8 +30,6 @@ class SearchAboutUserBloc
         paramsTwo: event.searchForSingleLetter,
       ),
       onData: (users) {
-        // still keep two-step flow (UpdateUser event) if you want consistency
-        add(UpdateUser(users));
         return SearchAboutUserBlocLoaded(users: users);
       },
     );
