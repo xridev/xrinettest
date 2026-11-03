@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,20 +30,29 @@ class MobileScreenLayout extends StatefulWidget {
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout>
     with WidgetsBindingObserver {
-  static const String _resumeReelsKey = 'resume_reels_after_app_close';
+  static const String _reelsWatchedMsKey = 'reels_watched_ms';
 
   static const Duration _reelsResumeDuration =
       Duration(minutes: 15);
+
+  static const Duration _checkpointInterval =
+      Duration(seconds: 10);
 
   final ValueNotifier<bool> playHomeVideo = ValueNotifier(false);
   final ValueNotifier<bool> playMainReelVideos = ValueNotifier(false);
 
   final CupertinoTabController controller = CupertinoTabController();
 
-  DateTime? _reelsOpenedAt;
+  Duration _reelsWatchedDuration = Duration.zero;
+
+  DateTime? _reelsSessionStartedAt;
+
+  Timer? _reelsCheckpointTimer;
 
   bool _isReady = false;
-  bool _wasBackgrounded = false;
+  bool _appInForeground = true;
+
+  Future<void> _saveQueue = Future<void>.value();
 
   @override
   void initState() {
@@ -53,43 +64,46 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
     _restoreInitialTab();
   }
 
-  // Restore Reels only when the previous session was eligible.
-  // Otherwise, always start from Home.
+  // Restore Reels only if the previous app session reached 15 minutes.
+  // Otherwise, start from Home.
   Future<void> _restoreInitialTab() async {
-    final SharedPreferences prefs =
-        await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
+
+    final int watchedMs = prefs.getInt(_reelsWatchedMsKey) ?? 0;
 
     final bool shouldResumeReels =
-        prefs.getBool(_resumeReelsKey) ?? false;
+        watchedMs >= _reelsResumeDuration.inMilliseconds;
 
-    // Consume the saved state so it cannot reopen Reels repeatedly.
-    await prefs.setBool(_resumeReelsKey, false);
+    // Consume the previous session's saved duration.
+    await prefs.remove(_reelsWatchedMsKey);
 
     if (!mounted) return;
+
+    _reelsWatchedDuration = Duration.zero;
 
     controller.index = shouldResumeReels ? 1 : 0;
 
     _updateVideoPlayback();
 
-    if (controller.index == 1) {
-      _reelsOpenedAt = DateTime.now();
-    }
-
     setState(() {
       _isReady = true;
     });
+
+    if (controller.index == 1 && _appInForeground) {
+      _startReelsTimer();
+    }
   }
 
-  // Detect tab changes.
+  // Handle tab changes.
   void _onTabChanged() {
-    if (!mounted) return;
+    if (!mounted || !_isReady) return;
 
     _updateVideoPlayback();
 
-    if (controller.index == 1) {
-      _reelsOpenedAt ??= DateTime.now();
+    if (controller.index == 1 && _appInForeground) {
+      _startReelsTimer();
     } else {
-      _reelsOpenedAt = null;
+      _pauseReelsTimer();
     }
   }
 
@@ -100,25 +114,62 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
     playHomeVideo.value = currentIndex == 0;
   }
 
-  // Save whether Reels should open on the next app launch.
-  Future<void> _saveReelsResumeState() async {
-    final SharedPreferences prefs =
-        await SharedPreferences.getInstance();
-
-    bool shouldResumeReels = false;
-
-    if (controller.index == 1 && _reelsOpenedAt != null) {
-      final Duration watchedDuration =
-          DateTime.now().difference(_reelsOpenedAt!);
-
-      shouldResumeReels =
-          watchedDuration >= _reelsResumeDuration;
+  // Start counting foreground Reels viewing time.
+  void _startReelsTimer() {
+    if (_reelsSessionStartedAt != null || !_appInForeground) {
+      return;
     }
 
-    await prefs.setBool(
-      _resumeReelsKey,
-      shouldResumeReels,
+    _reelsSessionStartedAt = DateTime.now();
+
+    _reelsCheckpointTimer?.cancel();
+
+    _reelsCheckpointTimer = Timer.periodic(
+      _checkpointInterval,
+      (_) => _persistReelsDuration(),
     );
+  }
+
+  // Stop counting and add the current foreground interval.
+  void _pauseReelsTimer() {
+    final startedAt = _reelsSessionStartedAt;
+
+    if (startedAt != null) {
+      _reelsWatchedDuration += DateTime.now().difference(startedAt);
+      _reelsSessionStartedAt = null;
+    }
+
+    _reelsCheckpointTimer?.cancel();
+    _reelsCheckpointTimer = null;
+
+    _persistReelsDuration();
+  }
+
+  // Save the accumulated foreground viewing duration.
+  Future<void> _persistReelsDuration() {
+    Duration totalDuration = _reelsWatchedDuration;
+
+    final startedAt = _reelsSessionStartedAt;
+
+    if (startedAt != null) {
+      totalDuration += DateTime.now().difference(startedAt);
+    }
+
+    final int watchedMs = totalDuration.inMilliseconds;
+
+    // Queue writes to prevent older saves overwriting newer values.
+    _saveQueue = _saveQueue.then((_) async {
+      final prefs = await SharedPreferences.getInstance();
+
+      await prefs.setInt(
+        _reelsWatchedMsKey,
+        watchedMs,
+      );
+    }).catchError((Object error) {
+      debugPrint('REELS TIMER SAVE ERROR: $error');
+    });
+
+    return _saveQueue;
   }
 
   @override
@@ -126,21 +177,17 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused ||
         state == AppLifecycleState.detached) {
-      _wasBackgrounded = true;
-      _saveReelsResumeState();
+      _appInForeground = false;
+
+      _pauseReelsTimer();
+      return;
     }
 
-    if (state == AppLifecycleState.resumed && _wasBackgrounded) {
-      _wasBackgrounded = false;
+    if (state == AppLifecycleState.resumed) {
+      _appInForeground = true;
 
-      // The user returned to the same running app.
-      // Do not keep an old resume flag for the next launch.
-      SharedPreferences.getInstance().then((prefs) {
-        prefs.setBool(_resumeReelsKey, false);
-      });
-
-      if (controller.index == 1) {
-        _reelsOpenedAt = DateTime.now();
+      if (_isReady && controller.index == 1) {
+        _startReelsTimer();
       }
     }
   }
@@ -286,6 +333,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
 
   @override
   void dispose() {
+    _pauseReelsTimer();
+
     WidgetsBinding.instance.removeObserver(this);
     controller.removeListener(_onTabChanged);
 
