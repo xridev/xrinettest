@@ -8,6 +8,6 @@ class SignOutAuthUseCase implements UseCase<void, String> {
 
   @override
   Future<void> call({required String params}) {
-    return _firebaseAuthRepository.signOut(userId: params);
+    return _firebaseAuthRepository.signOut(params);
   }
 }

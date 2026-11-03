@@ -8,6 +8,7 @@ import 'package:xrinet/core/utility/injector.dart';
 import 'package:xrinet/domain/entities/registered_user.dart';
 import 'package:xrinet/presentation/cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
 import 'package:xrinet/presentation/pages/register/widgets/get_my_user_info.dart';
+import 'package:xrinet/presentation/pages/register/email_verification_page.dart';
 import 'package:xrinet/presentation/pages/register/widgets/register_widgets.dart';
 import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_elevated_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,12 +75,34 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> onAuthConfirmed(CubitAuthConfirmed state) async {
-    String userId = state.user.uid;
     isUserIdReady.value = true;
+
+    final bool isVerified =
+        await FirebaseAuthCubit.get(context).isEmailVerified();
+
+    if (!mounted) return;
+
+    final String userId = state.user.uid;
+
+    if (!isVerified) {
+      Get.offAll(
+        EmailVerificationPage(
+          email: state.user.email ?? '',
+        ),
+      );
+      return;
+    }
+
     myPersonalId = userId;
+
     if (myPersonalId.isNotEmpty) {
       await sharePrefs.setString("myPersonalId", myPersonalId);
-      Get.offAll(GetMyPersonalInfo(myPersonalId: myPersonalId));
+
+      if (!mounted) return;
+
+      Get.offAll(
+        GetMyPersonalInfo(myPersonalId: myPersonalId),
+      );
     } else {
       ToastShow.toast(StringsManager.somethingWrong.tr);
     }

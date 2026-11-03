@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseAuthentication {
+class FirebaseAuthAuthentication {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   User? get user => _firebaseAuth.currentUser;
@@ -43,6 +43,20 @@ class FirebaseAuthentication {
     }
 
     return user;
+  }
+
+  // SEND EMAIL VERIFICATION
+  static Future<void> sendEmailVerification() async {
+    final User? currentUser = _firebaseAuth.currentUser;
+
+    if (currentUser == null) {
+      throw FirebaseAuthException(
+        code: 'no-current-user',
+        message: 'No signed-in user found.',
+      );
+    }
+
+    await currentUser.sendEmailVerification();
   }
 
   // CHECK EMAIL VERIFICATION

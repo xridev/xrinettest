@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:xrinet/domain/entities/registered_user.dart';
+import 'package:xrinet/core/use_case/use_case.dart';
+import 'package:xrinet/domain/use_cases/auth/email_verification_usecase.dart';
+import 'package:xrinet/domain/use_cases/auth/send_email_verification_usecase.dart';
 import 'package:xrinet/domain/use_cases/auth/log_in_auth_usecase.dart';
 import '../../../domain/use_cases/auth/sign_out_auth_usecase.dart';
 import '../../../domain/use_cases/auth/sign_up_auth_usecase.dart';
@@ -13,6 +16,8 @@ class FirebaseAuthCubit extends Cubit<FirebaseAuthCubitState> {
   final SignUpAuthUseCase signUpAuthUseCase;
   final LogInAuthUseCase logInAuthUseCase;
   final SignOutAuthUseCase signOutAuthUseCase;
+  final EmailVerificationUseCase emailVerificationUseCase;
+  final SendEmailVerificationUseCase sendEmailVerificationUseCase;
 
   User? user;
 
@@ -20,6 +25,8 @@ class FirebaseAuthCubit extends Cubit<FirebaseAuthCubitState> {
     this.signUpAuthUseCase,
     this.logInAuthUseCase,
     this.signOutAuthUseCase,
+    this.emailVerificationUseCase,
+    this.sendEmailVerificationUseCase,
   ) : super(CubitInitial());
 
   static FirebaseAuthCubit get(BuildContext context) =>
@@ -81,6 +88,16 @@ class FirebaseAuthCubit extends Cubit<FirebaseAuthCubitState> {
 
       emit(CubitAuthFailed(e.toString()));
     }
+  }
+
+  // CHECK EMAIL VERIFICATION
+  Future<bool> isEmailVerified() {
+    return emailVerificationUseCase(params: const NoParams());
+  }
+
+  // SEND EMAIL VERIFICATION
+  Future<void> sendEmailVerification() {
+    return sendEmailVerificationUseCase(params: const NoParams());
   }
 
   // SIGN OUT

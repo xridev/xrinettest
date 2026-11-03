@@ -21,6 +21,8 @@ import 'package:xrinet/domain/repositories/post/post_repository.dart';
 import 'package:xrinet/domain/repositories/story_repository.dart';
 import 'package:xrinet/domain/repositories/user_repository.dart';
 
+import 'package:xrinet/domain/use_cases/auth/email_verification_usecase.dart';
+import 'package:xrinet/domain/use_cases/auth/send_email_verification_usecase.dart';
 import 'package:xrinet/domain/use_cases/auth/log_in_auth_usecase.dart';
 import 'package:xrinet/domain/use_cases/auth/sign_out_auth_usecase.dart';
 import 'package:xrinet/domain/use_cases/auth/sign_up_auth_usecase.dart';
@@ -171,7 +173,13 @@ Future<void> initializeDependencies() async {
     () => SignOutAuthUseCase(injector()),
   );
 
-  // EmailVerificationUseCase removed.
+  injector.registerLazySingleton<EmailVerificationUseCase>(
+    () => EmailVerificationUseCase(injector()),
+);
+
+    injector.registerLazySingleton<SendEmailVerificationUseCase>(
+      () => SendEmailVerificationUseCase(injector()),
+    );
   // Email existence will be checked by Firebase during signup.
 
   // ============================================================
@@ -424,6 +432,8 @@ Future<void> initializeDependencies() async {
       injector<SignUpAuthUseCase>(),
       injector<LogInAuthUseCase>(),
       injector<SignOutAuthUseCase>(),
+      injector<EmailVerificationUseCase>(),
+      injector<SendEmailVerificationUseCase>(),
     ),
   );
 
