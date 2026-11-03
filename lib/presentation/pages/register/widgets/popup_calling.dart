@@ -1,4 +1,4 @@
-Import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xrinet/config/routes/app_routes.dart';
 import 'package:xrinet/core/utility/constant.dart';
