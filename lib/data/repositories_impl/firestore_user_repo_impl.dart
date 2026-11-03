@@ -1,8 +1,6 @@
-
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:xrinet/core/utility/constant.dart';
 import 'package:xrinet/data/data_sources/remote/chat/group_chat.dart';
 import 'package:xrinet/data/data_sources/remote/firebase_storage.dart';
@@ -17,25 +15,21 @@ import '../../domain/repositories/user_repository.dart';
 import '../data_sources/remote/user/firestore_user_info.dart';
 
 class FirebaseUserRepoImpl implements FirestoreUserRepository {
+  // Add new user
   @override
   Future<void> addNewUser(UserPersonalInfo newUserInfo) async {
-    // Step 1: Create the user's Firestore profile.
-    // If this fails, the error will be passed to the Cubit.
+    // First create the Firestore user profile.
     await FireStoreUser.createUser(newUserInfo);
 
-    // Step 2: Create the notification device token.
-    // Token failure should not fail the signup process.
-    try {
-      await FireStoreNotification.createNewDeviceToken(
-        userId: newUserInfo.userId,
-        myPersonalInfo: newUserInfo,
-      );
-    } catch (e, stackTrace) {
-      debugPrint('DEVICE TOKEN CREATION ERROR: $e');
-      debugPrintStack(stackTrace: stackTrace);
-    }
+    // Then try to create the device token.
+    // Device token failure will not stop signup.
+    await FireStoreNotification.createNewDeviceToken(
+      userId: newUserInfo.userId,
+      myPersonalInfo: newUserInfo,
+    );
   }
 
+  // Get personal information
   @override
   Future<UserPersonalInfo> getPersonalInfo({
     required String userId,
@@ -61,18 +55,23 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
+  // Update user information
   @override
   Future<UserPersonalInfo> updateUserInfo({
     required UserPersonalInfo userInfo,
   }) async {
     try {
       await FireStoreUser.updateUserInfo(userInfo);
-      return await getPersonalInfo(userId: userInfo.userId);
+
+      return await getPersonalInfo(
+        userId: userInfo.userId,
+      );
     } catch (e) {
       return Future.error(e.toString());
     }
   }
 
+  // Update user posts information
   @override
   Future<UserPersonalInfo> updateUserPostsInfo({
     required String userId,
@@ -84,12 +83,15 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
         postInfo: postInfo,
       );
 
-      return await getPersonalInfo(userId: userId);
+      return await getPersonalInfo(
+        userId: userId,
+      );
     } catch (e) {
       return Future.error(e.toString());
     }
   }
 
+  // Upload profile image
   @override
   Future<String> uploadProfileImage({
     required Uint8List photo,
@@ -117,6 +119,7 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
+  // Get followers and followings information
   @override
   Future<FollowersAndFollowingsInfo> getFollowersAndFollowingsInfo({
     required List<dynamic> followersIds,
@@ -146,6 +149,7 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
+  // Follow user
   @override
   Future<void> followThisUser(
     String followingUserId,
@@ -161,6 +165,7 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
+  // Unfollow user
   @override
   Future<void> unFollowThisUser(
     String followingUserId,
@@ -180,6 +185,7 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
   /// If one of these users does not exist,
   /// it will be deleted from the list in Firestore.
 
+  // Get specific users information
   @override
   Future<List<UserPersonalInfo>> getSpecificUsersInfo({
     required List<dynamic> usersIds,
@@ -193,12 +199,13 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
+  // Get all users who are not followed
   @override
   Future<List<UserPersonalInfo>> getAllUnFollowersUsers(
     UserPersonalInfo myPersonalInfo,
-  ) {
+  ) async {
     try {
-      return FireStoreUser.getAllUnFollowersUsers(
+      return await FireStoreUser.getAllUnFollowersUsers(
         myPersonalInfo,
       );
     } catch (e) {
@@ -206,14 +213,17 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
+  // Get my personal information in real time
   @override
   Stream<UserPersonalInfo> getMyPersonalInfo() =>
       FireStoreUser.getMyPersonalInfoInReelTime();
 
+  // Get all users
   @override
   Stream<List<UserPersonalInfo>> getAllUsers() =>
       FireStoreUser.getAllUsers();
 
+  // Get user by username
   @override
   Future<UserPersonalInfo?> getUserFromUserName({
     required String userName,
@@ -227,6 +237,7 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
+  // Search users
   @override
   Stream<List<UserPersonalInfo>> searchAboutUser({
     required String name,
@@ -237,6 +248,7 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
         searchForSingleLetter: searchForSingleLetter,
       );
 
+  // Send message
   @override
   Future<Message> sendMessage({
     required Message messageInfo,
@@ -285,6 +297,7 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
+  // Get messages
   @override
   Stream<List<Message>> getMessages({
     required String receiverId,
@@ -293,6 +306,7 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
         receiverId: receiverId,
       );
 
+  // Delete message
   @override
   Future<void> deleteMessage({
     required Message messageInfo,
@@ -327,6 +341,7 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
+  // Get specific chat information
   @override
   Future<SenderInfo> getSpecificChatInfo({
     required String chatUid,
@@ -363,6 +378,7 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
+  // Get chat users information
   @override
   Future<List<SenderInfo>> getChatUserInfo({
     required UserPersonalInfo myPersonalInfo,
