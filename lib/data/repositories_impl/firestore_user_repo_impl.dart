@@ -1,5 +1,8 @@
+
 import 'dart:io';
 import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 import 'package:xrinet/core/utility/constant.dart';
 import 'package:xrinet/data/data_sources/remote/chat/group_chat.dart';
 import 'package:xrinet/data/data_sources/remote/firebase_storage.dart';
@@ -16,14 +19,20 @@ import '../data_sources/remote/user/firestore_user_info.dart';
 class FirebaseUserRepoImpl implements FirestoreUserRepository {
   @override
   Future<void> addNewUser(UserPersonalInfo newUserInfo) async {
+    // Step 1: Create the user's Firestore profile.
+    // If this fails, the error will be passed to the Cubit.
+    await FireStoreUser.createUser(newUserInfo);
+
+    // Step 2: Create the notification device token.
+    // Token failure should not fail the signup process.
     try {
-      await FireStoreUser.createUser(newUserInfo);
       await FireStoreNotification.createNewDeviceToken(
         userId: newUserInfo.userId,
         myPersonalInfo: newUserInfo,
       );
-    } catch (e) {
-      return Future.error(e.toString());
+    } catch (e, stackTrace) {
+      debugPrint('DEVICE TOKEN CREATION ERROR: $e');
+      debugPrintStack(stackTrace: stackTrace);
     }
   }
 
@@ -33,15 +42,19 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     bool getDeviceToken = false,
   }) async {
     try {
-      UserPersonalInfo myPersonalInfo = await FireStoreUser.getUserInfo(userId);
+      UserPersonalInfo myPersonalInfo =
+          await FireStoreUser.getUserInfo(userId);
+
       if (isThatMobile && getDeviceToken) {
         UserPersonalInfo updateInfo =
             await FireStoreNotification.createNewDeviceToken(
-              userId: userId,
-              myPersonalInfo: myPersonalInfo,
-            );
+          userId: userId,
+          myPersonalInfo: myPersonalInfo,
+        );
+
         myPersonalInfo = updateInfo;
       }
+
       return myPersonalInfo;
     } catch (e) {
       return Future.error(e.toString());
@@ -66,7 +79,11 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     required Post postInfo,
   }) async {
     try {
-      await FireStoreUser.updateUserPosts(userId: userId, postInfo: postInfo);
+      await FireStoreUser.updateUserPosts(
+        userId: userId,
+        postInfo: postInfo,
+      );
+
       return await getPersonalInfo(userId: userId);
     } catch (e) {
       return Future.error(e.toString());
@@ -84,11 +101,16 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
         data: photo,
         folderName: 'personalImage',
       );
+
       await FireStoreUser.updateProfileImage(
         imageUrl: imageUrl,
         userId: userId,
       );
-      await FirebaseStoragePost.deleteImageFromStorage(previousImageUrl);
+
+      await FirebaseStoragePost.deleteImageFromStorage(
+        previousImageUrl,
+      );
+
       return imageUrl;
     } catch (e) {
       return Future.error(e.toString());
@@ -103,16 +125,18 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     try {
       List<UserPersonalInfo> followersInfo =
           await FireStoreUser.getSpecificUsersInfo(
-            usersIds: followersIds,
-            fieldName: "followers",
-            userUid: myPersonalId,
-          );
+        usersIds: followersIds,
+        fieldName: "followers",
+        userUid: myPersonalId,
+      );
+
       List<UserPersonalInfo> followingsInfo =
           await FireStoreUser.getSpecificUsersInfo(
-            usersIds: followingsIds,
-            fieldName: "following",
-            userUid: myPersonalId,
-          );
+        usersIds: followingsIds,
+        fieldName: "following",
+        userUid: myPersonalId,
+      );
+
       return FollowersAndFollowingsInfo(
         followersInfo: followersInfo,
         followingsInfo: followingsInfo,
@@ -128,7 +152,10 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     String myPersonalId,
   ) async {
     try {
-      return await FireStoreUser.followThisUser(followingUserId, myPersonalId);
+      return await FireStoreUser.followThisUser(
+        followingUserId,
+        myPersonalId,
+      );
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -149,14 +176,18 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     }
   }
 
-  /// [fieldName] , [userUid] in case one of this users not exist, it will be deleted from the list in fireStore
+  /// [fieldName], [userUid]:
+  /// If one of these users does not exist,
+  /// it will be deleted from the list in Firestore.
 
   @override
   Future<List<UserPersonalInfo>> getSpecificUsersInfo({
     required List<dynamic> usersIds,
   }) async {
     try {
-      return await FireStoreUser.getSpecificUsersInfo(usersIds: usersIds);
+      return await FireStoreUser.getSpecificUsersInfo(
+        usersIds: usersIds,
+      );
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -167,7 +198,9 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     UserPersonalInfo myPersonalInfo,
   ) {
     try {
-      return FireStoreUser.getAllUnFollowersUsers(myPersonalInfo);
+      return FireStoreUser.getAllUnFollowersUsers(
+        myPersonalInfo,
+      );
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -178,14 +211,17 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
       FireStoreUser.getMyPersonalInfoInReelTime();
 
   @override
-  Stream<List<UserPersonalInfo>> getAllUsers() => FireStoreUser.getAllUsers();
+  Stream<List<UserPersonalInfo>> getAllUsers() =>
+      FireStoreUser.getAllUsers();
 
   @override
   Future<UserPersonalInfo?> getUserFromUserName({
     required String userName,
   }) async {
     try {
-      return await FireStoreUser.getUserFromUserName(userName: userName);
+      return await FireStoreUser.getUserFromUserName(
+        userName: userName,
+      );
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -195,10 +231,11 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
   Stream<List<UserPersonalInfo>> searchAboutUser({
     required String name,
     required bool searchForSingleLetter,
-  }) => FireStoreUser.searchAboutUser(
-    name: name,
-    searchForSingleLetter: searchForSingleLetter,
-  );
+  }) =>
+      FireStoreUser.searchAboutUser(
+        name: name,
+        searchForSingleLetter: searchForSingleLetter,
+      );
 
   @override
   Future<Message> sendMessage({
@@ -212,15 +249,19 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
           data: pathOfPhoto,
           folderName: "messagesFiles",
         );
+
         messageInfo.imageUrl = imageUrl;
       }
+
       if (recordFile != null) {
         String recordedUrl = await FirebaseStoragePost.uploadFile(
           folderName: "messagesFiles",
           postFile: recordFile,
         );
+
         messageInfo.recordedUrl = recordedUrl;
       }
+
       Message myMessageInfo = await FireStoreSingleChat.sendMessage(
         userId: messageInfo.senderId,
         chatId: messageInfo.receiversIds[0],
@@ -245,8 +286,12 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
   }
 
   @override
-  Stream<List<Message>> getMessages({required String receiverId}) =>
-      FireStoreSingleChat.getMessages(receiverId: receiverId);
+  Stream<List<Message>> getMessages({
+    required String receiverId,
+  }) =>
+      FireStoreSingleChat.getMessages(
+        receiverId: receiverId,
+      );
 
   @override
   Future<void> deleteMessage({
@@ -257,14 +302,17 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     try {
       String senderId = messageInfo.senderId;
       String receiverId = messageInfo.receiversIds[0];
+
       for (int i = 0; i < 2; i++) {
         String userId = i == 0 ? senderId : receiverId;
         String chatId = i == 0 ? receiverId : senderId;
+
         await FireStoreSingleChat.deleteMessage(
           userId: userId,
           chatId: chatId,
           messageId: messageInfo.messageUid,
         );
+
         if (replacedMessage != null || isThatOnlyMessageInChat) {
           await FireStoreSingleChat.updateLastMessage(
             userId: userId,
@@ -286,18 +334,28 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
   }) async {
     try {
       if (isThatGroup) {
-        SenderInfo coverChatInfo = await FireStoreGroupChat.getChatInfo(
+        SenderInfo coverChatInfo =
+            await FireStoreGroupChat.getChatInfo(
           chatId: chatUid,
         );
+
         SenderInfo messageDetails =
-            await FireStoreUser.extractUsersForGroupChatInfo(coverChatInfo);
+            await FireStoreUser.extractUsersForGroupChatInfo(
+          coverChatInfo,
+        );
+
         return messageDetails;
       } else {
-        SenderInfo coverChatInfo = await FireStoreUser.getChatOfUser(
+        SenderInfo coverChatInfo =
+            await FireStoreUser.getChatOfUser(
           chatUid: chatUid,
         );
+
         SenderInfo messageDetails =
-            await FireStoreUser.extractUsersForSingleChatInfo(coverChatInfo);
+            await FireStoreUser.extractUsersForSingleChatInfo(
+          coverChatInfo,
+        );
+
         return messageDetails;
       }
     } catch (e) {
@@ -312,15 +370,22 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
     try {
       List<SenderInfo> allChatsOfGroupsInfo =
           await FireStoreGroupChat.getSpecificChatsInfo(
-            chatsIds: myPersonalInfo.chatsOfGroups,
-          );
-      List<SenderInfo> allChatsInfo = await FireStoreUser.getMessagesOfChat(
+        chatsIds: myPersonalInfo.chatsOfGroups,
+      );
+
+      List<SenderInfo> allChatsInfo =
+          await FireStoreUser.getMessagesOfChat(
         userId: myPersonalInfo.userId,
       );
-      List<SenderInfo> allChats = allChatsInfo + allChatsOfGroupsInfo;
-      List<SenderInfo> allUsersInfo = await FireStoreUser.extractUsersChatInfo(
+
+      List<SenderInfo> allChats =
+          allChatsInfo + allChatsOfGroupsInfo;
+
+      List<SenderInfo> allUsersInfo =
+          await FireStoreUser.extractUsersChatInfo(
         messagesDetails: allChats,
       );
+
       return allUsersInfo;
     } catch (e) {
       return Future.error(e.toString());
