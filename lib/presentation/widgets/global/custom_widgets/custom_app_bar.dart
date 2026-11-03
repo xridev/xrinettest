@@ -16,7 +16,6 @@ import 'package:xrinet/presentation/pages/activity/activity_for_mobile.dart';
 import 'package:xrinet/presentation/pages/messages/messages_page_for_mobile.dart';
 import 'package:xrinet/presentation/pages/messages/wait_call_page.dart';
 import 'package:xrinet/presentation/widgets/global/circle_avatar_image/circle_avatar_of_profile_image.dart';
-import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_gallery_display.dart';
 
 class CustomAppBar {
   static AppBar basicAppBar(BuildContext context) {
@@ -26,7 +25,6 @@ class CustomAppBar {
       iconTheme: IconThemeData(color: Theme.of(context).focusColor),
       title: const XrinetLogo(),
       actions: [
-        _addList(context),
         _favoriteButton(context),
         _messengerButton(context),
         const SizedBox(width: 5),
@@ -46,7 +44,9 @@ class CustomAppBar {
                 SvgPicture.asset(
                   IconsAssets.messengerIcon,
                   colorFilter: ColorFilter.mode(
-                      Theme.of(context).focusColor, BlendMode.srcIn),
+                    Theme.of(context).focusColor,
+                    BlendMode.srcIn,
+                  ),
                   height: 22.5,
                 ),
                 if (state is MyPersonalInfoLoaded &&
@@ -56,10 +56,11 @@ class CustomAppBar {
             ),
             onTap: () {
               Go(context).push(
-                  page: BlocProvider<UsersInfoCubit>(
-                create: (context) => injector<UsersInfoCubit>(),
-                child: const MessagesPageForMobile(),
-              ));
+                page: BlocProvider<UsersInfoCubit>(
+                  create: (context) => injector<UsersInfoCubit>(),
+                  child: const MessagesPageForMobile(),
+                ),
+              );
             },
           ),
         );
@@ -74,8 +75,10 @@ class CustomAppBar {
       child: Container(
         width: 10,
         height: 10,
-        decoration:
-            const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+        decoration: const BoxDecoration(
+          color: Colors.red,
+          shape: BoxShape.circle,
+        ),
       ),
     );
   }
@@ -92,7 +95,9 @@ class CustomAppBar {
                 SvgPicture.asset(
                   IconsAssets.favorite,
                   colorFilter: ColorFilter.mode(
-                      Theme.of(context).focusColor, BlendMode.srcIn),
+                    Theme.of(context).focusColor,
+                    BlendMode.srcIn,
+                  ),
                   height: 30,
                 ),
                 if (state is MyPersonalInfoLoaded &&
@@ -101,7 +106,10 @@ class CustomAppBar {
               ],
             ),
             onTap: () {
-              Go(context).push(page: const ActivityPage(), withoutRoot: false);
+              Go(context).push(
+                page: const ActivityPage(),
+                withoutRoot: false,
+              );
             },
           ),
         );
@@ -109,29 +117,13 @@ class CustomAppBar {
     );
   }
 
-  static GestureDetector _addList(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _pushToCustomGallery(context),
-      child: Padding(
-        padding: const EdgeInsetsDirectional.only(end: 13.0),
-        child: SvgPicture.asset(
-          IconsAssets.add2Icon,
-          colorFilter:
-              ColorFilter.mode(Theme.of(context).focusColor, BlendMode.srcIn),
-          height: 22.5,
-        ),
-      ),
-    );
-  }
-
-  static Future<void> _pushToCustomGallery(BuildContext context) async {
-    await CustomImagePickerPlus.pickFromBoth(context);
-  }
-
   static AppBar chattingAppBar(
-      List<UserPersonalInfo> usersInfo, BuildContext context) {
+    List<UserPersonalInfo> usersInfo,
+    BuildContext context,
+  ) {
     int length = usersInfo.length;
     length = length >= 3 ? 3 : length;
+
     return AppBar(
       iconTheme: IconThemeData(color: Theme.of(context).focusColor),
       backgroundColor: Theme.of(context).primaryColor,
@@ -141,12 +133,13 @@ class CustomAppBar {
         child: Row(
           children: [
             if (length > 1) ...[
-              _imagesOfGroupUsers(usersInfo)
+              _imagesOfGroupUsers(usersInfo),
             ] else ...[
               CircleAvatarOfProfileImage(
-                  userInfo: usersInfo[0],
-                  bodyHeight: 340,
-                  showColorfulCircle: false),
+                userInfo: usersInfo[0],
+                bodyHeight: 340,
+                showColorfulCircle: false,
+              ),
             ],
             const SizedBox(width: 15),
             Row(
@@ -156,9 +149,10 @@ class CustomAppBar {
                   return Text(
                     "${usersInfo[index].name}${length > 1 ? ", ..." : ""}",
                     style: TextStyle(
-                        color: Theme.of(context).focusColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal),
+                      color: Theme.of(context).focusColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                    ),
                   );
                 }),
               ],
@@ -171,8 +165,10 @@ class CustomAppBar {
           child: SvgPicture.asset(
             IconsAssets.phone,
             height: 27,
-            colorFilter:
-                ColorFilter.mode(Theme.of(context).focusColor, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).focusColor,
+              BlendMode.srcIn,
+            ),
           ),
         ),
         const SizedBox(width: 20),
@@ -180,19 +176,27 @@ class CustomAppBar {
           onTap: () async {
             UserPersonalInfo myPersonalInfo =
                 UserInfoCubit.getMyPersonalInfo(context);
+
             amICalling = true;
+
             await Go(context).push(
-                page: VideoCallPage(
-                    usersInfo: usersInfo, myPersonalInfo: myPersonalInfo),
-                withoutRoot: false,
-                withoutPageTransition: true);
+              page: VideoCallPage(
+                usersInfo: usersInfo,
+                myPersonalInfo: myPersonalInfo,
+              ),
+              withoutRoot: false,
+              withoutPageTransition: true,
+            );
+
             amICalling = false;
           },
           child: SvgPicture.asset(
             IconsAssets.videoPoint,
             height: 25,
-            colorFilter:
-                ColorFilter.mode(Theme.of(context).focusColor, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).focusColor,
+              BlendMode.srcIn,
+            ),
           ),
         ),
         const SizedBox(width: 15),
@@ -227,8 +231,11 @@ class CustomAppBar {
     );
   }
 
-  static AppBar oneTitleAppBar(BuildContext context, String text,
-      {bool logoOfXrinet = false}) {
+  static AppBar oneTitleAppBar(
+    BuildContext context,
+    String text, {
+    bool logoOfXrinet = false,
+  }) {
     return AppBar(
       backgroundColor: Theme.of(context).primaryColor,
       centerTitle: false,
@@ -238,31 +245,43 @@ class CustomAppBar {
           : Text(
               text,
               style: getMediumStyle(
-                  color: Theme.of(context).focusColor, fontSize: 20),
+                color: Theme.of(context).focusColor,
+                fontSize: 20,
+              ),
             ),
     );
   }
 
   static AppBar menuOfUserAppBar(
-      BuildContext context, String text, AsyncCallback bottomSheet) {
+    BuildContext context,
+    String text,
+    AsyncCallback bottomSheet,
+  ) {
     return AppBar(
-        elevation: 0,
-        iconTheme: IconThemeData(color: Theme.of(context).focusColor),
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text(text,
-            style: getMediumStyle(
-                color: Theme.of(context).focusColor, fontSize: 20)),
-        actions: [
-          IconButton(
-            icon: SvgPicture.asset(
-              IconsAssets.menuHorizontalIcon,
-              colorFilter: ColorFilter.mode(
-                  Theme.of(context).focusColor, BlendMode.srcIn),
-              height: 22.5,
+      elevation: 0,
+      iconTheme: IconThemeData(color: Theme.of(context).focusColor),
+      backgroundColor: Theme.of(context).primaryColor,
+      title: Text(
+        text,
+        style: getMediumStyle(
+          color: Theme.of(context).focusColor,
+          fontSize: 20,
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: SvgPicture.asset(
+            IconsAssets.menuHorizontalIcon,
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).focusColor,
+              BlendMode.srcIn,
             ),
-            onPressed: () => bottomSheet,
+            height: 22.5,
           ),
-          const SizedBox(width: 5)
-        ]);
+          onPressed: () => bottomSheet(),
+        ),
+        const SizedBox(width: 5),
+      ],
+    );
   }
 }
