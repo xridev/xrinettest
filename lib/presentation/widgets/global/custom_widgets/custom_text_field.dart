@@ -1,11 +1,9 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+
 import 'package:xrinet/core/resources/color_manager.dart';
 import 'package:xrinet/core/resources/styles_manager.dart';
 import 'package:xrinet/core/utility/constant.dart';
-import 'package:xrinet/presentation/cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -13,6 +11,7 @@ class CustomTextField extends StatefulWidget {
   final bool? isThatEmail;
   final ValueNotifier<bool>? validate;
   final bool isThatLogin;
+
   const CustomTextField({
     required this.controller,
     required this.hint,
@@ -28,42 +27,59 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   String? errorMassage;
-  Timer? _emailDebounce;
 
   @override
   void initState() {
-    widget.controller.addListener(() {
-      if (widget.controller.text.isNotEmpty) {
-        errorMassage = widget.isThatEmail != null
-            ? (widget.isThatEmail == true
-                  ? _validateEmail()
-                  : _validatePassword())
-            : null;
-      } else {
-        errorMassage = null;
-      }
-      if (widget.isThatEmail == true && !widget.isThatLogin) {
-        _checkEmailExisting();
-      }
-    });
-
     super.initState();
+
+    widget.controller.addListener(_onTextChanged);
+
+    // Initial validation
+    _updateValidation();
   }
 
-  /// the listener fires on every character, one query per keystroke is too much
-  void _checkEmailExisting() {
-    _emailDebounce?.cancel();
-    _emailDebounce = Timer(const Duration(milliseconds: 500), () {
-      if (!mounted) return;
-      FirebaseAuthCubit.get(
-        context,
-      ).isThisEmailToken(email: widget.controller.text);
+  void _onTextChanged() {
+    if (!mounted) return;
+
+    setState(() {
+      _updateValidation();
     });
+  }
+
+  void _updateValidation() {
+    final String value = widget.controller.text.trim();
+
+    if (value.isEmpty) {
+      errorMassage = null;
+      widget.validate?.value = false;
+      return;
+    }
+
+    if (widget.isThatEmail == true) {
+      final bool isValidEmail = value.isEmail;
+
+      errorMassage = isValidEmail
+          ? null
+          : 'Please make sure your email address is valid';
+
+      widget.validate?.value = isValidEmail;
+    } else if (widget.isThatEmail == false) {
+      final bool isValidPassword =
+          widget.controller.text.length >= 6;
+
+      errorMassage = isValidPassword
+          ? null
+          : 'Password must be at least 6 characters';
+
+      widget.validate?.value = isValidPassword;
+    } else {
+      errorMassage = null;
+    }
   }
 
   @override
   void dispose() {
-    _emailDebounce?.cancel();
+    widget.controller.removeListener(_onTextChanged);
     super.dispose();
   }
 
@@ -74,80 +90,48 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: SizedBox(
         height: isThatMobile ? null : 37,
         width: double.infinity,
-        child: BlocConsumer<FirebaseAuthCubit, FirebaseAuthCubitState>(
-          listenWhen: (previous, current) =>
-              previous != current && current is CubitEmailVerificationLoaded,
-          listener: (context, state) {
-            if (!widget.isThatLogin) {
-              if (state is CubitEmailVerificationLoaded &&
-                  state.isThisEmailToken &&
-                  widget.isThatEmail == true) {
-                errorMassage = "This email already exists.";
-                widget.validate?.value = false;
-              } else if (widget.isThatEmail == true) {
-                errorMassage = null;
-                widget.validate?.value = true;
-              }
-            }
-          },
-          buildWhen: (previous, current) =>
-              previous != current && current is CubitEmailVerificationLoaded,
-          builder: (context, state) {
-            return TextFormField(
-              controller: widget.controller,
-              cursorColor: ColorManager.teal,
-              style: getNormalStyle(
-                color: Theme.of(context).focusColor,
-                fontSize: 15,
-              ),
-              decoration: InputDecoration(
-                hintText: widget.hint,
-                hintStyle: isThatMobile
-                    ? getNormalStyle(
-                        color: Theme.of(context).tabBarTheme.indicatorColor!,
-                      )
-                    : getNormalStyle(color: ColorManager.black54, fontSize: 12),
-                fillColor: const Color.fromARGB(48, 232, 232, 232),
-                filled: true,
-                focusedBorder: outlineInputBorder(),
-                enabledBorder: outlineInputBorder(),
-                errorStyle: getNormalStyle(color: ColorManager.red),
-                errorText: isThatMobile ? errorMassage : null,
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: isThatMobile ? 15 : 5,
-                ),
-              ),
-            );
-          },
+        child: TextFormField(
+          controller: widget.controller,
+          cursorColor: ColorManager.teal,
+          style: getNormalStyle(
+            color: Theme.of(context).focusColor,
+            fontSize: 15,
+          ),
+          decoration: InputDecoration(
+            hintText: widget.hint,
+            hintStyle: isThatMobile
+                ? getNormalStyle(
+                    color: Theme.of(context)
+                        .tabBarTheme
+                        .indicatorColor!,
+                  )
+                : getNormalStyle(
+                    color: ColorManager.black54,
+                    fontSize: 12,
+                  ),
+            fillColor: const Color.fromARGB(48, 232, 232, 232),
+            filled: true,
+            focusedBorder: outlineInputBorder(),
+            enabledBorder: outlineInputBorder(),
+            errorStyle: getNormalStyle(
+              color: ColorManager.red,
+            ),
+            errorText: isThatMobile ? errorMassage : null,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: isThatMobile ? 15 : 5,
+            ),
+          ),
         ),
       ),
     );
   }
 
-  String? _validateEmail() {
-    if (!widget.controller.text.isEmail) {
-      setState(() => widget.validate!.value = false);
-      return 'Please make sure your email address is valid';
-    } else {
-      setState(() => widget.validate!.value = true);
-      return null;
-    }
-  }
-
-  String? _validatePassword() {
-    if (widget.controller.text.length < 6) {
-      setState(() => widget.validate!.value = false);
-      return 'Password must be at least 6 characters';
-    } else {
-      setState(() => widget.validate!.value = true);
-      return null;
-    }
-  }
-
   OutlineInputBorder outlineInputBorder() {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(isThatMobile ? 5.0 : 1.0),
+      borderRadius: BorderRadius.circular(
+        isThatMobile ? 5.0 : 1.0,
+      ),
       borderSide: BorderSide(
         color: ColorManager.lightGrey,
         width: isThatMobile ? 1.0 : 0.8,
