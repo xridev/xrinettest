@@ -566,3 +566,4 @@ class _MyOwnStoryChild extends StatelessWidget {
       ],
     );
   }
+}
