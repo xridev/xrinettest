@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthentication {
@@ -6,6 +5,7 @@ class FirebaseAuthentication {
 
   User? get user => _firebaseAuth.currentUser;
 
+  // SIGN UP
   static Future<User> signUp({
     required String email,
     required String password,
@@ -16,7 +16,7 @@ class FirebaseAuthentication {
       password: password,
     );
 
-    final user = result.user;
+    final User? user = result.user;
 
     if (user == null) {
       throw Exception('User creation failed.');
@@ -25,6 +25,7 @@ class FirebaseAuthentication {
     return user;
   }
 
+  // LOG IN
   static Future<User> logIn({
     required String email,
     required String password,
@@ -35,7 +36,7 @@ class FirebaseAuthentication {
       password: password,
     );
 
-    final user = result.user;
+    final User? user = result.user;
 
     if (user == null) {
       throw Exception('Login failed.');
@@ -44,26 +45,7 @@ class FirebaseAuthentication {
     return user;
   }
 
-  static Future<bool> isThisEmailToken({
-    required String email,
-  }) async {
-    final normalizedEmail = email.trim();
-
-    if (normalizedEmail.isEmpty) {
-      return false;
-    }
-
-    try {
-      final methods = await _firebaseAuth.fetchSignInMethodsForEmail(
-        normalizedEmail,
-      );
-
-      return methods.isNotEmpty;
-    } on FirebaseAuthException {
-      rethrow;
-    }
-  }
-
+  // SIGN OUT
   static Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
