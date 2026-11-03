@@ -7,4 +7,6 @@ abstract class FirebaseAuthRepository {
   Future<User> logIn(RegisteredUser userInfo);
 
   Future<void> signOut({required String userId});
+
+  Future<bool> isEmailVerified();
 }
