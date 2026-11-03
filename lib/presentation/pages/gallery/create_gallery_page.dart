@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:xrinet/presentation/pages/profile/create_post_page.dart';
-import 'package:xrinet/presentation/pages/profile/create_story_page.dart';
+import 'package:xrinet/presentation/pages/story/create_story.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_manager/photo_manager.dart';
