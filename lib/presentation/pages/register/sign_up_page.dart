@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -41,9 +40,11 @@ class _SignUpPageState extends State<SignUpPage> {
     emailController.dispose();
     passwordController.dispose();
     fullNameController.dispose();
+
     validateEmail.dispose();
     validatePassword.dispose();
     rememberPassword.dispose();
+
     super.dispose();
   }
 
@@ -130,6 +131,39 @@ class _UserNamePageState extends State<UserNamePage> {
   void dispose() {
     userNameController.dispose();
     super.dispose();
+  }
+
+  // FIREBASE AUTH ERROR MESSAGES
+  String getAuthErrorMessage(String error) {
+    switch (error) {
+      case 'email-already-in-use':
+        return 'This email is already registered.';
+
+      case 'invalid-email':
+        return 'Please enter a valid email address.';
+
+      case 'weak-password':
+        return 'Password is too weak. Please use a stronger password.';
+
+      case 'user-not-found':
+        return 'No account found with this email.';
+
+      case 'wrong-password':
+      case 'invalid-credential':
+        return 'Incorrect email or password.';
+
+      case 'too-many-requests':
+        return 'Too many attempts. Please try again later.';
+
+      case 'network-request-failed':
+        return 'Network connection failed. Please check your internet.';
+
+      case 'operation-not-allowed':
+        return 'Email and password sign-in is not enabled.';
+
+      default:
+        return 'Something went wrong. Please try again.';
+    }
   }
 
   @override
@@ -363,7 +397,10 @@ class _UserNamePageState extends State<UserNamePage> {
               }
             } else if (state is CubitAuthFailed && !isToastShowed) {
               isToastShowed = true;
-              ToastShow.toastStateError(state);
+
+              ToastShow.toast(
+                getAuthErrorMessage(state.error),
+              );
             }
           },
           builder: (context, authState) {
@@ -375,16 +412,13 @@ class _UserNamePageState extends State<UserNamePage> {
               onPressed: () async {
                 if (!validateEdits || isCreatingUser) return;
 
-                setState(() {
-                  isToastShowed = false;
-                });
+                isToastShowed = false;
 
                 final authCubit = FirebaseAuthCubit.get(context);
 
                 await authCubit.signUp(
                   RegisteredUser(
                     email: widget.emailController.text.trim(),
-                    // Password trim করা হচ্ছে না।
                     password: widget.passwordController.text,
                   ),
                 );
@@ -412,7 +446,7 @@ class _UserNamePageState extends State<UserNamePage> {
     final newUserInfo = UserPersonalInfo(
       name: fullName,
       charactersOfName: charactersOfName,
-      email: authState.user.email!,
+      email: authState.user.email ?? widget.emailController.text.trim(),
       userName: userNameController.text.trim(),
       bio: "",
       profileImageUrl: "",
@@ -425,7 +459,7 @@ class _UserNamePageState extends State<UserNamePage> {
       lastThreePostUrls: const [],
     );
 
-    // Firestore save শেষ না হওয়া পর্যন্ত অপেক্ষা করবে।
+    // Wait until Firestore profile is saved.
     return await userCubit.addNewUser(newUserInfo);
   }
 
