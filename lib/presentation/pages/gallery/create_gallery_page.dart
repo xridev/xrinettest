@@ -20,6 +20,7 @@ class CreateGalleryPage extends StatefulWidget {
 
 class _CreateGalleryPageState extends State<CreateGalleryPage> {
   static const String _modePreferenceKey = 'lastCreateMode';
+  static const int _maxSelection = 10;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -33,6 +34,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
   bool _loading = true;
   bool _hasPermission = false;
   bool _multiple = false;
+  bool _processing = false;
 
   int _selectedMode = 0;
 
@@ -46,6 +48,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
   @override
   void initState() {
     super.initState();
+
     _loadSavedMode();
     _loadGallery();
   }
@@ -80,9 +83,14 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
 
   // Load gallery assets.
   Future<void> _loadGallery() async {
+    if (mounted) {
+      setState(() {
+        _loading = true;
+      });
+    }
+
     try {
-      final permission =
-          await PhotoManager.requestPermissionExtend();
+      final permission = await PhotoManager.requestPermissionExtend();
 
       if (!mounted) return;
 
@@ -99,10 +107,15 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
         type: RequestType.common,
       );
 
-      if (paths.isEmpty) {
-        if (!mounted) return;
+      if (!mounted) return;
 
+      if (paths.isEmpty) {
         setState(() {
+          _assets.clear();
+          _selectedAssets.clear();
+          _cameraFiles.clear();
+          _previewAsset = null;
+          _previewCameraFile = null;
           _hasPermission = true;
           _loading = false;
         });
@@ -117,14 +130,22 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
       if (!mounted) return;
 
       setState(() {
-        _assets.addAll(assets);
-        _hasPermission = true;
-        _loading = false;
+        _assets
+          ..clear()
+          ..addAll(assets);
+
+        _selectedAssets.clear();
+        _cameraFiles.clear();
+
+        _previewAsset = assets.isNotEmpty ? assets.first : null;
+        _previewCameraFile = null;
 
         if (assets.isNotEmpty) {
-          _previewAsset = assets.first;
           _selectedAssets.add(assets.first);
         }
+
+        _hasPermission = true;
+        _loading = false;
       });
     } catch (e) {
       if (!mounted) return;
@@ -158,17 +179,18 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
 
       if (!mounted) return;
 
-      if (!_multiple) {
-        _selectedAssets.clear();
-        _cameraFiles.clear();
-      }
-
-      if (_selectedAssets.length + _cameraFiles.length >= 10) {
-        _showMessage('Maximum 10 items allowed');
+      if (_multiple &&
+          _selectedAssets.length + _cameraFiles.length >= _maxSelection) {
+        _showMessage('Maximum $_maxSelection items allowed');
         return;
       }
 
       setState(() {
+        if (!_multiple) {
+          _selectedAssets.clear();
+          _cameraFiles.clear();
+        }
+
         _cameraFiles.add(selected);
         _previewCameraFile = selected;
         _previewAsset = null;
@@ -181,21 +203,26 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
 
   // Select an asset from gallery.
   void _selectAsset(AssetEntity asset) {
+    final index = _selectedAssets.indexWhere(
+      (item) => item.id == asset.id,
+    );
+
+    if (_multiple &&
+        index == -1 &&
+        _selectedAssets.length + _cameraFiles.length >= _maxSelection) {
+      _showMessage('Maximum $_maxSelection items allowed');
+      return;
+    }
+
     setState(() {
       _previewAsset = asset;
       _previewCameraFile = null;
 
-      final index = _selectedAssets.indexWhere(
-        (item) => item.id == asset.id,
-      );
-
       if (_multiple) {
         if (index != -1) {
           _selectedAssets.removeAt(index);
-        } else if (_selectedAssets.length + _cameraFiles.length < 10) {
-          _selectedAssets.add(asset);
         } else {
-          _showMessage('Maximum 10 items allowed');
+          _selectedAssets.add(asset);
         }
       } else {
         _selectedAssets
@@ -257,6 +284,8 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
 
   // Continue to selected creation mode.
   Future<void> _continue() async {
+    if (_processing) return;
+
     if (_selectedAssets.isEmpty && _cameraFiles.isEmpty) {
       _showMessage('Please select media first');
       return;
@@ -267,8 +296,11 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
       return;
     }
 
-    // Capture Navigator before async operations.
     final navigator = Navigator.of(context);
+
+    setState(() {
+      _processing = true;
+    });
 
     try {
       final files = await _getSelectedFiles();
@@ -291,11 +323,6 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
         if (asset.height > 0) {
           aspectRatio = asset.width / asset.height;
         }
-      } else if (_cameraFiles.isNotEmpty) {
-        final file = _cameraFiles.first.selectedFile;
-
-        if (!await file.exists()) return;
-        if (!mounted) return;
       }
 
       final details = SelectedImagesDetails(
@@ -327,6 +354,12 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
       if (!mounted) return;
 
       _showMessage('Could not open creation page: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _processing = false;
+        });
+      }
     }
   }
 
@@ -358,10 +391,10 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
         ),
         actions: [
           TextButton(
-            onPressed: _continue,
-            child: const Text(
-              'Next',
-              style: TextStyle(
+            onPressed: _processing ? null : _continue,
+            child: Text(
+              _processing ? 'Please wait...' : 'Next',
+              style: const TextStyle(
                 color: ColorManager.blue,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -425,9 +458,15 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
         const ThumbnailSize(1000, 1000),
       ),
       builder: (context, snapshot) {
-        if (snapshot.data == null) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(),
+          );
+        }
+
+        if (snapshot.data == null) {
+          return const Center(
+            child: Icon(Icons.broken_image_outlined),
           );
         }
 
@@ -537,10 +576,6 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
 
                 if (!mounted) return;
 
-                setState(() {
-                  _loading = true;
-                });
-
                 _loadGallery();
               },
               child: const Text('Open Settings'),
@@ -648,12 +683,16 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
         const ThumbnailSize(200, 200),
       ),
       builder: (context, snapshot) {
-        if (snapshot.data == null) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
             color: Theme.of(context).focusColor.withValues(
               alpha: 0.08,
             ),
           );
+        }
+
+        if (snapshot.data == null) {
+          return const Icon(Icons.broken_image_outlined);
         }
 
         return Image.memory(
