@@ -16,7 +16,7 @@ class FirebaseAuthentication {
       password: password,
     );
 
-    final User? user = result.user;
+    final user = result.user;
 
     if (user == null) {
       throw Exception('User creation failed.');
@@ -36,7 +36,7 @@ class FirebaseAuthentication {
       password: password,
     );
 
-    final User? user = result.user;
+    final user = result.user;
 
     if (user == null) {
       throw Exception('Login failed.');
