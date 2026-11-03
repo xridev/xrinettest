@@ -82,10 +82,10 @@ class _SignUpPageState extends State<SignUpPage> {
               isThatSignIn: true,
               nameOfButton: StringsManager.next.tr,
               blueColor: validate,
-              onPressed: () {
+              onPressed: () async {
                 if (!validate) return;
 
-                Get.to(
+                await Get.to(
                   UserNamePage(
                     emailController: emailController,
                     passwordController: passwordController,
@@ -133,7 +133,6 @@ class _UserNamePageState extends State<UserNamePage> {
     super.dispose();
   }
 
-  // FIREBASE AUTH ERROR MESSAGES
   String getAuthErrorMessage(String error) {
     switch (error) {
       case 'email-already-in-use':
@@ -459,7 +458,6 @@ class _UserNamePageState extends State<UserNamePage> {
       lastThreePostUrls: const [],
     );
 
-    // Wait until Firestore profile is saved.
     return await userCubit.addNewUser(newUserInfo);
   }
 
