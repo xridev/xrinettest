@@ -39,6 +39,14 @@ class FirebaseAuthCubit extends Cubit<FirebaseAuthCubitState> {
       emit(CubitAuthConfirmed(newUser));
 
       return newUser;
+    } on FirebaseAuthException catch (e, stackTrace) {
+      debugPrint('SIGNUP ERROR CODE: ${e.code}');
+      debugPrint('SIGNUP ERROR MESSAGE: ${e.message}');
+      debugPrintStack(stackTrace: stackTrace);
+
+      emit(CubitAuthFailed(e.code));
+
+      return null;
     } catch (e, stackTrace) {
       debugPrint('SIGNUP ERROR: $e');
       debugPrintStack(stackTrace: stackTrace);
@@ -61,6 +69,12 @@ class FirebaseAuthCubit extends Cubit<FirebaseAuthCubitState> {
       user = loggedInUser;
 
       emit(CubitAuthConfirmed(loggedInUser));
+    } on FirebaseAuthException catch (e, stackTrace) {
+      debugPrint('LOGIN ERROR CODE: ${e.code}');
+      debugPrint('LOGIN ERROR MESSAGE: ${e.message}');
+      debugPrintStack(stackTrace: stackTrace);
+
+      emit(CubitAuthFailed(e.code));
     } catch (e, stackTrace) {
       debugPrint('LOGIN ERROR: $e');
       debugPrintStack(stackTrace: stackTrace);
