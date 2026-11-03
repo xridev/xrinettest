@@ -15,14 +15,16 @@ class FireStoreAddNewUserCubit extends Cubit<FirestoreAddNewUserState> {
   static FireStoreAddNewUserCubit get(BuildContext context) =>
       BlocProvider.of(context);
 
-  Future<void> addNewUser(UserPersonalInfo newUserInfo) async {
+  Future<bool> addNewUser(UserPersonalInfo newUserInfo) async {
     emit(CubitUserAdding());
 
     try {
       await _addNewUserUseCase.call(params: newUserInfo);
       emit(CubitUserAdded());
+      return true;
     } catch (e) {
       emit(CubitAddNewUserFailed(e.toString()));
+      return false;
     }
   }
 }
