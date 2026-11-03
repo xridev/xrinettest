@@ -1,4 +1,3 @@
-
 part of 'firebase_auth_cubit.dart';
 
 abstract class FirebaseAuthCubitState {}
