@@ -1,15 +1,12 @@
 
-import 'dart:async';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:xrinet/core/resources/assets_manager.dart';
 import 'package:xrinet/core/resources/color_manager.dart';
 import 'package:xrinet/core/resources/strings_manager.dart';
 import 'package:xrinet/core/resources/styles_manager.dart';
 import 'package:xrinet/core/utility/constant.dart';
-import 'package:xrinet/presentation/cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
 import 'package:xrinet/presentation/pages/register/sign_up_page.dart';
 import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_text_field.dart';
 
@@ -317,73 +314,35 @@ class _EmailTextFields extends StatefulWidget {
 class _EmailTextFieldsState extends State<_EmailTextFields> {
   String? errorMassage;
 
-  Timer? _emailDebounce;
-
-  // Latest email whose Firebase result is allowed to update the UI.
-  String _lastCheckedEmail = '';
-
   @override
   void initState() {
     super.initState();
     widget.controller.addListener(_onEmailChanged);
+    _onEmailChanged();
   }
 
   void _onEmailChanged() {
     final email = widget.controller.text.trim();
-
-    _emailDebounce?.cancel();
-
-    // Invalidate previous Firebase response immediately.
-    _lastCheckedEmail = '';
-
-    if (email.isEmpty) {
-      setState(() {
-        errorMassage = null;
-        widget.validate?.value = false;
-      });
-      return;
-    }
-
     final isValidEmail = email.isEmail;
 
-    setState(() {
-      errorMassage = isValidEmail
-          ? null
-          : 'Please make sure your email address is valid';
+    if (!mounted) return;
 
-      widget.validate?.value = isValidEmail;
+    setState(() {
+      if (email.isEmpty) {
+        errorMassage = null;
+      } else {
+        errorMassage = isValidEmail
+            ? null
+            : 'Please make sure your email address is valid';
+      }
     });
 
-    // Firebase verification only for valid signup emails.
-    if (!widget.isThatLogin && isValidEmail) {
-      _checkEmailExisting();
-    }
-  }
-
-  void _checkEmailExisting() {
-    _emailDebounce?.cancel();
-
-    _emailDebounce = Timer(
-      const Duration(milliseconds: 500),
-      () {
-        if (!mounted) return;
-
-        final email = widget.controller.text.trim();
-
-        if (email.isNotEmpty && email.isEmail) {
-          _lastCheckedEmail = email;
-
-          FirebaseAuthCubit.get(context)
-              .isThisEmailToken(email: email);
-        }
-      },
-    );
+    widget.validate?.value = isValidEmail;
   }
 
   @override
   void dispose() {
     widget.controller.removeListener(_onEmailChanged);
-    _emailDebounce?.cancel();
     super.dispose();
   }
 
@@ -394,108 +353,45 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
       child: SizedBox(
         height: isThatMobile ? null : 37,
         width: double.infinity,
-        child: BlocConsumer<
-            FirebaseAuthCubit,
-            FirebaseAuthCubitState>(
-          listenWhen: (previous, current) =>
-              current is CubitEmailVerificationLoaded ||
-              current is CubitEmailVerificationFailed,
-
-          listener: (context, state) {
-            if (widget.isThatLogin) return;
-
-            final currentEmail =
-                widget.controller.text.trim();
-
-            if (currentEmail.isEmpty ||
-                !currentEmail.isEmail) {
-              return;
-            }
-
-            if (state is CubitEmailVerificationLoaded) {
-              // Ignore response belonging to another email.
-              if (state.email != currentEmail ||
-                  state.email != _lastCheckedEmail) {
-                return;
-              }
-
-              setState(() {
-                if (state.isThisEmailToken) {
-                  errorMassage =
-                      'This email already exists.';
-                  widget.validate?.value = false;
-                } else {
-                  errorMassage = null;
-                  widget.validate?.value = true;
-                }
-              });
-            }
-
-            if (state is CubitEmailVerificationFailed) {
-              if (state.email != currentEmail ||
-                  state.email != _lastCheckedEmail) {
-                return;
-              }
-
-              setState(() {
-                errorMassage =
-                    'Could not verify email. Please try again.';
-                widget.validate?.value = false;
-              });
-            }
-          },
-
-          builder: (context, state) {
-            return TextFormField(
-              controller: widget.controller,
-              cursorColor: ColorManager.teal,
-
-              style: getNormalStyle(
-                color: Theme.of(context).focusColor,
-                fontSize: 15,
-              ),
-
-              decoration: InputDecoration(
-                hintText: widget.hint,
-
-                hintStyle: isThatMobile
-                    ? getNormalStyle(
-                        color: Theme.of(context)
-                            .tabBarTheme
-                            .indicatorColor!,
-                      )
-                    : getNormalStyle(
-                        color: ColorManager.black54,
-                        fontSize: 12,
-                      ),
-
-                fillColor: const Color.fromARGB(
-                  48,
-                  232,
-                  232,
-                  232,
-                ),
-
-                filled: true,
-
-                focusedBorder: outlineInputBorder(),
-                enabledBorder: outlineInputBorder(),
-
-                errorStyle: getNormalStyle(
-                  color: ColorManager.red,
-                ),
-
-                errorText: isThatMobile
-                    ? errorMassage
-                    : null,
-
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: isThatMobile ? 15 : 5,
-                ),
-              ),
-            );
-          },
+        child: TextFormField(
+          controller: widget.controller,
+          cursorColor: ColorManager.teal,
+          style: getNormalStyle(
+            color: Theme.of(context).focusColor,
+            fontSize: 15,
+          ),
+          decoration: InputDecoration(
+            hintText: widget.hint,
+            hintStyle: isThatMobile
+                ? getNormalStyle(
+                    color: Theme.of(context)
+                        .tabBarTheme
+                        .indicatorColor!,
+                  )
+                : getNormalStyle(
+                    color: ColorManager.black54,
+                    fontSize: 12,
+                  ),
+            fillColor: const Color.fromARGB(
+              48,
+              232,
+              232,
+              232,
+            ),
+            filled: true,
+            focusedBorder: outlineInputBorder(),
+            enabledBorder: outlineInputBorder(),
+            errorStyle: getNormalStyle(
+              color: ColorManager.red,
+            ),
+            errorText: isThatMobile
+                ? errorMassage
+                : null,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: isThatMobile ? 15 : 5,
+            ),
+          ),
         ),
       ),
     );
