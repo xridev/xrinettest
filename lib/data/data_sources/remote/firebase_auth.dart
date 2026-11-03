@@ -45,6 +45,15 @@ class FirebaseAuthentication {
     return user;
   }
 
+  // CHECK EMAIL VERIFICATION
+  static Future<bool> isEmailVerified() async {
+    await _firebaseAuth.currentUser?.reload();
+
+    final User? currentUser = _firebaseAuth.currentUser;
+
+    return currentUser?.emailVerified ?? false;
+  }
+
   // SIGN OUT
   static Future<void> signOut() async {
     await _firebaseAuth.signOut();
