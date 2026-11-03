@@ -22,6 +22,7 @@ class FirebaseAuthRepositoryImpl implements FirebaseAuthRepository {
   Future<void> signOut({required String userId}) async {
     try {
       await FirebaseAuthentication.signOut();
+
       await FireStoreNotification.deleteDeviceToken(
         userId: userId,
       );
@@ -37,6 +38,15 @@ class FirebaseAuthRepositoryImpl implements FirebaseAuthRepository {
         email: newUserInfo.email,
         password: newUserInfo.password,
       );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool> isEmailVerified() async {
+    try {
+      return await FirebaseAuthentication.isEmailVerified();
     } catch (e) {
       rethrow;
     }
