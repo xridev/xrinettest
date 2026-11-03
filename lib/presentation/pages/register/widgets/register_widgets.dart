@@ -1,3 +1,4 @@
+
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -46,11 +47,13 @@ class _SignUpPageState extends State<RegisterWidgets> {
 
   Scaffold buildScaffold(BuildContext context) {
     double height = MediaQuery.of(context).size.height - 70;
+
     return Scaffold(
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            keyboardDismissBehavior:
+                ScrollViewKeyboardDismissBehavior.onDrag,
             child: isThatMobile
                 ? buildColumn(context, height: height)
                 : buildForWeb(context),
@@ -71,7 +74,10 @@ class _SignUpPageState extends State<RegisterWidgets> {
             height: 400,
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(color: Colors.grey, width: 0.2),
+              border: Border.all(
+                color: Colors.grey,
+                width: 0.2,
+              ),
             ),
             child: buildColumn(context),
           ),
@@ -81,7 +87,10 @@ class _SignUpPageState extends State<RegisterWidgets> {
             height: 65,
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(color: Colors.grey, width: 0.2),
+              border: Border.all(
+                color: Colors.grey,
+                width: 0.2,
+              ),
             ),
             child: haveAccountRow(context),
           ),
@@ -99,6 +108,7 @@ class _SignUpPageState extends State<RegisterWidgets> {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (!widget.isThatLogIn) const Spacer(),
+
           SvgPicture.asset(
             IconsAssets.xrinetLogo,
             colorFilter: ColorFilter.mode(
@@ -107,15 +117,20 @@ class _SignUpPageState extends State<RegisterWidgets> {
             ),
             height: 50,
           ),
+
           const SizedBox(height: 30),
+
           _EmailTextFields(
             hint: StringsManager.email.tr,
             controller: widget.emailController,
             validate: widget.validateEmail,
             isThatLogin: widget.isThatLogIn,
           ),
+
           SizedBox(height: isThatMobile ? 15 : 6.5),
-          if (!widget.isThatLogIn && widget.fullNameController != null) ...[
+
+          if (!widget.isThatLogIn &&
+              widget.fullNameController != null) ...[
             CustomTextField(
               hint: StringsManager.fullName.tr,
               controller: widget.fullNameController!,
@@ -123,6 +138,7 @@ class _SignUpPageState extends State<RegisterWidgets> {
             ),
             SizedBox(height: isThatMobile ? 15 : 6.5),
           ],
+
           CustomTextField(
             hint: StringsManager.password.tr,
             controller: widget.passwordController,
@@ -130,8 +146,10 @@ class _SignUpPageState extends State<RegisterWidgets> {
             validate: widget.validatePassword,
             isThatLogin: widget.isThatLogIn,
           ),
+
           if (!widget.isThatLogIn) ...[
             if (!isThatMobile) const SizedBox(height: 10),
+
             Flexible(
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -141,27 +159,40 @@ class _SignUpPageState extends State<RegisterWidgets> {
                 child: Row(
                   children: [
                     const SizedBox(width: 13),
+
                     ValueListenableBuilder(
                       valueListenable: widget.rememberPassword!,
-                      builder: (context, bool rememberPasswordValue, child) =>
+                      builder: (
+                        context,
+                        bool rememberPasswordValue,
+                        child,
+                      ) =>
                           Checkbox(
-                            value: rememberPasswordValue,
-                            activeColor: isThatMobile
-                                ? ColorManager.white
-                                : ColorManager.blue,
-                            fillColor: isThatMobile
-                                ? WidgetStateProperty.resolveWith((Set states) {
-                                    if (states.contains(WidgetState.disabled)) {
-                                      return Colors.blue.withValues(alpha: .32);
-                                    }
-                                    return Colors.blue;
-                                  })
-                                : null,
-                            onChanged: (value) =>
-                                widget.rememberPassword!.value =
-                                    !rememberPasswordValue,
-                          ),
+                        value: rememberPasswordValue,
+                        activeColor: isThatMobile
+                            ? ColorManager.white
+                            : ColorManager.blue,
+                        fillColor: isThatMobile
+                            ? WidgetStateProperty.resolveWith(
+                                (Set states) {
+                                  if (states.contains(
+                                    WidgetState.disabled,
+                                  )) {
+                                    return Colors.blue.withValues(
+                                      alpha: .32,
+                                    );
+                                  }
+                                  return Colors.blue;
+                                },
+                              )
+                            : null,
+                        onChanged: (value) {
+                          widget.rememberPassword!.value =
+                              !rememberPasswordValue;
+                        },
+                      ),
                     ),
+
                     Text(
                       StringsManager.rememberPassword.tr,
                       style: getNormalStyle(
@@ -172,15 +203,28 @@ class _SignUpPageState extends State<RegisterWidgets> {
                 ),
               ),
             ),
+
             if (!isThatMobile) const SizedBox(height: 10),
           ],
+
           widget.customTextButton,
+
           const SizedBox(height: 15),
-          if (!widget.isThatLogIn) ...[const Spacer(), const Spacer()],
+
+          if (!widget.isThatLogIn) ...[
+            const Spacer(),
+            const Spacer(),
+          ],
+
           if (isThatMobile) ...[
             const SizedBox(height: 8),
+
             if (!widget.isThatLogIn) ...[
-              const Divider(color: ColorManager.lightGrey, height: 1),
+              const Divider(
+                color: ColorManager.lightGrey,
+                height: 1,
+              ),
+
               Padding(
                 padding: const EdgeInsets.only(
                   top: 15.0,
@@ -212,7 +256,9 @@ class _SignUpPageState extends State<RegisterWidgets> {
             color: Theme.of(context).focusColor,
           ),
         ),
+
         const SizedBox(width: 4),
+
         register(context),
       ],
     );
@@ -237,17 +283,27 @@ class _SignUpPageState extends State<RegisterWidgets> {
 
   Text registerText() {
     return Text(
-      widget.isThatLogIn ? StringsManager.signUp.tr : StringsManager.logIn.tr,
-      style: getBoldStyle(fontSize: 13, color: ColorManager.blue),
+      widget.isThatLogIn
+          ? StringsManager.signUp.tr
+          : StringsManager.logIn.tr,
+      style: getBoldStyle(
+        fontSize: 13,
+        color: ColorManager.blue,
+      ),
     );
   }
 }
+
+// --------------------------------------------------
+// EMAIL TEXT FIELD
+// --------------------------------------------------
 
 class _EmailTextFields extends StatefulWidget {
   final TextEditingController controller;
   final String hint;
   final ValueNotifier<bool>? validate;
   final bool isThatLogin;
+
   const _EmailTextFields({
     required this.controller,
     required this.hint,
@@ -256,41 +312,78 @@ class _EmailTextFields extends StatefulWidget {
   });
 
   @override
-  State<_EmailTextFields> createState() => _EmailTextFieldsState();
+  State<_EmailTextFields> createState() =>
+      _EmailTextFieldsState();
 }
 
 class _EmailTextFieldsState extends State<_EmailTextFields> {
   String? errorMassage;
+
   Timer? _emailDebounce;
 
   @override
   void initState() {
-    widget.controller.addListener(() {
-      if (widget.controller.text.isNotEmpty) {
-        errorMassage = _validateEmail();
-      } else {
-        errorMassage = null;
-      }
-      if (!widget.isThatLogin) _checkEmailExisting();
-    });
-
     super.initState();
+
+    widget.controller.addListener(_onEmailChanged);
   }
 
-  /// the listener fires on every character, one query per keystroke is too much
+  // EMAIL VALIDATION
+  void _onEmailChanged() {
+    final email = widget.controller.text.trim();
+
+    _emailDebounce?.cancel();
+
+    if (email.isEmpty) {
+      setState(() {
+        errorMassage = null;
+        widget.validate?.value = false;
+      });
+
+      return;
+    }
+
+    final isValidEmail = email.isEmail;
+
+    setState(() {
+      errorMassage = isValidEmail
+          ? null
+          : 'Please make sure your email address is valid';
+
+      widget.validate?.value = isValidEmail;
+    });
+
+    // Firebase check only for valid signup emails.
+    if (!widget.isThatLogin && isValidEmail) {
+      _checkEmailExisting();
+    }
+  }
+
+  // CHECK EXISTING EMAIL
   void _checkEmailExisting() {
     _emailDebounce?.cancel();
-    _emailDebounce = Timer(const Duration(milliseconds: 500), () {
-      if (!mounted) return;
-      FirebaseAuthCubit.get(
-        context,
-      ).isThisEmailToken(email: widget.controller.text);
-    });
+
+    _emailDebounce = Timer(
+      const Duration(milliseconds: 500),
+      () {
+        if (!mounted) return;
+
+        final email = widget.controller.text.trim();
+
+        if (email.isNotEmpty && email.isEmail) {
+          FirebaseAuthCubit.get(context)
+              .isThisEmailToken(email: email);
+        }
+      },
+    );
   }
 
   @override
   void dispose() {
+    widget.controller.removeListener(_onEmailChanged);
+
     _emailDebounce?.cancel();
+
     super.dispose();
   }
 
@@ -301,44 +394,86 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
       child: SizedBox(
         height: isThatMobile ? null : 37,
         width: double.infinity,
-        child: BlocConsumer<FirebaseAuthCubit, FirebaseAuthCubitState>(
+        child: BlocConsumer<
+            FirebaseAuthCubit,
+            FirebaseAuthCubitState>(
           listenWhen: (previous, current) =>
-              previous != current && current is CubitEmailVerificationLoaded,
+              previous != current &&
+              current is CubitEmailVerificationLoaded,
+
           listener: (context, state) {
-            if (!widget.isThatLogin) {
-              if (state is CubitEmailVerificationLoaded &&
-                  state.isThisEmailToken) {
-                errorMassage = "This email already exists.";
-                widget.validate?.value = false;
-              } else {
-                errorMassage = null;
-                widget.validate?.value = true;
-              }
+            if (widget.isThatLogin) return;
+
+            final email = widget.controller.text.trim();
+
+            // Ignore invalid or empty email responses.
+            if (email.isEmpty || !email.isEmail) return;
+
+            if (state is CubitEmailVerificationLoaded) {
+              setState(() {
+                if (state.isThisEmailToken) {
+                  errorMassage =
+                      'This email already exists.';
+
+                  widget.validate?.value = false;
+                } else {
+                  errorMassage = null;
+
+                  widget.validate?.value = true;
+                }
+              });
             }
           },
+
           buildWhen: (previous, current) =>
-              previous != current && current is CubitEmailVerificationLoaded,
+              previous != current &&
+              current is CubitEmailVerificationLoaded,
+
           builder: (context, state) {
             return TextFormField(
               controller: widget.controller,
               cursorColor: ColorManager.teal,
+
               style: getNormalStyle(
                 color: Theme.of(context).focusColor,
                 fontSize: 15,
               ),
+
               decoration: InputDecoration(
                 hintText: widget.hint,
+
                 hintStyle: isThatMobile
                     ? getNormalStyle(
-                        color: Theme.of(context).tabBarTheme.indicatorColor!,
+                        color: Theme.of(context)
+                            .tabBarTheme
+                            .indicatorColor!,
                       )
-                    : getNormalStyle(color: ColorManager.black54, fontSize: 12),
-                fillColor: const Color.fromARGB(48, 232, 232, 232),
+                    : getNormalStyle(
+                        color: ColorManager.black54,
+                        fontSize: 12,
+                      ),
+
+                fillColor: const Color.fromARGB(
+                  48,
+                  232,
+                  232,
+                  232,
+                ),
+
                 filled: true,
+
                 focusedBorder: outlineInputBorder(),
+
                 enabledBorder: outlineInputBorder(),
-                errorStyle: getNormalStyle(color: ColorManager.red),
-                errorText: isThatMobile ? errorMassage : null,
+
+                errorStyle: getNormalStyle(
+                  color: ColorManager.red,
+                ),
+
+                errorText: isThatMobile
+                    ? errorMassage
+                    : null,
+
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 10,
                   vertical: isThatMobile ? 15 : 5,
@@ -351,19 +486,11 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
     );
   }
 
-  String? _validateEmail() {
-    if (!widget.controller.text.isEmail) {
-      setState(() => widget.validate!.value = false);
-      return 'Please make sure your email address is valid';
-    } else {
-      setState(() => widget.validate!.value = true);
-      return null;
-    }
-  }
-
   OutlineInputBorder outlineInputBorder() {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(isThatMobile ? 5.0 : 1.0),
+      borderRadius: BorderRadius.circular(
+        isThatMobile ? 5.0 : 1.0,
+      ),
       borderSide: BorderSide(
         color: ColorManager.lightGrey,
         width: isThatMobile ? 1.0 : 0.8,
