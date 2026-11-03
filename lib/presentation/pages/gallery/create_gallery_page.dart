@@ -50,6 +50,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     _loadGallery();
   }
 
+  // Load previously selected creation mode.
   Future<void> _loadSavedMode() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -67,6 +68,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     }
   }
 
+  // Save selected creation mode.
   Future<void> _saveSelectedMode(int index) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -76,6 +78,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     }
   }
 
+  // Load gallery assets.
   Future<void> _loadGallery() async {
     try {
       final permission =
@@ -97,6 +100,8 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
       );
 
       if (paths.isEmpty) {
+        if (!mounted) return;
+
         setState(() {
           _hasPermission = true;
           _loading = false;
@@ -132,6 +137,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     }
   }
 
+  // Open device camera.
   Future<void> _openCamera() async {
     try {
       final XFile? picked = await _picker.pickImage(
@@ -168,10 +174,12 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
         _previewAsset = null;
       });
     } catch (e) {
+      if (!mounted) return;
       _showMessage('Camera error: $e');
     }
   }
 
+  // Select an asset from gallery.
   void _selectAsset(AssetEntity asset) {
     setState(() {
       _previewAsset = asset;
@@ -199,6 +207,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     });
   }
 
+  // Toggle multiple selection.
   void _toggleMultiple() {
     setState(() {
       _multiple = !_multiple;
@@ -208,22 +217,26 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
           _selectedAssets
             ..clear()
             ..add(_previewAsset!);
+
           _cameraFiles.clear();
         } else if (_previewCameraFile != null) {
           _cameraFiles
             ..clear()
             ..add(_previewCameraFile!);
+
           _selectedAssets.clear();
         }
       }
     });
   }
 
+  // Convert selected gallery assets into SelectedByte.
   Future<List<SelectedByte>> _getSelectedFiles() async {
     final List<SelectedByte> result = [];
 
     for (final asset in _selectedAssets) {
       final file = await asset.file;
+
       if (file == null) continue;
 
       final bytes = await file.readAsBytes();
@@ -242,6 +255,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     return result;
   }
 
+  // Continue to selected creation mode.
   Future<void> _continue() async {
     if (_selectedAssets.isEmpty && _cameraFiles.isEmpty) {
       _showMessage('Please select media first');
@@ -253,11 +267,15 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
       return;
     }
 
+    // Capture Navigator before async operations.
+    final navigator = Navigator.of(context);
+
     try {
       final files = await _getSelectedFiles();
 
       if (!mounted || files.isEmpty) return;
 
+      // Reels requires exactly one video.
       if (_selectedMode == 2) {
         if (files.length != 1 || files.first.isThatImage) {
           _showMessage('Select one video for Reels');
@@ -275,8 +293,9 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
         }
       } else if (_cameraFiles.isNotEmpty) {
         final file = _cameraFiles.first.selectedFile;
-        // Camera image aspect ratio remains at its default value.
+
         if (!await file.exists()) return;
+        if (!mounted) return;
       }
 
       final details = SelectedImagesDetails(
@@ -285,9 +304,10 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
         multiSelectionMode: files.length > 1,
       );
 
+      if (!mounted) return;
+
       if (_selectedMode == 0 || _selectedMode == 2) {
-        await Navigator.push(
-          context,
+        await navigator.push(
           MaterialPageRoute(
             builder: (_) => CreatePostPage(
               selectedFilesDetails: details,
@@ -295,8 +315,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
           ),
         );
       } else if (_selectedMode == 1) {
-        await Navigator.push(
-          context,
+        await navigator.push(
           MaterialPageRoute(
             builder: (_) => CreateStoryPage(
               storiesDetails: details,
@@ -305,15 +324,20 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
         );
       }
     } catch (e) {
+      if (!mounted) return;
+
       _showMessage('Could not open creation page: $e');
     }
   }
 
+  // Show message.
   void _showMessage(String message) {
     if (!mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+      SnackBar(
+        content: Text(message),
+      ),
     );
   }
 
@@ -369,6 +393,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     );
   }
 
+  // Selected media preview.
   Widget _buildPreview() {
     if (_previewCameraFile != null) {
       return SizedBox(
@@ -393,6 +418,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     );
   }
 
+  // Gallery asset preview.
   Widget _assetPreview(AssetEntity asset) {
     return FutureBuilder<Uint8List?>(
       future: asset.thumbnailDataWithSize(
@@ -426,6 +452,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     );
   }
 
+  // Gallery header.
   Widget _buildGalleryHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -484,6 +511,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     );
   }
 
+  // Gallery grid.
   Widget _buildGalleryGrid() {
     if (_loading) {
       return const Center(
@@ -504,7 +532,17 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: PhotoManager.openSetting,
+              onPressed: () async {
+                await PhotoManager.openSetting();
+
+                if (!mounted) return;
+
+                setState(() {
+                  _loading = true;
+                });
+
+                _loadGallery();
+              },
               child: const Text('Open Settings'),
             ),
           ],
@@ -603,6 +641,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     );
   }
 
+  // Gallery thumbnail.
   Widget _assetThumbnail(AssetEntity asset) {
     return FutureBuilder<Uint8List?>(
       future: asset.thumbnailDataWithSize(
@@ -625,6 +664,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
     );
   }
 
+  // Post, Story, Reels and Live selector.
   Widget _buildModeSelector() {
     return Container(
       padding: const EdgeInsets.only(
@@ -653,6 +693,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
                 setState(() {
                   _selectedMode = index;
                 });
+
                 _saveSelectedMode(index);
               },
               child: Padding(
