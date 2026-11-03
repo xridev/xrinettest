@@ -265,27 +265,16 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
 
   @override
   void initState() {
-    super.initState();
-    widget.controller.addListener(_onEmailChanged);
-  }
-
-  void _onEmailChanged() {
-    final text = widget.controller.text;
-    if (text.isNotEmpty) {
-      errorMassage = _validateEmail();
-    } else {
-      setState(() {
+    widget.controller.addListener(() {
+      if (widget.controller.text.isNotEmpty) {
+        errorMassage = _validateEmail();
+      } else {
         errorMassage = null;
-        widget.validate?.value = false;
-      });
-    }
+      }
+      if (!widget.isThatLogin) _checkEmailExisting();
+    });
 
-    // Sudhu Sign Up flow-e ebong email Format VALID (e.g. '@' & '.com') holei Backend check hobe
-    if (!widget.isThatLogin && text.isEmail) {
-      _checkEmailExisting();
-    } else if (!widget.isThatLogin && !text.isEmail) {
-      _emailDebounce?.cancel();
-    }
+    super.initState();
   }
 
   /// the listener fires on every character, one query per keystroke is too much
@@ -301,7 +290,6 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
 
   @override
   void dispose() {
-    widget.controller.removeListener(_onEmailChanged);
     _emailDebounce?.cancel();
     super.dispose();
   }
@@ -317,18 +305,14 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
           listenWhen: (previous, current) =>
               previous != current && current is CubitEmailVerificationLoaded,
           listener: (context, state) {
-            if (!widget.isThatLogin && widget.controller.text.isEmail) {
+            if (!widget.isThatLogin) {
               if (state is CubitEmailVerificationLoaded &&
                   state.isThisEmailToken) {
-                setState(() {
-                  errorMassage = "This email already exists.";
-                  widget.validate?.value = false;
-                });
+                errorMassage = "This email already exists.";
+                widget.validate?.value = false;
               } else {
-                setState(() {
-                  errorMassage = null;
-                  widget.validate?.value = true;
-                });
+                errorMassage = null;
+                widget.validate?.value = true;
               }
             }
           },
@@ -369,9 +353,10 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
 
   String? _validateEmail() {
     if (!widget.controller.text.isEmail) {
-      setState(() => widget.validate?.value = false);
+      setState(() => widget.validate!.value = false);
       return 'Please make sure your email address is valid';
     } else {
+      setState(() => widget.validate!.value = true);
       return null;
     }
   }
