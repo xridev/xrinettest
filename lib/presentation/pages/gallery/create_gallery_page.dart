@@ -1,13 +1,15 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:xrinet/presentation/pages/profile/create_post_page.dart';
-import 'package:xrinet/presentation/pages/story/create_story.dart';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:xrinet/core/resources/color_manager.dart';
 import 'package:xrinet/data/models/parent_classes/without_sub_classes/selected_byte.dart';
+import 'package:xrinet/presentation/pages/profile/create_post_page.dart';
+import 'package:xrinet/presentation/pages/story/create_story.dart';
 
 class CreateGalleryPage extends StatefulWidget {
   const CreateGalleryPage({super.key});
@@ -17,6 +19,8 @@ class CreateGalleryPage extends StatefulWidget {
 }
 
 class _CreateGalleryPageState extends State<CreateGalleryPage> {
+  static const String _modePreferenceKey = 'lastCreateMode';
+
   final ImagePicker _picker = ImagePicker();
 
   final List<AssetEntity> _assets = [];
@@ -42,7 +46,34 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
   @override
   void initState() {
     super.initState();
+    _loadSavedMode();
     _loadGallery();
+  }
+
+  Future<void> _loadSavedMode() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final savedMode = prefs.getInt(_modePreferenceKey) ?? 0;
+
+      if (!mounted) return;
+
+      setState(() {
+        _selectedMode = savedMode >= 0 && savedMode < _modes.length
+            ? savedMode
+            : 0;
+      });
+    } catch (e) {
+      debugPrint('MODE LOAD ERROR: $e');
+    }
+  }
+
+  Future<void> _saveSelectedMode(int index) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt(_modePreferenceKey, index);
+    } catch (e) {
+      debugPrint('MODE SAVE ERROR: $e');
+    }
   }
 
   Future<void> _loadGallery() async {
@@ -121,17 +152,17 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
 
       if (!mounted) return;
 
+      if (!_multiple) {
+        _selectedAssets.clear();
+        _cameraFiles.clear();
+      }
+
+      if (_selectedAssets.length + _cameraFiles.length >= 10) {
+        _showMessage('Maximum 10 items allowed');
+        return;
+      }
+
       setState(() {
-        if (!_multiple) {
-          _selectedAssets.clear();
-          _cameraFiles.clear();
-        }
-
-        if (_selectedAssets.length + _cameraFiles.length >= 10) {
-          _showMessage('Maximum 10 items allowed');
-          return;
-        }
-
         _cameraFiles.add(selected);
         _previewCameraFile = selected;
         _previewAsset = null;
@@ -238,9 +269,14 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
 
       if (_selectedAssets.isNotEmpty) {
         final asset = _selectedAssets.first;
+
         if (asset.height > 0) {
           aspectRatio = asset.width / asset.height;
         }
+      } else if (_cameraFiles.isNotEmpty) {
+        final file = _cameraFiles.first.selectedFile;
+        // Camera image aspect ratio remains at its default value.
+        if (!await file.exists()) return;
       }
 
       final details = SelectedImagesDetails(
@@ -617,6 +653,7 @@ class _CreateGalleryPageState extends State<CreateGalleryPage> {
                 setState(() {
                   _selectedMode = index;
                 });
+                _saveSelectedMode(index);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(
