@@ -256,9 +256,7 @@ class _SignUpPageState extends State<RegisterWidgets> {
             color: Theme.of(context).focusColor,
           ),
         ),
-
         const SizedBox(width: 4),
-
         register(context),
       ],
     );
@@ -321,25 +319,28 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
 
   Timer? _emailDebounce;
 
+  // Latest email whose Firebase result is allowed to update the UI.
+  String _lastCheckedEmail = '';
+
   @override
   void initState() {
     super.initState();
-
     widget.controller.addListener(_onEmailChanged);
   }
 
-  // EMAIL VALIDATION
   void _onEmailChanged() {
     final email = widget.controller.text.trim();
 
     _emailDebounce?.cancel();
+
+    // Invalidate previous Firebase response immediately.
+    _lastCheckedEmail = '';
 
     if (email.isEmpty) {
       setState(() {
         errorMassage = null;
         widget.validate?.value = false;
       });
-
       return;
     }
 
@@ -353,13 +354,12 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
       widget.validate?.value = isValidEmail;
     });
 
-    // Firebase check only for valid signup emails.
+    // Firebase verification only for valid signup emails.
     if (!widget.isThatLogin && isValidEmail) {
       _checkEmailExisting();
     }
   }
 
-  // CHECK EXISTING EMAIL
   void _checkEmailExisting() {
     _emailDebounce?.cancel();
 
@@ -371,6 +371,8 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
         final email = widget.controller.text.trim();
 
         if (email.isNotEmpty && email.isEmail) {
+          _lastCheckedEmail = email;
+
           FirebaseAuthCubit.get(context)
               .isThisEmailToken(email: email);
         }
@@ -381,9 +383,7 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
   @override
   void dispose() {
     widget.controller.removeListener(_onEmailChanged);
-
     _emailDebounce?.cancel();
-
     super.dispose();
   }
 
@@ -398,36 +398,52 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
             FirebaseAuthCubit,
             FirebaseAuthCubitState>(
           listenWhen: (previous, current) =>
-              previous != current &&
-              current is CubitEmailVerificationLoaded,
+              current is CubitEmailVerificationLoaded ||
+              current is CubitEmailVerificationFailed,
 
           listener: (context, state) {
             if (widget.isThatLogin) return;
 
-            final email = widget.controller.text.trim();
+            final currentEmail =
+                widget.controller.text.trim();
 
-            // Ignore invalid or empty email responses.
-            if (email.isEmpty || !email.isEmail) return;
+            if (currentEmail.isEmpty ||
+                !currentEmail.isEmail) {
+              return;
+            }
 
             if (state is CubitEmailVerificationLoaded) {
+              // Ignore response belonging to another email.
+              if (state.email != currentEmail ||
+                  state.email != _lastCheckedEmail) {
+                return;
+              }
+
               setState(() {
                 if (state.isThisEmailToken) {
                   errorMassage =
                       'This email already exists.';
-
                   widget.validate?.value = false;
                 } else {
                   errorMassage = null;
-
                   widget.validate?.value = true;
                 }
               });
             }
-          },
 
-          buildWhen: (previous, current) =>
-              previous != current &&
-              current is CubitEmailVerificationLoaded,
+            if (state is CubitEmailVerificationFailed) {
+              if (state.email != currentEmail ||
+                  state.email != _lastCheckedEmail) {
+                return;
+              }
+
+              setState(() {
+                errorMassage =
+                    'Could not verify email. Please try again.';
+                widget.validate?.value = false;
+              });
+            }
+          },
 
           builder: (context, state) {
             return TextFormField(
@@ -463,7 +479,6 @@ class _EmailTextFieldsState extends State<_EmailTextFields> {
                 filled: true,
 
                 focusedBorder: outlineInputBorder(),
-
                 enabledBorder: outlineInputBorder(),
 
                 errorStyle: getNormalStyle(
