@@ -1,3 +1,90 @@
+Import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:xrinet/core/resources/color_manager.dart';
+import 'package:xrinet/core/resources/strings_manager.dart';
+import 'package:xrinet/core/resources/styles_manager.dart';
+import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/core/utility/injector.dart';
+import 'package:xrinet/domain/entities/registered_user.dart';
+import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/searchAboutUser/search_about_user_bloc.dart';
+import 'package:xrinet/presentation/pages/register/widgets/get_my_user_info.dart';
+import 'package:xrinet/presentation/pages/register/widgets/register_widgets.dart';
+import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_elevated_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/functions/toast_show.dart';
+import '../../../data/models/parent_classes/without_sub_classes/user_personal_info.dart';
+import '../../cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
+import '../../cubit/firestoreUserInfoCubit/add_new_user_cubit.dart';
+
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final fullNameController = TextEditingController();
+  final bool validateControllers = false;
+  ValueNotifier<bool> validateEmail = ValueNotifier(false);
+  ValueNotifier<bool> validatePassword = ValueNotifier(false);
+  ValueNotifier<bool> rememberPassword = ValueNotifier(false);
+
+  @override
+  Widget build(BuildContext context) {
+    return RegisterWidgets(
+      fullNameController: fullNameController,
+      customTextButton: customTextButton(),
+      emailController: emailController,
+      passwordController: passwordController,
+      isThatLogIn: false,
+      validateEmail: validateEmail,
+      validatePassword: validatePassword,
+      rememberPassword: rememberPassword,
+    );
+  }
+
+  Widget customTextButton() {
+    return ValueListenableBuilder(
+      valueListenable: rememberPassword,
+      builder: (context, bool rememberPasswordValue, child) =>
+          ValueListenableBuilder(
+        valueListenable: validateEmail,
+        builder: (context, bool validateEmailValue, child) =>
+            ValueListenableBuilder(
+          valueListenable: validatePassword,
+          builder: (context, bool validatePasswordValue, child) {
+            bool validate = validatePasswordValue &&
+                validateEmailValue &&
+                rememberPasswordValue &&
+                fullNameController.text.isNotEmpty;
+            return CustomElevatedButton(
+              isItDone: true,
+              isThatSignIn: true,
+              nameOfButton: StringsManager.next.tr,
+              blueColor: validate ? true : false,
+              onPressed: () async {
+                if (validate) {
+                  Get.to(
+                      UserNamePage(
+                        emailController: emailController,
+                        passwordController: passwordController,
+                        fullNameController: fullNameController,
+                      ),
+                      duration: const Duration(seconds: 0));
+                }
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
 class UserNamePage extends StatefulWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
@@ -17,34 +104,12 @@ class _UserNamePageState extends State<UserNamePage> {
   final userNameController = TextEditingController();
 
   bool isToastShowed = false;
+
   bool validateEdits = false;
+
   bool isFieldEmpty = true;
+
   bool isHeMovedToHome = false;
-
-  @override
-  void initState() {
-    super.initState();
-    userNameController.addListener(_onUserNameChanged);
-  }
-
-  void _onUserNameChanged() {
-    final text = userNameController.text;
-    setState(() {
-      isFieldEmpty = text.isEmpty;
-    });
-
-    // Debounce or direct query trigger to block
-    SearchAboutUserBloc.get(context).add(
-      FindSpecificUser(text, searchForSingleLetter: true),
-    );
-  }
-
-  @override
-  void dispose() {
-    userNameController.removeListener(_onUserNameChanged);
-    userNameController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,19 +177,27 @@ class _UserNamePageState extends State<UserNamePage> {
   }
 
   Widget userNameTextField(BuildContext context) {
-    return BlocConsumer<SearchAboutUserBloc, SearchAboutUserState>(
-      listenWhen: (previous, current) => previous != current,
-      listener: (context, state) {
-        if (state is SearchAboutUserBlocLoaded) {
-          setState(() {
-            final usersWithSameUserName = state.users;
-            validateEdits = usersWithSameUserName.isEmpty && !isFieldEmpty;
-          });
-        }
-      },
+    return BlocBuilder<SearchAboutUserBloc, SearchAboutUserState>(
+      bloc: BlocProvider.of<SearchAboutUserBloc>(context)
+        ..add(FindSpecificUser(userNameController.text,
+            searchForSingleLetter: true)),
       buildWhen: (previous, current) =>
           previous != current && current is SearchAboutUserBlocLoaded,
       builder: (context, state) {
+        List<UserPersonalInfo> usersWithSameUserName = [];
+
+        if (state is SearchAboutUserBlocLoaded) {
+          usersWithSameUserName = state.users;
+        }
+        WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+              validateEdits = usersWithSameUserName.isEmpty;
+              if (userNameController.text.isEmpty) {
+                validateEdits = false;
+                isFieldEmpty = true;
+              } else {
+                isFieldEmpty = false;
+              }
+            }));
         return customTextField(context);
       },
     );
@@ -161,6 +234,11 @@ class _UserNamePageState extends State<UserNamePage> {
                 : (isThatMobile ? StringsManager.thisUserNameExist.tr : null),
             errorStyle: getNormalStyle(color: ColorManager.red),
           ),
+          onChanged: (value) {
+            SearchAboutUserBloc.get(context).add(FindSpecificUser(
+                userNameController.text,
+                searchForSingleLetter: true));
+          },
         ),
       ),
     );
@@ -213,8 +291,8 @@ class _UserNamePageState extends State<UserNamePage> {
                 setState(() => isToastShowed = false);
 
                 await authCubit.signUp(RegisteredUser(
-                  email: widget.emailController.text.trim(),
-                  password: widget.passwordController.text.trim(),
+                  email: widget.emailController.text.trim(), // .trim() added here
+                  password: widget.passwordController.text.trim(), // .trim() added here
                 ));
               }
             },
@@ -258,12 +336,16 @@ class _UserNamePageState extends State<UserNamePage> {
       bio: "",
       profileImageUrl: "",
       userId: authState.user.uid,
+
+      /// I have some issues when set those as initial value in UserPersonalInfo
       followerPeople: const [],
       followedPeople: const [],
       posts: const [],
       chatsOfGroups: const [],
       stories: const [],
       lastThreePostUrls: const [],
+
+      /// -------------------------------->
     );
     userCubit.addNewUser(newUserInfo);
   }
