@@ -31,7 +31,8 @@ abstract class FirestoreUserRepository {
 
   Future<FollowersAndFollowingsInfo> getFollowersAndFollowingsInfo(
       {required List<dynamic> followersIds,
-      required List<dynamic> followingsIds});
+      required List<dynamic> followingsIds,
+      required String userUid});
 
   Future<List<UserPersonalInfo>> getSpecificUsersInfo(
       {required List<dynamic> usersIds});

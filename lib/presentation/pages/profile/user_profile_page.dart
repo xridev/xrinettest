@@ -66,49 +66,52 @@ class _ProfilePageState extends State<UserProfilePage> {
       valueListenable: rebuildUserInfo,
       builder: (context, bool rebuildUserInfoValue, child) =>
           BlocBuilder<UserInfoCubit, UserInfoState>(
-        bloc: widget.userName.isNotEmpty
-            ? (BlocProvider.of<UserInfoCubit>(context)
-              ..getUserFromUserName(widget.userName))
-            : (BlocProvider.of<UserInfoCubit>(context)
-              ..getUserInfo(widget.userId, isThatMyPersonalId: false)),
-        buildWhen: (previous, current) {
-          if (previous != current && current is CubitUserLoaded) {
-            return true;
-          }
-          if (rebuildUserInfoValue && current is CubitUserLoaded) {
-            rebuildUserInfo.value = false;
-            return true;
-          }
-          return false;
-        },
-        builder: (context, state) {
-          if (state is CubitUserLoaded) {
-            userInfo = ValueNotifier(state.userPersonalInfo);
-            return Scaffold(
-              appBar: isThatMobile
-                  ? CustomAppBar.menuOfUserAppBar(
-                      context, state.userPersonalInfo.userName, bottomSheet)
-                  : null,
-              body: ProfilePage(
-                isThatMyPersonalId: false,
-                userId: widget.userId,
-                userInfo: userInfo,
-                widgetsAboveTapBars: isThatMobile
-                    ? widgetsAboveTapBarsForMobile(state)
-                    : widgetsAboveTapBarsForWeb(state),
-              ),
-            );
-          } else if (state is CubitGetUserInfoFailed) {
-            ToastShow.toastStateError(state);
-            return Text(
-              StringsManager.somethingWrong.tr,
-              style: Theme.of(context).textTheme.bodyLarge,
-            );
-          } else {
-            return const ThineCircularProgress();
-          }
-        },
-      ),
+            bloc: widget.userName.isNotEmpty
+                ? (BlocProvider.of<UserInfoCubit>(context)
+                    ..getUserFromUserName(widget.userName))
+                : (BlocProvider.of<UserInfoCubit>(context)
+                    ..getUserInfo(widget.userId, isThatMyPersonalId: false)),
+            buildWhen: (previous, current) {
+              if (previous != current && current is CubitUserLoaded) {
+                return true;
+              }
+              if (rebuildUserInfoValue && current is CubitUserLoaded) {
+                rebuildUserInfo.value = false;
+                return true;
+              }
+              return false;
+            },
+            builder: (context, state) {
+              if (state is CubitUserLoaded) {
+                userInfo = ValueNotifier(state.userPersonalInfo);
+                return Scaffold(
+                  appBar: isThatMobile
+                      ? CustomAppBar.menuOfUserAppBar(
+                          context,
+                          state.userPersonalInfo.userName,
+                          bottomSheet,
+                        )
+                      : null,
+                  body: ProfilePage(
+                    isThatMyPersonalId: false,
+                    userId: widget.userId,
+                    userInfo: userInfo,
+                    widgetsAboveTapBars: isThatMobile
+                        ? widgetsAboveTapBarsForMobile(state)
+                        : widgetsAboveTapBarsForWeb(state),
+                  ),
+                );
+              } else if (state is CubitGetUserInfoFailed) {
+                ToastShow.toastStateError(state);
+                return Text(
+                  StringsManager.somethingWrong.tr,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+              } else {
+                return const ThineCircularProgress();
+              }
+            },
+          ),
     );
   }
 
@@ -116,10 +119,7 @@ class _ProfilePageState extends State<UserProfilePage> {
     return showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return CustomBottomSheet(
-          headIcon: Container(),
-          bodyText: buildTexts(),
-        );
+        return CustomBottomSheet(headIcon: Container(), bodyText: buildTexts());
       },
     );
   }
@@ -151,9 +151,10 @@ class _ProfilePageState extends State<UserProfilePage> {
   }
 
   Text textOfBottomSheet(String text) {
-    return Text(text,
-        style:
-            getNormalStyle(fontSize: 15, color: Theme.of(context).focusColor));
+    return Text(
+      text,
+      style: getNormalStyle(fontSize: 15, color: Theme.of(context).focusColor),
+    );
   }
 
   List<Widget> widgetsAboveTapBarsForMobile(UserInfoState userInfoState) {
@@ -191,10 +192,7 @@ class _ProfilePageState extends State<UserProfilePage> {
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
         decoration: BoxDecoration(
           color: ColorManager.transparent,
-          border: Border.all(
-            color: ColorManager.lowOpacityGrey,
-            width: 1,
-          ),
+          border: Border.all(color: ColorManager.lowOpacityGrey, width: 1),
           borderRadius: BorderRadius.circular(3),
         ),
         child: Text(
@@ -208,37 +206,37 @@ class _ProfilePageState extends State<UserProfilePage> {
   Widget followButtonForWeb() {
     return BlocBuilder<FollowCubit, FollowState>(
       builder: (context, stateOfFollow) {
-        bool isThatFollowing =
-            myPersonalInfo.followedPeople.contains(userInfo.value.userId);
+        bool isThatFollowing = myPersonalInfo.followedPeople.contains(
+          userInfo.value.userId,
+        );
         bool isFollowLoading = stateOfFollow is CubitFollowThisUserLoading;
         Widget child = isFollowLoading
             ? const CupertinoActivityIndicator(color: ColorManager.black)
             : (isThatFollowing
-                ? const Icon(
-                    Icons.person,
-                    color: ColorManager.black,
-                    size: 18,
-                  )
-                : Text(
-                    StringsManager.follow.tr,
-                    style: getMediumStyle(color: ColorManager.white),
-                  ));
+                  ? const Icon(
+                      Icons.person,
+                      color: ColorManager.black,
+                      size: 18,
+                    )
+                  : Text(
+                      StringsManager.follow.tr,
+                      style: getMediumStyle(color: ColorManager.white),
+                    ));
         return ValueListenableBuilder(
           valueListenable: userInfo,
           builder: (_, UserPersonalInfo userInfoValue, _) => GestureDetector(
             onTap: () async => onTapFollowButton(userInfoValue),
             child: Container(
               padding: EdgeInsets.symmetric(
-                  horizontal: 9, vertical: isThatFollowing ? 4 : 6),
+                horizontal: 9,
+                vertical: isThatFollowing ? 4 : 6,
+              ),
               decoration: BoxDecoration(
                 color: isThatFollowing
                     ? ColorManager.transparent
                     : ColorManager.blue,
                 border: isThatFollowing
-                    ? Border.all(
-                        color: ColorManager.lowOpacityGrey,
-                        width: 1,
-                      )
+                    ? Border.all(color: ColorManager.lowOpacityGrey, width: 1)
                     : null,
                 borderRadius: BorderRadius.circular(3),
               ),
@@ -257,8 +255,9 @@ class _ProfilePageState extends State<UserProfilePage> {
           valueListenable: userInfo,
           builder: (context, UserPersonalInfo userInfoValue, child) => Expanded(
             child: InkWell(
-                onTap: () async => onTapFollowButton(userInfoValue),
-                child: whichContainerOfText(stateOfFollow, userInfoValue)),
+              onTap: () async => onTapFollowButton(userInfoValue),
+              child: whichContainerOfText(stateOfFollow, userInfoValue),
+            ),
           ),
         );
       },
@@ -266,12 +265,15 @@ class _ProfilePageState extends State<UserProfilePage> {
   }
 
   Widget whichContainerOfText(
-      FollowState stateOfFollow, UserPersonalInfo userInfoValue) {
+    FollowState stateOfFollow,
+    UserPersonalInfo userInfoValue,
+  ) {
     if (stateOfFollow is CubitFollowThisUserFailed) {
       ToastShow.toastStateError(stateOfFollow);
     }
-    bool isThatFollower =
-        myPersonalInfo.followerPeople.contains(userInfoValue.userId);
+    bool isThatFollower = myPersonalInfo.followerPeople.contains(
+      userInfoValue.userId,
+    );
     return !myPersonalInfo.followedPeople.contains(userInfoValue.userId)
         ? containerOfFollowText(
             text: isThatFollower
@@ -285,41 +287,79 @@ class _ProfilePageState extends State<UserProfilePage> {
           );
   }
 
-  void onTapFollowButton(UserPersonalInfo userInfoValue) {
-    if (myPersonalInfo.followedPeople.contains(userInfoValue.userId)) {
-      BlocProvider.of<FollowCubit>(context).unFollowThisUser(
-          followingUserId: userInfoValue.userId, myPersonalId: myPersonalId);
-      myPersonalInfo.followedPeople.remove(userInfoValue.userId);
-      userInfo.value.followerPeople.remove(myPersonalId);
-      //for notification
+  Future<void> onTapFollowButton(UserPersonalInfo userInfoValue) async {
+    final currentUserId = myPersonalInfo.userId;
+    final followCubit = BlocProvider.of<FollowCubit>(context);
+    final isFollowing = myPersonalInfo.followedPeople.contains(
+      userInfoValue.userId,
+    );
+
+    final success = isFollowing
+        ? await followCubit.unFollowThisUser(
+            followingUserId: userInfoValue.userId,
+            myPersonalId: currentUserId,
+          )
+        : await followCubit.followThisUser(
+            followingUserId: userInfoValue.userId,
+            myPersonalId: currentUserId,
+          );
+
+    if (!mounted || !success) return;
+
+    if (isFollowing) {
+      UserInfoCubit.get(
+        context,
+      ).updateMyFollowings(userId: userInfoValue.userId, addThisUser: false);
+      final updatedFollowers = List<dynamic>.from(userInfo.value.followerPeople)
+        ..remove(currentUserId);
+      userInfo.value = userInfo.value.copyWith(
+        followerPeople: updatedFollowers,
+      );
+
       BlocProvider.of<NotificationCubit>(context).deleteNotification(
-          notificationCheck: createNotificationCheck(userInfoValue));
+        notificationCheck: createNotificationCheck(
+          userInfoValue,
+          myPersonalInfo,
+        ),
+      );
     } else {
-      BlocProvider.of<FollowCubit>(context).followThisUser(
-          followingUserId: userInfoValue.userId, myPersonalId: myPersonalId);
-      myPersonalInfo.followedPeople.add(userInfoValue.userId);
-      userInfo.value.followerPeople.add(myPersonalId);
-      //for notification
+      UserInfoCubit.get(
+        context,
+      ).updateMyFollowings(userId: userInfoValue.userId, addThisUser: true);
+      final updatedFollowers = List<dynamic>.from(userInfo.value.followerPeople)
+        ..add(currentUserId);
+      userInfo.value = userInfo.value.copyWith(
+        followerPeople: updatedFollowers,
+      );
+
       BlocProvider.of<NotificationCubit>(context).createNotification(
-          newNotification: createNotification(userInfoValue));
+        newNotification: createNotification(userInfoValue, myPersonalInfo),
+      );
     }
+
     setState(() {});
   }
 
-  NotificationCheck createNotificationCheck(UserPersonalInfo userInfo) {
+  NotificationCheck createNotificationCheck(
+    UserPersonalInfo userInfo,
+    UserPersonalInfo myPersonalInfo,
+  ) {
     return NotificationCheck(
-      senderId: myPersonalId,
+      senderId: myPersonalInfo.userId,
       receiverId: userInfo.userId,
       isThatLike: false,
       isThatPost: false,
     );
   }
 
-  CustomNotification createNotification(UserPersonalInfo userInfo) {
+  CustomNotification createNotification(
+    UserPersonalInfo userInfo,
+    UserPersonalInfo myPersonalInfo,
+  ) {
     return CustomNotification(
       text: "started following you.",
       time: DateReformat.dateOfNow(),
-      senderId: myPersonalId,
+      senderId: myPersonalInfo.userId,
       receiverId: userInfo.userId,
       personalUserName: myPersonalInfo.userName,
       personalProfileImageUrl: myPersonalInfo.profileImageUrl,
@@ -334,11 +374,13 @@ class _ProfilePageState extends State<UserProfilePage> {
       child: GestureDetector(
         onTap: () async {
           Go(context).push(
-              page: BlocProvider<MessageBloc>(
-            create: (context) => injector<MessageBloc>(),
-            child: ChattingPage(
-                messageDetails: SenderInfo(receiversInfo: [userInfo.value])),
-          ));
+            page: BlocProvider<MessageBloc>(
+              create: (context) => injector<MessageBloc>(),
+              child: ChattingPage(
+                messageDetails: SenderInfo(receiversInfo: [userInfo.value]),
+              ),
+            ),
+          );
         },
         child: containerOfFollowText(
           text: StringsManager.message.tr,
@@ -359,19 +401,21 @@ class _ProfilePageState extends State<UserProfilePage> {
             ? Theme.of(context).primaryColor
             : ColorManager.blue,
         border: Border.all(
-            color: Theme.of(context).bottomAppBarTheme.color!,
-            width: isThatFollowers ? 1.0 : 0),
+          color: Theme.of(context).bottomAppBarTheme.color!,
+          width: isThatFollowers ? 1.0 : 0,
+        ),
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Center(
         child: Text(
           text,
           style: TextStyle(
-              fontSize: 17.0,
-              color: isThatFollowers
-                  ? Theme.of(context).focusColor
-                  : ColorManager.white,
-              fontWeight: FontWeight.w500),
+            fontSize: 17.0,
+            color: isThatFollowers
+                ? Theme.of(context).focusColor
+                : ColorManager.white,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );

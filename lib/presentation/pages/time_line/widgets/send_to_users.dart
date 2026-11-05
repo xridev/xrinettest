@@ -52,7 +52,8 @@ class _SendToUsersState extends State<SendToUsers> {
       bloc: BlocProvider.of<UsersInfoCubit>(context)
         ..getFollowersAndFollowingsInfo(
             followersIds: myPersonalInfo.followerPeople,
-            followingsIds: myPersonalInfo.followedPeople),
+            followingsIds: myPersonalInfo.followedPeople,
+            userUid: myPersonalInfo.userId),
       buildWhen: (previous, current) =>
           previous != current && (current is CubitFollowersAndFollowingsLoaded),
       builder: (context, state) {

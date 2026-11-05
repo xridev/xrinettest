@@ -48,7 +48,9 @@ class _ShowMeTheUsersState extends State<ShowMeTheUsers> {
           addAutomaticKeepAlives: false,
           itemBuilder: (context, index) {
             return containerOfUserInfo(
-                widget.usersInfo[index], widget.isThatFollower);
+              widget.usersInfo[index],
+              widget.isThatFollower,
+            );
           },
           separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemCount: widget.usersInfo.length,
@@ -71,46 +73,49 @@ class _ShowMeTheUsersState extends State<ShowMeTheUsers> {
       onTap: () async {
         Navigator.of(context).maybePop();
         await Go(context).push(
-            page: WhichProfilePage(userId: userInfo.userId),
-            withoutRoot: false);
+          page: WhichProfilePage(userId: userInfo.userId),
+          withoutRoot: false,
+        );
       },
       child: Padding(
         padding: const EdgeInsetsDirectional.only(start: 15, top: 15),
-        child: Row(children: [
-          Hero(
-            tag: hash,
-            child: CircleAvatarOfProfileImage(
-              bodyHeight: 600,
-              hashTag: hash,
-              userInfo: userInfo,
-              showColorfulCircle: widget.showColorfulCircle,
+        child: Row(
+          children: [
+            Hero(
+              tag: hash,
+              child: CircleAvatarOfProfileImage(
+                bodyHeight: 600,
+                hashTag: hash,
+                userInfo: userInfo,
+                showColorfulCircle: widget.showColorfulCircle,
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  userInfo.userName,
-                  style: Theme.of(context).textTheme.displayMedium,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  userInfo.name,
-                  style: Theme.of(context).textTheme.displayLarge,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                )
-              ],
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    userInfo.userName,
+                    style: Theme.of(context).textTheme.displayMedium,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    userInfo.name,
+                    style: Theme.of(context).textTheme.displayLarge,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ],
+              ),
             ),
-          ),
-          // const Spacer(),
-          followButton(userInfo),
-        ]),
+            // const Spacer(),
+            followButton(userInfo),
+          ],
+        ),
       ),
     );
   }
@@ -120,40 +125,51 @@ class _ShowMeTheUsersState extends State<ShowMeTheUsers> {
       builder: (followContext, stateOfFollow) {
         return Builder(
           builder: (userContext) {
-            UserPersonalInfo myPersonalInfo =
-                UserInfoCubit.getMyPersonalInfo(context);
-            UserPersonalInfo? info =
-                UsersInfoReelTimeBloc.getMyInfoInReelTime(context);
+            UserPersonalInfo myPersonalInfo = UserInfoCubit.getMyPersonalInfo(
+              context,
+            );
+            UserPersonalInfo? info = UsersInfoReelTimeBloc.getMyInfoInReelTime(
+              context,
+            );
             if (isMyInfoInReelTimeReady && info != null) myPersonalInfo = info;
 
             if (myPersonalId == userInfo.userId) {
               return Container();
             } else {
               return GestureDetector(
-                  onTap: () async {
-                    if (myPersonalInfo.followedPeople
-                        .contains(userInfo.userId)) {
-                      await BlocProvider.of<FollowCubit>(followContext)
-                          .unFollowThisUser(
-                              followingUserId: userInfo.userId,
-                              myPersonalId: myPersonalId);
-                      if (!mounted) return;
-                      BlocProvider.of<UserInfoCubit>(context)
-                          .updateMyFollowings(
-                              userId: userInfo.userId, addThisUser: false);
-                    } else {
-                      await BlocProvider.of<FollowCubit>(followContext)
-                          .followThisUser(
-                              followingUserId: userInfo.userId,
-                              myPersonalId: myPersonalId);
-                      if (!mounted) return;
+                onTap: () async {
+                  final currentUserId = myPersonalInfo.userId;
+                  final isFollowing = myPersonalInfo.followedPeople.contains(
+                    userInfo.userId,
+                  );
 
-                      BlocProvider.of<UserInfoCubit>(context)
-                          .updateMyFollowings(userId: userInfo.userId);
-                    }
-                  },
-                  child: whichContainerOfText(
-                      stateOfFollow, userInfo, myPersonalInfo));
+                  final success = isFollowing
+                      ? await BlocProvider.of<FollowCubit>(
+                          followContext,
+                        ).unFollowThisUser(
+                          followingUserId: userInfo.userId,
+                          myPersonalId: currentUserId,
+                        )
+                      : await BlocProvider.of<FollowCubit>(
+                          followContext,
+                        ).followThisUser(
+                          followingUserId: userInfo.userId,
+                          myPersonalId: currentUserId,
+                        );
+
+                  if (!mounted || !success) return;
+
+                  BlocProvider.of<UserInfoCubit>(context).updateMyFollowings(
+                    userId: userInfo.userId,
+                    addThisUser: !isFollowing,
+                  );
+                },
+                child: whichContainerOfText(
+                  stateOfFollow,
+                  userInfo,
+                  myPersonalInfo,
+                ),
+              );
             }
           },
         );
@@ -161,8 +177,11 @@ class _ShowMeTheUsersState extends State<ShowMeTheUsers> {
     );
   }
 
-  Widget whichContainerOfText(FollowState stateOfFollow,
-      UserPersonalInfo userInfo, UserPersonalInfo myPersonalInfo) {
+  Widget whichContainerOfText(
+    FollowState stateOfFollow,
+    UserPersonalInfo userInfo,
+    UserPersonalInfo myPersonalInfo,
+  ) {
     if (stateOfFollow is CubitFollowThisUserFailed) {
       ToastShow.toastStateError(stateOfFollow);
     }
@@ -178,8 +197,10 @@ class _ShowMeTheUsersState extends State<ShowMeTheUsers> {
           );
   }
 
-  Widget containerOfFollowText(
-      {required String text, required bool isThatFollower}) {
+  Widget containerOfFollowText({
+    required String text,
+    required bool isThatFollower,
+  }) {
     return Padding(
       padding: const EdgeInsetsDirectional.only(start: 45, end: 15),
       child: Container(
@@ -190,22 +211,26 @@ class _ShowMeTheUsersState extends State<ShowMeTheUsers> {
               : ColorManager.blue,
           border: isThatFollower
               ? Border.all(
-                  color: Theme.of(context).bottomAppBarTheme.color!, width: 1.0)
+                  color: Theme.of(context).bottomAppBarTheme.color!,
+                  width: 1.0,
+                )
               : null,
           borderRadius: BorderRadius.circular(isThatMobile ? 15 : 5),
         ),
         child: Center(
           child: Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: isThatFollower ? 10.0 : 22),
+            padding: EdgeInsets.symmetric(
+              horizontal: isThatFollower ? 10.0 : 22,
+            ),
             child: Text(
               text,
               style: TextStyle(
-                  fontSize: 17.0,
-                  color: isThatFollower
-                      ? Theme.of(context).focusColor
-                      : ColorManager.white,
-                  fontWeight: FontWeight.w500),
+                fontSize: 17.0,
+                color: isThatFollower
+                    ? Theme.of(context).focusColor
+                    : ColorManager.white,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ),

@@ -4,16 +4,15 @@ import '../../../repositories/user_repository.dart';
 
 class GetFollowersAndFollowingsUseCase
     implements
-        UseCaseTwoParams<FollowersAndFollowingsInfo, List<dynamic>,
-            List<dynamic>> {
+        UseCaseThreeParams<FollowersAndFollowingsInfo, List<dynamic>, List<dynamic>, String> {
   final FirestoreUserRepository _fireStoreUserRepository;
 
   GetFollowersAndFollowingsUseCase(this._fireStoreUserRepository);
 
   @override
   Future<FollowersAndFollowingsInfo> call(
-      {required List<dynamic> paramsOne, required List<dynamic> paramsTwo}) {
+      {required List<dynamic> paramsOne, required List<dynamic> paramsTwo, required String paramsThree}) {
     return _fireStoreUserRepository.getFollowersAndFollowingsInfo(
-        followersIds: paramsOne, followingsIds: paramsTwo);
+        followersIds: paramsOne, followingsIds: paramsTwo, userUid: paramsThree);
   }
 }

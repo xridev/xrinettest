@@ -9,33 +9,43 @@ class FollowCubit extends Cubit<FollowState> {
   FollowThisUserUseCase followThisUserUseCase;
   UnFollowThisUserUseCase unFollowThisUserUseCase;
   FollowCubit(this.followThisUserUseCase, this.unFollowThisUserUseCase)
-      : super(FollowInitial());
+    : super(FollowInitial());
 
   static FollowCubit get(BuildContext context) => BlocProvider.of(context);
 
-  Future<void> followThisUser(
-      {required String followingUserId, required String myPersonalId}) async {
+  Future<bool> followThisUser({
+    required String followingUserId,
+    required String myPersonalId,
+  }) async {
     emit(CubitFollowThisUserLoading());
-
-    await followThisUserUseCase
-        .call(paramsOne: followingUserId, paramsTwo: myPersonalId)
-        .then((_) {
+    try {
+      await followThisUserUseCase.call(
+        paramsOne: followingUserId,
+        paramsTwo: myPersonalId,
+      );
       emit(CubitFollowThisUserLoaded());
-    }).catchError((e) {
+      return true;
+    } catch (e) {
       emit(CubitFollowThisUserFailed(e.toString()));
-    });
+      return false;
+    }
   }
 
-  Future<void> unFollowThisUser(
-      {required String followingUserId, required String myPersonalId}) async {
+  Future<bool> unFollowThisUser({
+    required String followingUserId,
+    required String myPersonalId,
+  }) async {
     emit(CubitFollowThisUserLoading());
-
-    await unFollowThisUserUseCase
-        .call(paramsOne: followingUserId, paramsTwo: myPersonalId)
-        .then((_) {
+    try {
+      await unFollowThisUserUseCase.call(
+        paramsOne: followingUserId,
+        paramsTwo: myPersonalId,
+      );
       emit(CubitFollowThisUserLoaded());
-    }).catchError((e) {
+      return true;
+    } catch (e) {
       emit(CubitFollowThisUserFailed(e.toString()));
-    });
+      return false;
+    }
   }
 }

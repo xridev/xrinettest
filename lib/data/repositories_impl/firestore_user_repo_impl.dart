@@ -124,20 +124,21 @@ class FirebaseUserRepoImpl implements FirestoreUserRepository {
   Future<FollowersAndFollowingsInfo> getFollowersAndFollowingsInfo({
     required List<dynamic> followersIds,
     required List<dynamic> followingsIds,
+    required String userUid,
   }) async {
     try {
       List<UserPersonalInfo> followersInfo =
           await FireStoreUser.getSpecificUsersInfo(
         usersIds: followersIds,
         fieldName: "followers",
-        userUid: myPersonalId,
+        userUid: userUid,
       );
 
       List<UserPersonalInfo> followingsInfo =
           await FireStoreUser.getSpecificUsersInfo(
         usersIds: followingsIds,
         fieldName: "following",
-        userUid: myPersonalId,
+        userUid: userUid,
       );
 
       return FollowersAndFollowingsInfo(

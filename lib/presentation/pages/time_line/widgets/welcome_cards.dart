@@ -37,7 +37,9 @@ class WelcomeCardsState extends State<WelcomeCards> {
       height: double.maxFinite,
       child: isThatMobile
           ? CustomSmartRefresh(
-              onRefreshData: widget.onRefreshData, child: const _GetAllUsers())
+              onRefreshData: widget.onRefreshData,
+              child: const _GetAllUsers(),
+            )
           : const _GetAllUsers(),
     );
   }
@@ -65,8 +67,9 @@ class _GetAllUsers extends StatelessWidget {
                   return Center(
                     child: Text(
                       StringsManager.noUsers.tr,
-                      style:
-                          getNormalStyle(color: Theme.of(context).focusColor),
+                      style: getNormalStyle(
+                        color: Theme.of(context).focusColor,
+                      ),
                     ),
                   );
                 } else {
@@ -155,7 +158,9 @@ class _CardsForWebState extends State<_CardsForWeb> {
                   height: heightOfStory,
                   width: widthOfStory,
                   child: _UserCardInfo(
-                      active: active, userInfo: widget.users[index]),
+                    active: active,
+                    userInfo: widget.users[index],
+                  ),
                 ),
                 if (currentPage == index) ...[
                   if (index != 0)
@@ -168,12 +173,13 @@ class _CardsForWebState extends State<_CardsForWeb> {
                     ),
                   if (index != widget.users.length - 1)
                     _JumpArrow(
-                        scrollPageController: _scrollPageController,
-                        indexOfCurrentCard: index,
-                        lengthOfCards: widget.users.length,
-                        itemSize: widthOfStory,
-                        onItemFocus: onItemFocus,
-                        isThatBack: false)
+                      scrollPageController: _scrollPageController,
+                      indexOfCurrentCard: index,
+                      lengthOfCards: widget.users.length,
+                      itemSize: widthOfStory,
+                      onItemFocus: onItemFocus,
+                      isThatBack: false,
+                    ),
                 ],
               ],
             ),
@@ -274,7 +280,9 @@ class _WelcomeTexts extends StatelessWidget {
           child: Text(
             StringsManager.welcomeToXrinet.tr,
             style: getMediumStyle(
-                color: Theme.of(context).focusColor, fontSize: 22),
+              color: Theme.of(context).focusColor,
+              fontSize: 22,
+            ),
           ),
         ),
         Padding(
@@ -282,16 +290,18 @@ class _WelcomeTexts extends StatelessWidget {
           child: Text(
             StringsManager.followPeopleToSee.tr,
             style: getNormalStyle(
-                color: Theme.of(context).textTheme.headlineMedium!.color!,
-                fontSize: 14),
+              color: Theme.of(context).textTheme.headlineMedium!.color!,
+              fontSize: 14,
+            ),
           ),
         ),
         Center(
           child: Text(
             StringsManager.videosTheyShare.tr,
             style: getNormalStyle(
-                color: Theme.of(context).textTheme.headlineMedium!.color!,
-                fontSize: 14),
+              color: Theme.of(context).textTheme.headlineMedium!.color!,
+              fontSize: 14,
+            ),
           ),
         ),
       ],
@@ -300,10 +310,7 @@ class _WelcomeTexts extends StatelessWidget {
 }
 
 class _UserCardInfo extends StatelessWidget {
-  const _UserCardInfo({
-    required this.active,
-    required this.userInfo,
-  });
+  const _UserCardInfo({required this.active, required this.userInfo});
   final UserPersonalInfo userInfo;
 
   final bool active;
@@ -324,16 +331,17 @@ class _UserCardInfo extends StatelessWidget {
             curve: Curves.easeOutQuint,
             margin: EdgeInsets.only(top: margin, bottom: margin),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Theme.of(context).splashColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorManager.grey.withValues(alpha: .15),
-                    spreadRadius: 10,
-                    blurRadius: 10,
-                    offset: const Offset(0, 1),
-                  ),
-                ]),
+              borderRadius: BorderRadius.circular(20),
+              color: Theme.of(context).splashColor,
+              boxShadow: [
+                BoxShadow(
+                  color: ColorManager.grey.withValues(alpha: .15),
+                  spreadRadius: 10,
+                  blurRadius: 10,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
             child: _BuildUserBrief(userInfo: userInfo),
           ),
         ),
@@ -362,7 +370,10 @@ class _BuildUserBrief extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CircleAvatarOfProfileImage(
-                userInfo: userInfo, bodyHeight: 900, showColorfulCircle: false),
+              userInfo: userInfo,
+              bodyHeight: 900,
+              showColorfulCircle: false,
+            ),
             const SizedBox(height: 10),
             Text(
               userInfo.userName,
@@ -382,63 +393,79 @@ class _BuildUserBrief extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 20.0),
                       child: Text(
                         StringsManager.noPosts.tr,
-                        style:
-                            getNormalStyle(color: Theme.of(context).focusColor),
+                        style: getNormalStyle(
+                          color: Theme.of(context).focusColor,
+                        ),
                       ),
                     ),
                   ),
                 ] else ...[
-                  ...lastThreePostUrls.map(
-                    (imageUrl) {
-                      return Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 1),
-                        child: SizedBox(
-                            height:
-                                isThatMobile ? 70 : (width > 900 ? 110 : 95),
-                            width: isThatMobile ? 70 : (width > 900 ? 110 : 95),
-                            child: NetworkDisplay(
-                              url: imageUrl,
-                              cachingWidth: isThatMobile ? 140 : 200,
-                              cachingHeight: isThatMobile ? 140 : 200,
-                            )),
-                      );
-                    },
-                  ),
+                  ...lastThreePostUrls.map((imageUrl) {
+                    return Padding(
+                      padding: const EdgeInsetsDirectional.only(end: 1),
+                      child: SizedBox(
+                        height: isThatMobile ? 70 : (width > 900 ? 110 : 95),
+                        width: isThatMobile ? 70 : (width > 900 ? 110 : 95),
+                        child: NetworkDisplay(
+                          url: imageUrl,
+                          cachingWidth: isThatMobile ? 140 : 200,
+                          cachingHeight: isThatMobile ? 140 : 200,
+                        ),
+                      ),
+                    );
+                  }),
                 ],
               ],
             ),
             const SizedBox(height: 30),
             GestureDetector(
               onTap: () async {
-                UserPersonalInfo myPersonalInfo =
-                    UserInfoCubit.getMyPersonalInfo(context);
+                final myPersonalInfo = UserInfoCubit.getMyPersonalInfo(context);
+                final currentUserId = myPersonalInfo.userId;
+                final followCubit = FollowCubit.get(context);
 
-                FollowCubit followCubit = FollowCubit.get(context);
+                final success = isIFollowHim
+                    ? await followCubit.unFollowThisUser(
+                        followingUserId: userInfo.userId,
+                        myPersonalId: currentUserId,
+                      )
+                    : await followCubit.followThisUser(
+                        followingUserId: userInfo.userId,
+                        myPersonalId: currentUserId,
+                      );
+
+                if (!context.mounted || !success) return;
+
                 if (isIFollowHim) {
-                  await followCubit.unFollowThisUser(
-                      followingUserId: userInfo.userId,
-                      myPersonalId: myPersonalId);
+                  UserInfoCubit.get(context).updateMyFollowings(
+                    userId: userInfo.userId,
+                    addThisUser: false,
+                  );
+                  userInfo.followerPeople.remove(currentUserId);
 
-                  myPersonalInfo.followedPeople.remove(userInfo.userId);
-                  userInfo.followerPeople.remove(myPersonalId);
-
-                  if (!context.mounted) return;
-                  BlocProvider.of<NotificationCubit>(context)
-                      .deleteNotification(
-                          notificationCheck: createNotificationCheck(userInfo));
+                  BlocProvider.of<NotificationCubit>(
+                    context,
+                  ).deleteNotification(
+                    notificationCheck: createNotificationCheck(
+                      userInfo,
+                      myPersonalInfo,
+                    ),
+                  );
                 } else {
-                  await followCubit.followThisUser(
-                      followingUserId: userInfo.userId,
-                      myPersonalId: myPersonalId);
+                  UserInfoCubit.get(context).updateMyFollowings(
+                    userId: userInfo.userId,
+                    addThisUser: true,
+                  );
+                  userInfo.followerPeople.add(currentUserId);
 
-                  myPersonalInfo.followedPeople.add(userInfo.userId);
-                  userInfo.followerPeople.add(myPersonalId);
-
-                  if (!context.mounted) return;
-                  BlocProvider.of<NotificationCubit>(context)
-                      .createNotification(
-                          newNotification:
-                              createNotification(userInfo, myPersonalInfo));
+                  BlocProvider.of<NotificationCubit>(
+                    context,
+                  ).createNotification(
+                    newNotification: createNotification(
+                      userInfo,
+                      myPersonalInfo,
+                    ),
+                  );
                 }
               },
               child: _FollowButton(isIFollowHim),
@@ -449,9 +476,12 @@ class _BuildUserBrief extends StatelessWidget {
     );
   }
 
-  NotificationCheck createNotificationCheck(UserPersonalInfo userInfo) {
+  NotificationCheck createNotificationCheck(
+    UserPersonalInfo userInfo,
+    UserPersonalInfo myPersonalInfo,
+  ) {
     return NotificationCheck(
-      senderId: myPersonalId,
+      senderId: myPersonalInfo.userId,
       receiverId: userInfo.userId,
       isThatLike: false,
       isThatPost: false,
@@ -459,7 +489,9 @@ class _BuildUserBrief extends StatelessWidget {
   }
 
   CustomNotification createNotification(
-      UserPersonalInfo userInfo, UserPersonalInfo myPersonalInfo) {
+    UserPersonalInfo userInfo,
+    UserPersonalInfo myPersonalInfo,
+  ) {
     return CustomNotification(
       text: "started following you.",
       time: DateReformat.dateOfNow(),
@@ -485,8 +517,9 @@ class _FollowButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color:
-            isIFollowHim ? Theme.of(context).primaryColor : ColorManager.blue,
+        color: isIFollowHim
+            ? Theme.of(context).primaryColor
+            : ColorManager.blue,
         border: Border.all(
           color: isIFollowHim
               ? Theme.of(context).bottomAppBarTheme.color!
@@ -503,10 +536,14 @@ class _FollowButton extends StatelessWidget {
         ],
       ),
       child: isIFollowHim
-          ? Text(StringsManager.following.tr,
-              style: getNormalStyle(color: Theme.of(context).focusColor))
-          : Text(StringsManager.follow.tr,
-              style: getNormalStyle(color: ColorManager.white)),
+          ? Text(
+              StringsManager.following.tr,
+              style: getNormalStyle(color: Theme.of(context).focusColor),
+            )
+          : Text(
+              StringsManager.follow.tr,
+              style: getNormalStyle(color: ColorManager.white),
+            ),
     );
   }
 }

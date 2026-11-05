@@ -21,11 +21,12 @@ class UsersInfoCubit extends Cubit<UsersInfoState> {
 
   Future<void> getFollowersAndFollowingsInfo(
       {required List<dynamic> followersIds,
-      required List<dynamic> followingsIds}) async {
+      required List<dynamic> followingsIds,
+      required String userUid}) async {
     emit(CubitFollowersAndFollowingsLoading());
 
     await getFollowersAndFollowingsUseCase
-        .call(paramsOne: followersIds, paramsTwo: followingsIds)
+        .call(paramsOne: followersIds, paramsTwo: followingsIds, paramsThree: userUid)
         .then((specificUsersInfo) {
       emit(CubitFollowersAndFollowingsLoaded(specificUsersInfo));
     }).catchError((e) {

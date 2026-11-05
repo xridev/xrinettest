@@ -28,7 +28,24 @@ class FollowersInfoPage extends StatefulWidget {
 }
 
 class _FollowersInfoPageState extends State<FollowersInfoPage> {
-  ValueNotifier<bool> rebuildUsersInfo = ValueNotifier(false);
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _loadUsersInfo();
+    });
+  }
+
+  Future<void> _loadUsersInfo() async {
+    final userInfoValue = widget.userInfo.value;
+    await BlocProvider.of<UsersInfoCubit>(
+      context,
+    ).getFollowersAndFollowingsInfo(
+      followersIds: userInfoValue.followerPeople,
+      followingsIds: userInfoValue.followedPeople,
+      userUid: userInfoValue.userId,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,42 +56,24 @@ class _FollowersInfoPageState extends State<FollowersInfoPage> {
         valueListenable: widget.userInfo,
         builder: (context, UserPersonalInfo userInfoValue, child) => Scaffold(
           appBar: isThatMobile ? buildAppBar(context, userInfoValue) : null,
-          body: ValueListenableBuilder(
-            valueListenable: rebuildUsersInfo,
-            builder: (context, bool rebuildValue, child) =>
-                BlocBuilder<UsersInfoCubit, UsersInfoState>(
-              bloc: BlocProvider.of<UsersInfoCubit>(context)
-                ..getFollowersAndFollowingsInfo(
-                    followersIds: userInfoValue.followerPeople,
-                    followingsIds: userInfoValue.followedPeople),
-              buildWhen: (previous, current) {
-                if (previous != current &&
-                    (current is CubitFollowersAndFollowingsLoaded)) {
-                  return true;
-                }
-                if (rebuildValue &&
-                    (current is CubitFollowersAndFollowingsLoaded)) {
-                  rebuildUsersInfo.value = false;
-                  return true;
-                }
-                return false;
-              },
-              builder: (context, state) {
-                if (state is CubitFollowersAndFollowingsLoaded) {
-                  return _TapBarView(
-                    state: state,
-                    userInfo: widget.userInfo,
-                    updateCallback: widget.updateFollowersCallback,
-                  );
-                }
-                if (state is CubitGettingSpecificUsersFailed) {
-                  ToastShow.toastStateError(state);
-                  return Text(StringsManager.somethingWrong.tr);
-                } else {
-                  return const ThineCircularProgress();
-                }
-              },
-            ),
+          body: BlocBuilder<UsersInfoCubit, UsersInfoState>(
+            builder: (context, state) {
+              if (state is CubitFollowersAndFollowingsLoaded) {
+                return _TapBarView(
+                  state: state,
+                  userInfo: widget.userInfo,
+                  updateCallback: () {
+                    _loadUsersInfo();
+                    widget.updateFollowersCallback();
+                  },
+                );
+              }
+              if (state is CubitGettingSpecificUsersFailed) {
+                ToastShow.toastStateError(state);
+                return Text(StringsManager.somethingWrong.tr);
+              }
+              return const ThineCircularProgress();
+            },
           ),
         ),
       ),
@@ -91,11 +90,17 @@ class _FollowersInfoPageState extends State<FollowersInfoPage> {
         indicatorWeight: 1,
         tabs: [
           Tab(
-              icon: buildText(context,
-                  "${userInfoValue.followerPeople.length} ${StringsManager.followers.tr}")),
+            icon: buildText(
+              context,
+              "${userInfoValue.followerPeople.length} ${StringsManager.followers.tr}",
+            ),
+          ),
           Tab(
-              icon: buildText(context,
-                  "${userInfoValue.followedPeople.length} ${StringsManager.following.tr}")),
+            icon: buildText(
+              context,
+              "${userInfoValue.followedPeople.length} ${StringsManager.following.tr}",
+            ),
+          ),
         ],
       ),
       title: buildText(context, userInfoValue.userName),
@@ -103,8 +108,10 @@ class _FollowersInfoPageState extends State<FollowersInfoPage> {
   }
 
   Text buildText(BuildContext context, String text) {
-    return Text(text,
-        style: getNormalStyle(color: Theme.of(context).focusColor));
+    return Text(
+      text,
+      style: getNormalStyle(color: Theme.of(context).focusColor),
+    );
   }
 }
 
