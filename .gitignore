@@ -52,3 +52,19 @@ app.*.map.json
 /android/app/release
 # Widget Preview related
 .widget_preview/
+
+# XRINet Python Backend
+backend/.env
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.pytest_cache/
+backend/.mypy_cache/
+backend/.ruff_cache/
+backend/storage/*
+!backend/storage/.gitkeep
+
+# Backend local data and backup files
+backend/dump.rdb
+backend/**/*.bak
+backend/**/*.before_*
