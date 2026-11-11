@@ -12,6 +12,8 @@ import 'package:xrinet/core/utility/constant.dart';
 import 'package:xrinet/presentation/pages/register/login_page.dart';
 import 'package:xrinet/presentation/pages/register/widgets/get_my_user_info.dart';
 import 'package:xrinet/presentation/widgets/global/others/multi_bloc_provider.dart';
+import 'package:xrinet/core/utility/saved_account_storage.dart';
+import 'package:xrinet/presentation/pages/register/account_selector_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -50,8 +52,7 @@ class XrinetSplashScreen extends StatefulWidget {
   const XrinetSplashScreen({super.key});
 
   @override
-  State<XrinetSplashScreen> createState() =>
-      _XrinetSplashScreenState();
+  State<XrinetSplashScreen> createState() => _XrinetSplashScreenState();
 }
 
 class _XrinetSplashScreenState extends State<XrinetSplashScreen>
@@ -74,20 +75,11 @@ class _XrinetSplashScreenState extends State<XrinetSplashScreen>
     _logoScale = Tween<double>(
       begin: 0.65,
       end: 1.0,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeOutBack,
-      ),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
 
     _logoOpacity = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(
-        0.0,
-        0.65,
-        curve: Curves.easeIn,
-      ),
+      curve: const Interval(0.0, 0.65, curve: Curves.easeIn),
     );
 
     _glowOpacity = CurvedAnimation(
@@ -109,14 +101,19 @@ class _XrinetSplashScreenState extends State<XrinetSplashScreen>
 
     final String? myId = await initialization;
 
-    await minimumSplashDuration;
+    final accounts = myId == null
+        ? await SavedAccountStorage.getAccounts()
+        : <Map<String, dynamic>>[];
 
+    await minimumSplashDuration;
     if (!mounted) return;
 
     Get.offAll(
-      () => myId == null
-          ? const LoginPage()
-          : GetMyPersonalInfo(myPersonalId: myId),
+      () => myId != null
+          ? GetMyPersonalInfo(myPersonalId: myId)
+          : accounts.isNotEmpty
+          ? const AccountSelectorPage()
+          : const LoginPage(),
     );
   }
 
@@ -214,8 +211,8 @@ class _XrinetSplashScreenState extends State<XrinetSplashScreen>
 void _defineThePlatform(BuildContext context) {
   final TargetPlatform platform = Theme.of(context).platform;
 
-  isThatMobile = platform == TargetPlatform.iOS ||
-      platform == TargetPlatform.android;
+  isThatMobile =
+      platform == TargetPlatform.iOS || platform == TargetPlatform.android;
 
   isThatAndroid = platform == TargetPlatform.android;
 }

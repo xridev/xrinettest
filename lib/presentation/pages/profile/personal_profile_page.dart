@@ -15,7 +15,7 @@ import 'package:xrinet/core/resources/strings_manager.dart';
 import 'package:xrinet/core/resources/styles_manager.dart';
 import 'package:xrinet/core/translations/app_lang.dart';
 import 'package:xrinet/core/utility/constant.dart';
-import 'package:xrinet/core/utility/injector.dart';
+import 'package:xrinet/core/utility/saved_account_storage.dart';
 import 'package:xrinet/presentation/cubit/firestoreUserInfoCubit/users_info_reel_time/users_info_reel_time_bloc.dart';
 import 'package:xrinet/presentation/pages/profile/widgets/bottom_sheet.dart';
 import 'package:xrinet/presentation/pages/profile/widgets/profile_page.dart';
@@ -23,14 +23,13 @@ import 'package:xrinet/presentation/pages/profile/widgets/recommendation_people.
 import 'package:xrinet/presentation/pages/story/create_story.dart';
 import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_circulars_progress.dart';
 import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_gallery_display.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/functions/toast_show.dart';
 import '../../../data/models/parent_classes/without_sub_classes/user_personal_info.dart';
 import '../../cubit/firebaseAuthCubit/firebase_auth_cubit.dart';
 import '../../cubit/firestoreUserInfoCubit/user_info_cubit.dart';
-import '../register/login_page.dart';
 import 'edit_profile_page.dart';
+import 'package:xrinet/presentation/pages/register/account_selector_page.dart';
 
 class PersonalProfilePage extends StatefulWidget {
   final String personalId;
@@ -47,7 +46,6 @@ class PersonalProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<PersonalProfilePage> {
-  final SharedPreferences sharePrefs = injector<SharedPreferences>();
   final rebuildUserInfo = ValueNotifier(false);
   Size imageSize = const Size(0.00, 0.00);
   final darkTheme = ValueNotifier(false);
@@ -250,11 +248,14 @@ class _ProfilePageState extends State<PersonalProfilePage> {
       builder: (context, state) {
         FirebaseAuthCubit authCubit = FirebaseAuthCubit.get(context);
         if (state is CubitAuthSignOut) {
+          final navigator = Navigator.of(context, rootNavigator: true);
           WidgetsBinding.instance.addPostFrameCallback((_) async {
-            sharePrefs.clear();
-            Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+            await SavedAccountStorage.clearActiveAccount();
+            if (!navigator.mounted) return;
+
+            navigator.pushAndRemoveUntil(
               CupertinoPageRoute(
-                builder: (_) => const LoginPage(),
+                builder: (_) => const AccountSelectorPage(),
                 maintainState: false,
               ),
               (route) => false,

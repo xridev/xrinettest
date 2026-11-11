@@ -7,6 +7,7 @@ import 'package:xrinet/core/resources/assets_manager.dart';
 import 'package:xrinet/core/resources/color_manager.dart';
 import 'package:xrinet/core/resources/styles_manager.dart';
 import 'package:xrinet/core/utility/constant.dart';
+import 'package:xrinet/core/utility/saved_account_storage.dart';
 import 'package:xrinet/core/utility/injector.dart';
 import 'package:xrinet/core/widgets/svg_pictures.dart';
 import 'package:xrinet/data/models/child_classes/notification.dart';
@@ -16,14 +17,13 @@ import 'package:xrinet/presentation/cubit/notification/notification_cubit.dart';
 import 'package:xrinet/presentation/cubit/postInfoCubit/post_cubit.dart';
 import 'package:xrinet/presentation/pages/messages/messages_for_web.dart';
 import 'package:xrinet/presentation/pages/profile/personal_profile_page.dart';
-import 'package:xrinet/presentation/pages/register/login_page.dart';
 import 'package:xrinet/presentation/pages/shop/shop_page.dart';
 import 'package:xrinet/presentation/pages/time_line/all_user_time_line/all_users_time_line.dart';
 import 'package:xrinet/presentation/pages/time_line/my_own_time_line/home_page.dart';
 import 'package:xrinet/presentation/widgets/global/screens_w.dart';
 import 'package:xrinet/presentation/widgets/global/others/notification_card_info.dart';
 import 'package:xrinet/presentation/widgets/global/popup_widgets/web/new_post.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:xrinet/presentation/pages/register/account_selector_page.dart';
 
 int pageOfController = 0;
 
@@ -58,8 +58,11 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
   void navigationTapped(int page) {
     if (widget.body != null) {
       setState(() => page = page);
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => const WebScreenLayout()));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (BuildContext context) => const WebScreenLayout(),
+        ),
+      );
     } else {
       pageController.jumpToPage(page);
       setState(() => pageOfController = page);
@@ -67,11 +70,9 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
   }
 
   void onPressedAdd(int page) {
-    Navigator.of(context).push(
-      HeroDialogRoute(
-        builder: (context) => const PopupNewPost(),
-      ),
-    );
+    Navigator.of(
+      context,
+    ).push(HeroDialogRoute(builder: (context) => const PopupNewPost()));
     setState(() => pageOfController = page);
   }
 
@@ -83,7 +84,8 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
         children: [
           appBar(context),
           Expanded(
-            child: widget.body ??
+            child:
+                widget.body ??
                 PageView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: pageController,
@@ -102,10 +104,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         border: const Border(
-          bottom: BorderSide(
-            color: ColorManager.lowOpacityGrey,
-            width: 1,
-          ),
+          bottom: BorderSide(color: ColorManager.lowOpacityGrey, width: 1),
         ),
       ),
       child: Center(
@@ -137,8 +136,11 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
               ),
               const SizedBox(width: 5),
               IconButton(
-                icon: icons(IconsAssets.messengerIcon, pageOfController == 1,
-                    biggerIcon: true),
+                icon: icons(
+                  IconsAssets.messengerIcon,
+                  pageOfController == 1,
+                  biggerIcon: true,
+                ),
                 onPressed: () => navigationTapped(1),
               ),
               const SizedBox(width: 5),
@@ -154,14 +156,17 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
               const SizedBox(width: 5),
               PopupMenuButton<int>(
                 tooltip: "Show notifications",
-                constraints:
-                    const BoxConstraints.tightFor(height: 360, width: 500),
+                constraints: const BoxConstraints.tightFor(
+                  height: 360,
+                  width: 500,
+                ),
                 position: PopupMenuPosition.under,
                 elevation: 20,
                 color: Theme.of(context).splashColor,
                 offset: const Offset(90, 12),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 child: Icon(
                   pageOfController == 4
                       ? Icons.favorite_rounded
@@ -171,8 +176,9 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
                 ),
                 itemBuilder: (context) {
                   WidgetsBinding.instance.addPostFrameCallback((_) async {
-                    await NotificationCubit.get(context)
-                        .getNotifications(userId: myPersonalId);
+                    await NotificationCubit.get(
+                      context,
+                    ).getNotifications(userId: myPersonalId);
                   });
                   List<CustomNotification> notifications =
                       NotificationCubit.get(context).notifications;
@@ -182,7 +188,8 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
                     (index) => PopupMenuItem<int>(
                       value: index,
                       child: NotificationCardInfo(
-                          notificationInfo: notifications[index]),
+                        notificationInfo: notifications[index],
+                      ),
                     ),
                   );
                 },
@@ -214,60 +221,67 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
   void onSelectedProfileMenu(int item) {
     if (item == 0) navigationTapped(5);
     if (item == 2) {
-      final SharedPreferences sharePrefs = injector<SharedPreferences>();
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         FirebaseAuthCubit authCubit = FirebaseAuthCubit.get(context);
         await authCubit.signOut(userId: myPersonalId);
 
-        await sharePrefs.clear();
-        Get.offAll(const LoginPage(),
-            duration: const Duration(milliseconds: 0));
+        await SavedAccountStorage.clearActiveAccount();
+        Get.offAll(
+          const AccountSelectorPage(),
+          duration: const Duration(milliseconds: 0),
+        );
       });
     }
   }
 
   List<PopupMenuEntry<int>> profileItems() => [
-        PopupMenuItem<int>(
-          value: 0,
-          child: Row(
-            children: [
-              const Icon(Icons.person, size: 15),
-              const SizedBox(width: 15),
-              Expanded(
-                child: Text(
-                  "Profile",
-                  style: getNormalStyle(
-                      color: Theme.of(context).focusColor, fontSize: 15),
-                ),
+    PopupMenuItem<int>(
+      value: 0,
+      child: Row(
+        children: [
+          const Icon(Icons.person, size: 15),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Text(
+              "Profile",
+              style: getNormalStyle(
+                color: Theme.of(context).focusColor,
+                fontSize: 15,
               ),
-            ],
+            ),
           ),
-        ),
-        PopupMenuItem<int>(
-          value: 1,
-          child: Row(
-            children: [
-              const Icon(Icons.settings_rounded, size: 15),
-              const SizedBox(width: 15),
-              Expanded(
-                child: Text(
-                  "Settings",
-                  style: getNormalStyle(
-                      color: Theme.of(context).focusColor, fontSize: 15),
-                ),
+        ],
+      ),
+    ),
+    PopupMenuItem<int>(
+      value: 1,
+      child: Row(
+        children: [
+          const Icon(Icons.settings_rounded, size: 15),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Text(
+              "Settings",
+              style: getNormalStyle(
+                color: Theme.of(context).focusColor,
+                fontSize: 15,
               ),
-            ],
+            ),
           ),
+        ],
+      ),
+    ),
+    PopupMenuItem<int>(
+      value: 2,
+      child: Text(
+        "Log Out",
+        style: getNormalStyle(
+          color: Theme.of(context).focusColor,
+          fontSize: 15,
         ),
-        PopupMenuItem<int>(
-          value: 2,
-          child: Text(
-            "Log Out",
-            style: getNormalStyle(
-                color: Theme.of(context).focusColor, fontSize: 15),
-          ),
-        ),
-      ];
+      ),
+    ),
+  ];
 
   List<Widget> homeScreenItems() {
     return [
@@ -283,8 +297,10 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
     return SvgPicture.asset(
       icon,
       height: biggerIcon ? 30 : 25,
-      colorFilter:
-          ColorFilter.mode(Theme.of(context).focusColor, BlendMode.srcIn),
+      colorFilter: ColorFilter.mode(
+        Theme.of(context).focusColor,
+        BlendMode.srcIn,
+      ),
     );
   }
 }

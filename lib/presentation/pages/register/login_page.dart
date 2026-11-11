@@ -14,13 +14,26 @@ import 'package:xrinet/presentation/widgets/global/custom_widgets/custom_elevate
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final String? initialEmail;
+
+  const LoginPage({super.key, this.initialEmail});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    final email = widget.initialEmail?.trim() ?? "";
+    if (email.isNotEmpty) {
+      emailController.text = email;
+      validateEmail.value = true;
+    }
+  }
+
   final SharedPreferences sharePrefs = injector<SharedPreferences>();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -59,37 +72,34 @@ class _LoginPageState extends State<LoginPage> {
       valueListenable: isToastShowed,
       builder: (context, bool isToastShowedValue, child) =>
           BlocListener<FirebaseAuthCubit, FirebaseAuthCubitState>(
-        listenWhen: (previous, current) => previous != current,
-        listener: (context, state) {
-          if (state is CubitAuthConfirmed) {
-            onAuthConfirmed(state);
-          } else if (state is CubitAuthFailed && !isToastShowedValue) {
-            isToastShowed.value = true;
-            isUserIdReady.value = true;
-            ToastShow.toastStateError(state);
-          }
-        },
-        child: loginButton(),
-      ),
+            listenWhen: (previous, current) => previous != current,
+            listener: (context, state) {
+              if (state is CubitAuthConfirmed) {
+                onAuthConfirmed(state);
+              } else if (state is CubitAuthFailed && !isToastShowedValue) {
+                isToastShowed.value = true;
+                isUserIdReady.value = true;
+                ToastShow.toastStateError(state);
+              }
+            },
+            child: loginButton(),
+          ),
     );
   }
 
   Future<void> onAuthConfirmed(CubitAuthConfirmed state) async {
     isUserIdReady.value = true;
 
-    final bool isVerified =
-        await FirebaseAuthCubit.get(context).isEmailVerified();
+    final bool isVerified = await FirebaseAuthCubit.get(
+      context,
+    ).isEmailVerified();
 
     if (!mounted) return;
 
     final String userId = state.user.uid;
 
     if (!isVerified) {
-      Get.offAll(
-        EmailVerificationPage(
-          email: state.user.email ?? '',
-        ),
-      );
+      Get.offAll(EmailVerificationPage(email: state.user.email ?? ''));
       return;
     }
 
@@ -100,9 +110,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (!mounted) return;
 
-      Get.offAll(
-        GetMyPersonalInfo(myPersonalId: myPersonalId),
-      );
+      Get.offAll(GetMyPersonalInfo(myPersonalId: myPersonalId));
     } else {
       ToastShow.toast(StringsManager.somethingWrong.tr);
     }
@@ -115,30 +123,34 @@ class _LoginPageState extends State<LoginPage> {
       valueListenable: isUserIdReady,
       builder: (context, bool isUserIdReadyValue, child) =>
           ValueListenableBuilder(
-        valueListenable: validateEmail,
-        builder: (context, bool validateEmailValue, child) =>
-            ValueListenableBuilder(
-          valueListenable: validatePassword,
-          builder: (context, bool validatePasswordValue, child) {
-            bool validate = validatePasswordValue && validateEmailValue;
+            valueListenable: validateEmail,
+            builder: (context, bool validateEmailValue, child) =>
+                ValueListenableBuilder(
+                  valueListenable: validatePassword,
+                  builder: (context, bool validatePasswordValue, child) {
+                    bool validate = validatePasswordValue && validateEmailValue;
 
-            return CustomElevatedButton(
-              isItDone: isUserIdReadyValue,
-              nameOfButton: StringsManager.logIn.tr,
-              blueColor: validate,
-              onPressed: () async {
-                if (validate) {
-                  isUserIdReady.value = false;
-                  isToastShowed.value = false;
-                  await authCubit.logIn(RegisteredUser(
-                      email: emailController.text.trim(), // .trim() added here
-                      password: passwordController.text.trim())); // .trim() added here
-                }
-              },
-            );
-          },
-        ),
-      ),
+                    return CustomElevatedButton(
+                      isItDone: isUserIdReadyValue,
+                      nameOfButton: StringsManager.logIn.tr,
+                      blueColor: validate,
+                      onPressed: () async {
+                        if (validate) {
+                          isUserIdReady.value = false;
+                          isToastShowed.value = false;
+                          await authCubit.logIn(
+                            RegisteredUser(
+                              email: emailController.text
+                                  .trim(), // .trim() added here
+                              password: passwordController.text.trim(),
+                            ),
+                          ); // .trim() added here
+                        }
+                      },
+                    );
+                  },
+                ),
+          ),
     );
   }
 }
