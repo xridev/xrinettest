@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "odd-snow-c46e",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-11",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "xrinet-production",
+      "database_id": "b1ad54ab-541c-47b4-82b4-70bae8f5dc7e"
+    }
+  ]
+}
